@@ -10,6 +10,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.location.Location;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -21,6 +22,7 @@ import android.util.Log;
 public class GPSService extends Service {
 
 	private static final String TAG = "GPSService";
+	private GpsUtil _gpsUtil = null;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -28,18 +30,20 @@ public class GPSService extends Service {
 		return null;
 	}
 
+	@Override
 	public void onCreate() {
-		Log.d(TAG, "onCreate() executed");
 		super.onCreate();
-		gps();
 		registerScreenActionReceiver();
+		startGpsService();
 	}
 
-	public void gps() {
-		new GpsUtil(GPSService.this);
+	private void startGpsService() {
+		_gpsUtil = new GpsUtil(GPSService.this);
 	}
 
+	@Override
 	public void onDestroy() {
+		_gpsUtil.stop();
 		super.onDestroy();
 	}
 
@@ -51,19 +55,19 @@ public class GPSService extends Service {
 	}
 
 	private final BroadcastReceiver receiver = new BroadcastReceiver() {
-
 		@Override
 		public void onReceive(final Context ctx, final Intent intent) {
-			Log.v(TAG, "receiver ...");
-
-			new Thread() {
+			_gpsUtil.refresh();
+			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					doGet();
+					Location l = _gpsUtil.getLocation();
+					if (null != l) {
+						Log.d(TAG, "" + l.getLatitude());
+					}
 				}
-			}.start();
+			}).start();
 		}
-
 	};
 
 	public String doGet() {
