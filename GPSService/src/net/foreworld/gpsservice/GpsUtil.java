@@ -2,6 +2,7 @@ package net.foreworld.gpsservice;
 
 import android.content.Context;
 import android.location.Criteria;
+import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -20,24 +21,23 @@ public class GpsUtil {
 
 	private LocationManager _locationManager;
 
-	private long _minTime = 1000 * 60;
-	private float _minDistance = 1;
+	private long _minTime = 1000 * 1;
+	private float _minDistance = 0;
 
-	private Location location;
-
-	private void setLocation(Location location) {
-		this.location = location;
-	}
-
-	public Location getLocation() {
-		return location;
+	private void insertDB(Location location) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO
+			}
+		});
 	}
 
 	public GpsUtil(Context ctx) {
 		_locationManager = (LocationManager) ctx
 				.getSystemService(Context.LOCATION_SERVICE);
-		if (null != _locationManager)
-			init();
+		_locationManager.addGpsStatusListener(_gpsStatusListener);
+		init();
 	}
 
 	private String getProvider() {
@@ -54,14 +54,11 @@ public class GpsUtil {
 	private void init() {
 		String provider = getProvider();
 		Location l = _locationManager.getLastKnownLocation(provider);
-
 		while (null == l) {
+			Log.d(TAG, "init() running.");
 			_locationManager.requestLocationUpdates(provider, _minTime,
 					_minDistance, _locationListener);
 		}
-
-		setLocation(l);
-
 		Log.i(TAG, "init() started.");
 	}
 
@@ -69,7 +66,7 @@ public class GpsUtil {
 		Log.d(TAG, "refresh() started");
 	}
 
-	public void stop() {
+	public void close() {
 		if (null != _locationManager) {
 			if (null != _locationListener) {
 				_locationManager.removeUpdates(_locationListener);
@@ -84,19 +81,19 @@ public class GpsUtil {
 		@Override
 		public void onLocationChanged(Location location) {
 			if (null != location)
-				setLocation(location);
+				insertDB(location);
 		}
 
 		@Override
 		public void onProviderDisabled(String provider) {
-			setLocation(null);
+			insertDB(null);
 		}
 
 		@Override
 		public void onProviderEnabled(String provider) {
 			Location l = _locationManager.getLastKnownLocation(provider);
 			if (null != l)
-				setLocation(l);
+				insertDB(l);
 		}
 
 		@Override
@@ -110,6 +107,21 @@ public class GpsUtil {
 				break;
 			}
 		}
+	};
 
+	private GpsStatus.Listener _gpsStatusListener = new GpsStatus.Listener() {
+		@Override
+		public void onGpsStatusChanged(int event) {
+			switch (event) {
+			case GpsStatus.GPS_EVENT_FIRST_FIX:
+				break;
+			case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
+				break;
+			case GpsStatus.GPS_EVENT_STARTED:
+				break;
+			case GpsStatus.GPS_EVENT_STOPPED:
+				break;
+			}
+		}
 	};
 }

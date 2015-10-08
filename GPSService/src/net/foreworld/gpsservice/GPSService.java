@@ -7,9 +7,11 @@ import java.net.URLConnection;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.os.IBinder;
 import android.util.Log;
@@ -24,6 +26,8 @@ public class GPSService extends Service {
 	private static final String TAG = "GPSService";
 	private GpsUtil _gpsUtil = null;
 
+	private SQLiteDatabase _db;
+
 	@Override
 	public IBinder onBind(Intent intent) {
 		Log.d(TAG, "onBind() executed");
@@ -33,8 +37,14 @@ public class GPSService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		startDB();
 		registerScreenActionReceiver();
 		startGpsService();
+	}
+
+	private void startDB() {
+		DBHelper database = new DBHelper(this);
+		_db = database.getReadableDatabase();
 	}
 
 	private void startGpsService() {
@@ -43,7 +53,7 @@ public class GPSService extends Service {
 
 	@Override
 	public void onDestroy() {
-		_gpsUtil.stop();
+		_gpsUtil.close();
 		super.onDestroy();
 	}
 
@@ -58,17 +68,14 @@ public class GPSService extends Service {
 		@Override
 		public void onReceive(final Context ctx, final Intent intent) {
 			_gpsUtil.refresh();
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					Location l = _gpsUtil.getLocation();
-					if (null != l) {
-						Log.d(TAG, "" + l.getLatitude());
-					}
-				}
-			}).start();
 		}
 	};
+
+	public void insertDB(Location location) {
+		ContentValues cv = new ContentValues();
+		cv.put("info", location.getLatitude() + " " + location.getLongitude());
+		_db.insert("user", null, cv);
+	}
 
 	public String doGet() {
 		try {
