@@ -40,6 +40,7 @@ public class SplashActivity extends Activity {
 		_welcome_img = (ImageView) findViewById(R.id.welcome_img);
 		// 默认隐藏
 		_welcome_img.setVisibility(View.INVISIBLE);
+		_welcome_img.setVisibility(View.VISIBLE);
 	}
 
 	private void init() {
