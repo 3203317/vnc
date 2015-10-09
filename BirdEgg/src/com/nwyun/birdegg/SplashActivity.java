@@ -2,12 +2,15 @@ package com.nwyun.birdegg;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 /**
  * 
@@ -16,34 +19,60 @@ import android.util.Log;
  */
 public class SplashActivity extends Activity {
 	private static final String TAG = "SplashActivity";
-	// 首次使用
-	boolean isFirstUse = false;
 
 	private static final int GO_GUIDE = 101;
 	private static final int GO_MAIN = 102;
 	private static final long SPLASH_DELAY_MILLIS = 1000 * 3;
 
-	private static final String PREFERENCES_NAME = "splash";
+	private static final String PREFERENCE_NAME = "splash_activity";
+
+	private ImageView _welcome_img;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash_main);
+		findView();
 		init();
+	}
+
+	private void findView() {
+		_welcome_img = (ImageView) findViewById(R.id.welcome_img);
+		// 默认隐藏
+		_welcome_img.setVisibility(View.INVISIBLE);
 	}
 
 	private void init() {
 		Log.d(TAG, "init() starting.");
-		SharedPreferences preferences = getSharedPreferences(PREFERENCES_NAME,
-				MODE_PRIVATE);
 
-		isFirstUse = preferences.getBoolean("isFirstUse", true);
-		if (isFirstUse) {
+		if (isFirstUse()) {
 			_handler.sendEmptyMessageDelayed(GO_GUIDE, SPLASH_DELAY_MILLIS);
 			return;
 		}
 
 		_handler.sendEmptyMessageDelayed(GO_MAIN, SPLASH_DELAY_MILLIS);
+	}
+
+	/**
+	 * 首次使用
+	 * 
+	 * @return
+	 */
+	private boolean isFirstUse() {
+		SharedPreferences preferences = getSharedPreferences(PREFERENCE_NAME,
+				MODE_PRIVATE);
+		return preferences.getBoolean("isFirstUse", true);
+	}
+
+	/**
+	 * 改变首次使用状态
+	 */
+	private void setFirstUse() {
+		SharedPreferences preferences = getSharedPreferences(PREFERENCE_NAME,
+				MODE_PRIVATE);
+		Editor editor = preferences.edit();
+		editor.putBoolean("isFirstUse", false);
+		editor.commit();
 	}
 
 	@SuppressLint("HandlerLeak")
@@ -66,18 +95,13 @@ public class SplashActivity extends Activity {
 
 	private void goGuide() {
 		// TODO
-		changeUsed();
-	}
-
-	private void changeUsed() {
-		SharedPreferences preferences = getSharedPreferences(PREFERENCES_NAME,
-				MODE_PRIVATE);
-		Editor editor = preferences.edit();
-		editor.putBoolean("isFirstUse", false);
-		editor.commit();
+		setFirstUse();
+		goMain();
 	}
 
 	private void goMain() {
-		// TODO
+		Intent intent = new Intent(this, MainActivity.class);
+		startActivity(intent);
+		finish();
 	}
 }
