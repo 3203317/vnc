@@ -3,9 +3,11 @@ package com.nwyun.birdegg;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 /**
  * 
@@ -13,6 +15,7 @@ import android.os.Message;
  * 
  */
 public class SplashActivity extends Activity {
+	private static final String TAG = "SplashActivity";
 	// 首次使用
 	boolean isFirstUse = false;
 
@@ -25,11 +28,12 @@ public class SplashActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.splash);
+		setContentView(R.layout.splash_main);
 		init();
 	}
 
 	private void init() {
+		Log.d(TAG, "init() starting.");
 		SharedPreferences preferences = getSharedPreferences(PREFERENCES_NAME,
 				MODE_PRIVATE);
 
@@ -62,6 +66,15 @@ public class SplashActivity extends Activity {
 
 	private void goGuide() {
 		// TODO
+		changeUsed();
+	}
+
+	private void changeUsed() {
+		SharedPreferences preferences = getSharedPreferences(PREFERENCES_NAME,
+				MODE_PRIVATE);
+		Editor editor = preferences.edit();
+		editor.putBoolean("isFirstUse", false);
+		editor.commit();
 	}
 
 	private void goMain() {
