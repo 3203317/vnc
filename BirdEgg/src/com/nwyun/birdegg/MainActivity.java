@@ -1,8 +1,10 @@
 package com.nwyun.birdegg;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,8 +18,13 @@ import android.view.ViewGroup;
  */
 public class MainActivity extends ActionBarActivity {
 
+	private final static String TAG = "MainActivity";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		if (checkLogin())
+			return;
+		Log.d(TAG, "onCreate() starting.");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
@@ -25,6 +32,16 @@ public class MainActivity extends ActionBarActivity {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+	}
+
+	/**
+	 * 检测登陆状态，否则并跳转
+	 */
+	private boolean checkLogin() {
+		Intent intent = new Intent(this, LoginActivity.class);
+		startActivity(intent);
+		finish();
+		return true;
 	}
 
 	public void onStart() {
@@ -65,6 +82,14 @@ public class MainActivity extends ActionBarActivity {
 			View rootView = inflater.inflate(R.layout.fragment_main, container,
 					false);
 			return rootView;
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (0 == requestCode && RESULT_OK == resultCode) {
+			setResult(RESULT_OK);
+			finish();
 		}
 	}
 
