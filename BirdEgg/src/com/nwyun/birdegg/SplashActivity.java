@@ -32,6 +32,11 @@ public class SplashActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash_main);
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
 		findView();
 		init();
 	}
