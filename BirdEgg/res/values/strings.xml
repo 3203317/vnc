@@ -12,5 +12,7 @@
     <string name="login_main_btn_show">显示密码</string>
     <string name="login_main_placeholder_userpass">请输入密码</string>
     <string name="login_main_placeholder_username">请输入手机号/邮箱/用户名</string>
+    <string name="login_main_label_1">还没有帐号?</string>
+    <string name="login_main_label_2">注册</string>
 
 </resources>
