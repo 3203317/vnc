@@ -37,6 +37,7 @@
             android:scrollHorizontally="true" />
 
         <Button
+            android:id="@+id/btn_showpass"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
@@ -65,6 +66,7 @@
             android:text="@string/login_main_label_1" />
 
         <TextView
+            android:id="@+id/link_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:autoLink="web"
