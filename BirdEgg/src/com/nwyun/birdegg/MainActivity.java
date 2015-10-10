@@ -9,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * 
@@ -19,6 +21,8 @@ import android.view.ViewGroup;
 public class MainActivity extends ActionBarActivity {
 
 	private final static String TAG = "MainActivity";
+
+	private TextView _link_mydesk;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,23 @@ public class MainActivity extends ActionBarActivity {
 
 	public void onStart() {
 		super.onStart();
+		findView();
+		bind();
+	}
+
+	private void findView() {
+		_link_mydesk = (TextView) findViewById(R.id.link_mydesk);
+	}
+
+	private void bind() {
+		_link_mydesk.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent(MainActivity.this,
+						DeskActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	@Override
