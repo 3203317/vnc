@@ -14,7 +14,9 @@
         android:layout_marginRight="12dip"
         android:layout_marginTop="15dip"
         android:hint="@string/login_main_placeholder_username"
-        android:inputType="text" />
+        android:imeOptions="actionNext"
+        android:inputType="text" >
+    </EditText>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,6 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/login_main_placeholder_userpass"
+            android:imeOptions="actionNext"
             android:inputType="textPassword"
             android:scrollHorizontally="true" />
 

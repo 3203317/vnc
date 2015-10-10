@@ -22,7 +22,7 @@ public class SplashActivity extends Activity {
 
 	private static final int GO_GUIDE = 101;
 	private static final int GO_MAIN = 102;
-	private static final long SPLASH_DELAY_MILLIS = 1000 * 3;
+	private static final long SPLASH_DELAY_MILLIS = 1000 * 1;
 
 	private static final String PREFERENCE_NAME = "splash_activity";
 
