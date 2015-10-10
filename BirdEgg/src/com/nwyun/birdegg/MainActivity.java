@@ -56,6 +56,7 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	private void bind() {
+		// click
 		_link_mydesk.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
