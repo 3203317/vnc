@@ -15,5 +15,7 @@
     <string name="login_main_placeholder_username">请输入手机号/邮箱/用户名</string>
     <string name="login_main_label_1">还没有帐号?</string>
     <string name="login_main_label_2"><u>注册</u></string>
+    <!--  -->
+    <string name="valiate_userpass">密码不能为空,请重新输入</string>
 
 </resources>

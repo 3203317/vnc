@@ -38,10 +38,7 @@ public class MainActivity extends ActionBarActivity {
 	 * 检测登陆状态，否则并跳转
 	 */
 	private boolean checkLogin() {
-		Intent intent = new Intent(this, LoginActivity.class);
-		startActivity(intent);
-		finish();
-		return true;
+		return false;
 	}
 
 	public void onStart() {

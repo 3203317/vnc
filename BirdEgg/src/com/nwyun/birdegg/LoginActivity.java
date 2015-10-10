@@ -5,6 +5,7 @@ import java.util.TimerTask;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -15,6 +16,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * 
@@ -29,6 +31,7 @@ public class LoginActivity extends Activity {
 	private EditText _text_userpass;
 	private TextView _link_register;
 	private Button _btn_showpass;
+	private Button _btn_login;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class LoginActivity extends Activity {
 		Log.d(TAG, "onStart() starting.");
 		super.onStart();
 		findView();
+		bind();
 	}
 
 	private void findView() {
@@ -48,7 +52,31 @@ public class LoginActivity extends Activity {
 		_text_userpass = (EditText) findViewById(R.id.text_userpass);
 		_link_register = (TextView) findViewById(R.id.link_register);
 		_btn_showpass = (Button) findViewById(R.id.btn_showpass);
+		_btn_login = (Button) findViewById(R.id.btn_login);
 
+		_text_username.setText("3203317@qq.com");
+	}
+
+	private void bind() {
+		// click
+		_btn_login.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				if ("".equals(_text_userpass.getText().toString().trim())) {
+					Toast.makeText(getApplicationContext(),
+							R.string.valiate_userpass, Toast.LENGTH_SHORT)
+							.show();
+					return;
+				}
+
+				Intent intent = new Intent(LoginActivity.this,
+						MainActivity.class);
+				startActivity(intent);
+				finish();
+			}
+		});
+
+		// click
 		_btn_showpass.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -67,6 +95,7 @@ public class LoginActivity extends Activity {
 			}
 		});
 
+		// click
 		_link_register.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -74,6 +103,7 @@ public class LoginActivity extends Activity {
 			}
 		});
 
+		// timer
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
 			public void run() {
