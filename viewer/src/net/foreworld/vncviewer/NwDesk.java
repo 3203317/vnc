@@ -1,9 +1,9 @@
 package net.foreworld.vncviewer;
 
 import java.io.IOException;
-import java.net.Socket;
 import java.net.UnknownHostException;
 
+import net.foreworld.vncviewer.rfb.Connection;
 import net.foreworld.vncviewer.rfb.LogWriter;
 
 /**
@@ -19,7 +19,7 @@ public class NwDesk implements YunDesk {
 	private int _port;
 	private String _password;
 
-	private Socket _socket;
+	private Connection _conn;
 
 	public NwDesk(String ip, int port, String password) {
 		_ip = ip;
@@ -28,13 +28,16 @@ public class NwDesk implements YunDesk {
 	}
 
 	public void init() throws UnknownHostException, IOException {
-		_socket = new Socket(_ip, _port);
-		vlog.info("connected to host " + _ip + " listening on port " + _port);
+		_conn = new Connection(_ip, _port, _password);
+		_conn.init();
 	}
 
 	@Override
 	public void start() throws Exception {
 		init();
+		while (true) {
+			_conn.processMsg();
+		}
 	}
 
 	@Override
