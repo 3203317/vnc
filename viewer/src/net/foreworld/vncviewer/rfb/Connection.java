@@ -6,6 +6,7 @@ import java.net.UnknownHostException;
 
 import net.foreworld.vncviewer.rdr.InStream;
 import net.foreworld.vncviewer.rdr.OutStream;
+import net.foreworld.vncviewer.rfb.RbfServer.Version;
 
 /**
  *
@@ -33,6 +34,8 @@ public class Connection {
 	private InStream _is;
 	private OutStream _os;
 
+	private RbfServer _server;
+
 	public Connection(String ip, int port, String password) {
 		_ip = ip;
 		_port = port;
@@ -44,8 +47,11 @@ public class Connection {
 		_socket = new Socket(_ip, _port);
 		vlog.info("connected to host " + _ip + " listening on port " + _port
 				+ ".");
+
 		_is = new InStream(_socket.getInputStream());
 		_os = new OutStream(_socket.getOutputStream());
+		_server = new RbfServer(_is, _os);
+
 		_state = RFBSTATE_PROTOCOL_VERSION;
 	}
 
@@ -73,5 +79,7 @@ public class Connection {
 
 	private void processVersionMsg() {
 		vlog.info("processVersionMsg() started.");
+		Version version = _server.readVersion();
 	}
+
 }
