@@ -1,28 +1,27 @@
 package net.foreworld.test;
 
-import java.io.IOException;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import net.foreworld.vncviewer.NwDesk;
+import net.foreworld.vncviewer.rfb.LogWriter;
 
-public class Test {
-	private String ip = "192.168.6.128";
-	private int port = 5901;
+public class Test implements Runnable {
 
-	private Socket sock;
+	static LogWriter vlog = new LogWriter("Test");
 
 	public static void main(String[] args) {
-
 		Test t = new Test();
+
+		Thread thread = new Thread(t);
+		thread.run();
+	}
+
+	@Override
+	public void run() {
+		NwDesk desk = new NwDesk("192.168.6.128", 5901, "123222");
 		try {
-			t.start();
-		} catch (IOException e) {
-			e.printStackTrace();
+			desk.start();
+		} catch (Exception e) {
+			vlog.error(e.getMessage());
 		}
-
 	}
 
-	private void start() throws UnknownHostException, IOException {
-		sock = new Socket(ip, port);
-		System.out.println(sock.getInputStream());
-	}
 }
