@@ -1,8 +1,5 @@
 package net.foreworld.vncviewer;
 
-import java.io.IOException;
-import java.net.UnknownHostException;
-
 import net.foreworld.vncviewer.rfb.Connection;
 import net.foreworld.vncviewer.rfb.LogWriter;
 
@@ -25,16 +22,12 @@ public class NwDesk implements YunDesk {
 		_ip = ip;
 		_port = port;
 		_password = password;
-	}
-
-	public void init() throws UnknownHostException, IOException {
 		_conn = new Connection(_ip, _port, _password);
-		_conn.init();
 	}
 
 	@Override
 	public void start() throws Exception {
-		init();
+		_conn.init();
 		while (true) {
 			_conn.processMsg();
 		}
@@ -60,8 +53,7 @@ public class NwDesk implements YunDesk {
 
 	@Override
 	public void logout() throws Exception {
-		// TODO Auto-generated method stub
-
+		_conn.close();
 	}
 
 	@Override

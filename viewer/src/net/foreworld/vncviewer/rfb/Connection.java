@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import net.foreworld.vncviewer.rdr.InStream;
+import net.foreworld.vncviewer.rdr.OutStream;
+
 /**
  *
  * @author huangxin (3203317@qq.com)
@@ -27,6 +30,8 @@ public class Connection {
 	private int _state;
 
 	private Socket _socket;
+	private InStream _is;
+	private OutStream _os;
 
 	public Connection(String ip, int port, String password) {
 		_ip = ip;
@@ -39,11 +44,25 @@ public class Connection {
 		_socket = new Socket(_ip, _port);
 		vlog.info("connected to host " + _ip + " listening on port " + _port
 				+ ".");
+		_is = new InStream(_socket.getInputStream());
+		_os = new OutStream(_socket.getOutputStream());
 		_state = RFBSTATE_PROTOCOL_VERSION;
 	}
 
 	public void processMsg() {
 		// TODO
 		vlog.info("processMsg() started.");
+	}
+
+	public void close() throws IOException {
+		if (null != _socket) {
+			if (null != _is) {
+				_is.close();
+			}
+			if (null != _os) {
+				_os.close();
+			}
+			_socket.close();
+		}
 	}
 }
