@@ -9,8 +9,7 @@ import net.foreworld.vncviewer.rfb.LogWriter;
  *
  */
 public class NwDesk implements YunDesk {
-
-	static LogWriter vlog = new LogWriter("NwDesk");
+	final static LogWriter vlog = new LogWriter("NwDesk");
 
 	private String _ip;
 	private int _port;

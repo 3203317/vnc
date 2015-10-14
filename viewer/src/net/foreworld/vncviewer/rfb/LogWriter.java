@@ -25,8 +25,10 @@ public class LogWriter {
 	}
 
 	public void write(int level, String str) {
-		if (level <= this._level) {
+		if (0 == level) {
 			System.err.println(_name + ": " + str);
+		} else {
+			System.out.println(_name + ": " + str);
 		}
 	}
 

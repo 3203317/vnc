@@ -13,7 +13,7 @@ import net.foreworld.vncviewer.rdr.OutStream;
  *
  */
 public class Connection {
-	static LogWriter vlog = new LogWriter("Connection");
+	final static LogWriter vlog = new LogWriter("Connection");
 
 	public final static int RFBSTATE_UNINITIALISED = 0;
 	public final static int RFBSTATE_PROTOCOL_VERSION = 1;
@@ -49,9 +49,14 @@ public class Connection {
 		_state = RFBSTATE_PROTOCOL_VERSION;
 	}
 
-	public void processMsg() {
-		// TODO
-		vlog.info("processMsg() started.");
+	public void processMsg() throws Exception {
+		switch (_state) {
+		case RFBSTATE_PROTOCOL_VERSION:
+			processVersionMsg();
+			break;
+		default:
+			throw new Exception("Connection.processMsg(): invalid state.");
+		}
 	}
 
 	public void close() throws IOException {
@@ -64,5 +69,9 @@ public class Connection {
 			}
 			_socket.close();
 		}
+	}
+
+	private void processVersionMsg() {
+		vlog.info("processVersionMsg() started.");
 	}
 }
