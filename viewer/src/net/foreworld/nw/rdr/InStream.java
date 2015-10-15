@@ -10,7 +10,7 @@ import java.io.InputStream;
  */
 public class InStream {
 
-	private static final int _defaultBufSize = 8192;
+	private final static int _defaultBufSize = 8192;
 
 	private InputStream _is;
 	private int _bufSize;
@@ -29,6 +29,7 @@ public class InStream {
 	public void close() throws IOException {
 		if (null != _is) {
 			_is.close();
+			_is = null;
 		}
 	}
 

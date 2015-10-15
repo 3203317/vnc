@@ -13,7 +13,7 @@ import net.foreworld.nw.rdr.OutStream;
  * @author huangxin (3203317@qq.com)
  *
  */
-public class Connection {
+public class Connector {
 	final static LogWriter vlog = new LogWriter("Connection");
 
 	public final static int RFBSTATE_UNINITIALISED = 0;
@@ -36,7 +36,7 @@ public class Connection {
 
 	private NwServer _server;
 
-	public Connection(NwServer server, String ip, int port, String password) {
+	public Connector(NwServer server, String ip, int port, String password) {
 		_server = server;
 		_ip = ip;
 		_port = port;
@@ -72,14 +72,12 @@ public class Connection {
 
 	public void close() throws IOException {
 		if (null != _socket) {
-			if (null != _is) {
+			if (null != _is)
 				_is.close();
-				_is = null;
-			}
-			if (null != _os) {
+
+			if (null != _os)
 				_os.close();
-				_os = null;
-			}
+
 			_socket.close();
 			_socket = null;
 		}

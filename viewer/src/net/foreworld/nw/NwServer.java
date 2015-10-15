@@ -5,7 +5,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import net.foreworld.nw.listener.OnShowListener;
-import net.foreworld.nw.rfb.Connection;
+import net.foreworld.nw.rfb.Connector;
 import net.foreworld.nw.rfb.LogWriter;
 
 /**
@@ -47,15 +47,15 @@ public class NwServer {
 	private String _password;
 	private Version version;
 
-	private Connection _conn;
-	private ArrayList<OnShowListener> _listener;
+	private Connector _connector;
+	private ArrayList<OnShowListener> _listeners;
 
 	public NwServer(String ip, int port, String password) {
 		_ip = ip;
 		_port = port;
 		_password = password;
-		_listener = new ArrayList<OnShowListener>();
-		_conn = new Connection(this, _ip, _port, _password);
+		_listeners = new ArrayList<OnShowListener>();
+		_connector = new Connector(this, _ip, _port, _password);
 	}
 
 	public Version getVersion() {
@@ -73,12 +73,12 @@ public class NwServer {
 	 * @throws IOException
 	 */
 	public void start() throws Exception {
-		_conn.init();
-		_conn.processMsg();
+		_connector.init();
+		_connector.processMsg();
 	}
 
 	public void close() throws IOException {
-		_conn.close();
+		_connector.close();
 	}
 
 	public void restart() {
@@ -98,6 +98,6 @@ public class NwServer {
 	}
 
 	public void setOnShowListener(OnShowListener listener) {
-		_listener.add(listener);
+		_listeners.add(listener);
 	}
 }

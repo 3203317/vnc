@@ -10,7 +10,7 @@ import java.io.OutputStream;
  */
 public class OutStream {
 
-	private static final int _defaultBufSize = 16384;
+	private final static int _defaultBufSize = 8192 * 2;
 
 	private OutputStream _os;
 	private int _bufSize;
@@ -29,6 +29,7 @@ public class OutStream {
 	public void close() throws IOException {
 		if (null != _os) {
 			_os.close();
+			_os = null;
 		}
 	}
 }
