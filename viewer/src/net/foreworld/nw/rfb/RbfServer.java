@@ -1,9 +1,9 @@
-package net.foreworld.vncviewer.rfb;
+package net.foreworld.nw.rfb;
 
 import java.io.IOException;
 
-import net.foreworld.vncviewer.rdr.InStream;
-import net.foreworld.vncviewer.rdr.OutStream;
+import net.foreworld.nw.rdr.InStream;
+import net.foreworld.nw.rdr.OutStream;
 
 /**
  *

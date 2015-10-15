@@ -1,7 +1,7 @@
-package net.foreworld.vncviewer;
+package net.foreworld.nw;
 
-import net.foreworld.vncviewer.rfb.Connection;
-import net.foreworld.vncviewer.rfb.LogWriter;
+import net.foreworld.nw.rfb.Connection;
+import net.foreworld.nw.rfb.LogWriter;
 
 /**
  *
@@ -59,6 +59,11 @@ public class NwDesk implements YunDesk {
 	public void switchUser() throws Exception {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void onShowListener(OnShowListener listener) {
+		listener.show();
 	}
 
 }

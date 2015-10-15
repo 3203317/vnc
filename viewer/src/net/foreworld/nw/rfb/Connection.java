@@ -1,12 +1,12 @@
-package net.foreworld.vncviewer.rfb;
+package net.foreworld.nw.rfb;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import net.foreworld.vncviewer.rdr.InStream;
-import net.foreworld.vncviewer.rdr.OutStream;
-import net.foreworld.vncviewer.rfb.RbfServer.Version;
+import net.foreworld.nw.rdr.InStream;
+import net.foreworld.nw.rdr.OutStream;
+import net.foreworld.nw.rfb.RbfServer.Version;
 
 /**
  *

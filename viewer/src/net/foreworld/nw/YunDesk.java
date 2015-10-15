@@ -1,4 +1,4 @@
-package net.foreworld.vncviewer;
+package net.foreworld.nw;
 
 /**
  *
@@ -24,4 +24,6 @@ public interface YunDesk {
 	 * 切换用户
 	 */
 	public void switchUser() throws Exception;
+
+	public void onShowListener(OnShowListener listener);
 }

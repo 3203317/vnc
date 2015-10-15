@@ -1,4 +1,4 @@
-package net.foreworld.vncviewer.rdr;
+package net.foreworld.nw.rdr;
 
 import java.io.IOException;
 import java.io.OutputStream;

@@ -1,8 +1,6 @@
-package net.foreworld.test;
+package net.foreworld.nw;
 
-import net.foreworld.vncviewer.NwDesk;
-import net.foreworld.vncviewer.YunDesk;
-import net.foreworld.vncviewer.rfb.LogWriter;
+import net.foreworld.nw.rfb.LogWriter;
 
 public class Test implements Runnable {
 
@@ -19,6 +17,14 @@ public class Test implements Runnable {
 	@Override
 	public void run() {
 		_desk = new NwDesk("192.168.6.128", 5901, "123222");
+
+		_desk.onShowListener(new OnShowListener() {
+			@Override
+			public void show() {
+				System.out.println("show()");
+			}
+		});
+
 		try {
 			_desk.start();
 		} catch (Exception e) {

@@ -1,4 +1,4 @@
-package net.foreworld.vncviewer.rfb;
+package net.foreworld.nw.rfb;
 
 /**
  *
