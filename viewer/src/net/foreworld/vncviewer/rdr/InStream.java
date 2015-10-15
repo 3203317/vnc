@@ -31,4 +31,14 @@ public class InStream {
 			_is.close();
 		}
 	}
+
+	public void readBytes(byte[] data, int offset, int len) throws IOException {
+		// TODO
+		read(data, offset, len);
+	}
+
+	private int read(byte[] buf, int offset, int len) throws IOException {
+		int n = _is.read(buf, offset, len);
+		return n;
+	}
 }

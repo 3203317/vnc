@@ -1,5 +1,7 @@
 package net.foreworld.vncviewer.rfb;
 
+import java.io.IOException;
+
 import net.foreworld.vncviewer.rdr.InStream;
 import net.foreworld.vncviewer.rdr.OutStream;
 
@@ -40,10 +42,13 @@ public class RbfServer {
 		_os = os;
 	}
 
-	public Version readVersion() {
+	public Version readVersion() throws IOException {
 		if (null != _version) {
 			return _version;
 		}
+		byte[] b = new byte[12];
+		_is.readBytes(b, 0, 12);
 		return null;
 	}
+
 }

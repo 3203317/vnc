@@ -77,9 +77,9 @@ public class Connection {
 		}
 	}
 
-	private void processVersionMsg() {
+	private void processVersionMsg() throws IOException {
 		vlog.info("processVersionMsg() started.");
-		Version version = _server.readVersion();
+		Version ver = _server.readVersion();
 	}
 
 }
