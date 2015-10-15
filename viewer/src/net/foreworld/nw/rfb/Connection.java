@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import net.foreworld.nw.NwServer;
 import net.foreworld.nw.rdr.InStream;
 import net.foreworld.nw.rdr.OutStream;
-import net.foreworld.nw.rfb.RbfServer.Version;
 
 /**
  *
@@ -34,9 +34,10 @@ public class Connection {
 	private InStream _is;
 	private OutStream _os;
 
-	private RbfServer _server;
+	private NwServer _server;
 
-	public Connection(String ip, int port, String password) {
+	public Connection(NwServer server, String ip, int port, String password) {
+		_server = server;
 		_ip = ip;
 		_port = port;
 		_password = password;
@@ -50,18 +51,22 @@ public class Connection {
 
 		_is = new InStream(_socket.getInputStream());
 		_os = new OutStream(_socket.getOutputStream());
-		_server = new RbfServer(_is, _os);
 
 		_state = RFBSTATE_PROTOCOL_VERSION;
 	}
 
 	public void processMsg() throws Exception {
-		switch (_state) {
-		case RFBSTATE_PROTOCOL_VERSION:
-			processVersionMsg();
-			break;
-		default:
-			throw new Exception("Connection.processMsg(): invalid state.");
+		while (true) {
+			switch (_state) {
+			case RFBSTATE_PROTOCOL_VERSION:
+				processVersionMsg();
+				break;
+			case RFBSTATE_SECURITY_TYPES:
+				processSecurityTypesMsg();
+				break;
+			default:
+				throw new Exception("Connection.processMsg(): invalid state.");
+			}
 		}
 	}
 
@@ -69,17 +74,29 @@ public class Connection {
 		if (null != _socket) {
 			if (null != _is) {
 				_is.close();
+				_is = null;
 			}
 			if (null != _os) {
 				_os.close();
+				_os = null;
 			}
 			_socket.close();
+			_socket = null;
 		}
 	}
 
 	private void processVersionMsg() throws IOException {
 		vlog.info("processVersionMsg() started.");
-		Version ver = _server.readVersion();
+
+		// byte[] b = new byte[12];
+		// _is.readBytes(b, 0, 12);
+		_server.setVersion(_server.new Version(3, 7));
+		_state = RFBSTATE_SECURITY_TYPES;
+	}
+
+	private void processSecurityTypesMsg() {
+		System.out.println(_server.getVersion().getMajor() + "."
+				+ _server.getVersion().getMinor());
 	}
 
 }

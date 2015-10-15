@@ -1,11 +1,12 @@
 package net.foreworld.nw;
 
+import net.foreworld.nw.listener.OnShowListener;
 import net.foreworld.nw.rfb.LogWriter;
 
 public class Test implements Runnable {
 
 	static LogWriter vlog = new LogWriter("Test");
-	YunDesk _desk;
+	private NwServer _server;
 
 	public static void main(String[] args) {
 		Test t = new Test();
@@ -16,19 +17,19 @@ public class Test implements Runnable {
 
 	@Override
 	public void run() {
-		_desk = new NwDesk("192.168.6.128", 5901, "123222");
+		_server = new NwServer("192.168.6.128", 5901, "123222");
 
-		_desk.onShowListener(new OnShowListener() {
+		_server.setOnShowListener(new OnShowListener() {
 			@Override
-			public void show() {
-				System.out.println("show()");
+			public void onShow() {
+				// TODO
 			}
 		});
 
 		try {
-			_desk.start();
+			_server.start();
 		} catch (Exception e) {
-			vlog.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
