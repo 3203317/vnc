@@ -78,7 +78,8 @@ public class NwServer {
 	}
 
 	public void close() throws IOException {
-		_connector.close();
+		if (null != _connector)
+			_connector.close();
 	}
 
 	public void restart() {

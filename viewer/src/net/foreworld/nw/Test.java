@@ -1,5 +1,7 @@
 package net.foreworld.nw;
 
+import java.io.IOException;
+
 import net.foreworld.nw.listener.OnShowListener;
 import net.foreworld.nw.rfb.LogWriter;
 
@@ -30,6 +32,15 @@ public class Test implements Runnable {
 			_server.start();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			if (null != _server) {
+				try {
+					_server.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				_server = null;
+			}
 		}
 	}
 
