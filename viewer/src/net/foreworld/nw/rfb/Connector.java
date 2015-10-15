@@ -35,28 +35,34 @@ public class Connector {
 	private OutStream _os;
 
 	private NwServer _server;
+	private boolean isRun;
 
 	public Connector(NwServer server, String ip, int port, String password) {
 		_server = server;
 		_ip = ip;
 		_port = port;
 		_password = password;
+		setRun(true);
 		_state = RFBSTATE_UNINITIALISED;
+	}
+
+	public void setRun(boolean isRun) {
+		this.isRun = isRun;
 	}
 
 	public void init() throws UnknownHostException, IOException {
 		_socket = new Socket(_ip, _port);
 		vlog.info("connected to host " + _ip + " listening on port " + _port
 				+ ".");
-
+		// stream
 		_is = new InStream(_socket.getInputStream());
 		_os = new OutStream(_socket.getOutputStream());
-
+		// change state
 		_state = RFBSTATE_PROTOCOL_VERSION;
 	}
 
 	public void processMsg() throws Exception {
-		while (true) {
+		while (isRun) {
 			switch (_state) {
 			case RFBSTATE_PROTOCOL_VERSION:
 				processVersionMsg();
@@ -71,6 +77,8 @@ public class Connector {
 	}
 
 	public void close() throws IOException {
+		setRun(true);
+		// TODO
 		if (null != _socket) {
 			if (null != _is)
 				_is.close();
