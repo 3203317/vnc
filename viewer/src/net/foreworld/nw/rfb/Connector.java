@@ -5,8 +5,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import net.foreworld.nw.NwServer;
-import net.foreworld.nw.rdr.InStream;
-import net.foreworld.nw.rdr.OutStream;
+import net.foreworld.nw.rdr.SmartInStream;
+import net.foreworld.nw.rdr.SmartOutStream;
 
 /**
  *
@@ -31,8 +31,8 @@ public class Connector {
 	private int _state;
 
 	private Socket _socket;
-	private InStream _is;
-	private OutStream _os;
+	private SmartInStream _is;
+	private SmartOutStream _os;
 
 	private NwServer _server;
 	private boolean _isRun;
@@ -51,8 +51,8 @@ public class Connector {
 		vlog.info("connected to host " + _ip + " listening on port " + _port
 				+ ".");
 		// stream
-		_is = new InStream(_socket.getInputStream());
-		_os = new OutStream(_socket.getOutputStream());
+		_is = new SmartInStream(_socket.getInputStream());
+		_os = new SmartOutStream(_socket.getOutputStream());
 		// change state
 		_state = RFBSTATE_PROTOCOL_VERSION;
 	}

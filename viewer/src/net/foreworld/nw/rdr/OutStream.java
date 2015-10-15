@@ -8,7 +8,7 @@ import java.io.OutputStream;
  * @author huangxin (3203317@qq.com)
  *
  */
-public class OutStream {
+public abstract class OutStream {
 
 	private final static int _defaultBufSize = 8192 * 2;
 
