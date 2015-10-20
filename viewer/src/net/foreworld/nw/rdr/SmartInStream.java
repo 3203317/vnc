@@ -1,9 +1,10 @@
 package net.foreworld.nw.rdr;
 
+import java.io.IOException;
 import java.io.InputStream;
 
-import net.foreworld.nw.exception.EndOfStream;
-import net.foreworld.nw.exception.IOException;
+import net.foreworld.nw.exception.CloseSocketException;
+import net.foreworld.nw.exception.ReadInputStreamException;
 
 /**
  *
@@ -30,31 +31,28 @@ public class SmartInStream extends InStream {
 	}
 
 	public void readBytes(byte[] data, int offset, int len) {
-		if (len < _minBulkSize) {
-			super.readBytes(data, offset, len);
-			return;
-		}
 		// TODO
 		read(data, offset, len);
 	}
 
 	private int read(byte[] buf, int offset, int len) {
+		int n;
 		try {
-			int n = _is.read(buf, offset, len);
-			if (0 > n) {
-				throw new EndOfStream();
-			}
-			return n;
-		} catch (java.io.IOException e) {
-			throw new IOException(e);
+			n = _is.read(buf, offset, len);
+		} catch (IOException e) {
+			throw new ReadInputStreamException();
 		}
+		return n;
 	}
 
-	public void close() throws java.io.IOException {
+	public void close() {
 		if (null != _is) {
-			_is.close();
+			try {
+				_is.close();
+			} catch (Exception e) {
+				throw new CloseSocketException();
+			}
 			_is = null;
 		}
 	}
-
 }

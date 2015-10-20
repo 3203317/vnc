@@ -9,8 +9,8 @@ import java.io.OutputStream;
  */
 public class SmartOutStream extends OutStream {
 
-	public SmartOutStream(OutputStream is) {
-		super(is);
+	public SmartOutStream(OutputStream os) {
+		super(os);
 	}
 
 }

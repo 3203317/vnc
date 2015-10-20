@@ -1,14 +1,13 @@
 package net.foreworld.nw;
 
-import java.io.IOException;
-
-import net.foreworld.nw.listener.OnShowListener;
+import net.foreworld.nw.rfb.Connector;
 import net.foreworld.nw.rfb.LogWriter;
+import net.foreworld.nw.rfb.RfbServer;
 
 public class Test implements Runnable {
 
 	static LogWriter vlog = new LogWriter("Test");
-	private NwServer _server;
+	private RfbServer _server;
 
 	public static void main(String[] args) {
 		Test t = new Test();
@@ -21,27 +20,9 @@ public class Test implements Runnable {
 	public void run() {
 		_server = new NwServer("192.168.6.128", 5901, "123222");
 
-		_server.setOnShowListener(new OnShowListener() {
-			@Override
-			public void onShow() {
-				// TODO
-			}
-		});
+		Connector connector = new Connector(_server);
 
-		try {
-			_server.start();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (null != _server) {
-				try {
-					_server.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				_server = null;
-			}
-		}
+		connector.connect();
 	}
 
 }

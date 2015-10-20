@@ -2,11 +2,14 @@ package net.foreworld.nw.rfb;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
-import net.foreworld.nw.NwServer;
+import net.foreworld.nw.exception.CloseSocketException;
+import net.foreworld.nw.exception.ConnectServerException;
+import net.foreworld.nw.exception.ProcessMsgDefaultException;
+import net.foreworld.nw.exception.ServerVersionException;
 import net.foreworld.nw.rdr.SmartInStream;
 import net.foreworld.nw.rdr.SmartOutStream;
+import net.foreworld.nw.rfb.RfbServer.Version;
 
 /**
  *
@@ -25,39 +28,38 @@ public class Connector {
 	public final static int RFBSTATE_NORMAL = 6;
 	public final static int RFBSTATE_INVALID = 7;
 
-	private String _ip;
-	private int _port;
-	private String _password;
 	private int _state;
 
 	private Socket _socket;
 	private SmartInStream _is;
 	private SmartOutStream _os;
 
-	private NwServer _server;
+	private RfbServer _server;
 	private boolean _isRun;
 
-	public Connector(NwServer server, String ip, int port, String password) {
+	public Connector(RfbServer server) {
 		_server = server;
-		_ip = ip;
-		_port = port;
-		_password = password;
 		_isRun = true;
 		_state = RFBSTATE_UNINITIALISED;
 	}
 
-	public void init() throws UnknownHostException, IOException {
-		_socket = new Socket(_ip, _port);
-		vlog.info("connected to host " + _ip + " listening on port " + _port
-				+ ".");
-		// stream
-		_is = new SmartInStream(_socket.getInputStream());
-		_os = new SmartOutStream(_socket.getOutputStream());
+	public void connect() {
+		try {
+			_socket = new Socket(_server.getIp(), _server.getPort());
+			vlog.info("connected to host " + _server.getIp()
+					+ " listening on port " + _server.getPort() + ".");
+			// stream
+			_is = new SmartInStream(_socket.getInputStream());
+			_os = new SmartOutStream(_socket.getOutputStream());
+		} catch (Exception e) {
+			throw new ConnectServerException();
+		}
 		// change state
 		_state = RFBSTATE_PROTOCOL_VERSION;
+		processMsg();
 	}
 
-	public void processMsg() throws Exception {
+	private void processMsg() {
 		while (_isRun) {
 			switch (_state) {
 			case RFBSTATE_PROTOCOL_VERSION:
@@ -67,12 +69,12 @@ public class Connector {
 				processSecurityTypesMsg();
 				break;
 			default:
-				throw new Exception("Connection.processMsg(): invalid state.");
+				throw new ProcessMsgDefaultException();
 			}
 		}
 	}
 
-	public void close() throws IOException {
+	public void close() {
 		_isRun = false;
 		// TODO
 		if (null != _socket) {
@@ -82,13 +84,17 @@ public class Connector {
 			if (null != _os)
 				_os.close();
 
-			_socket.close();
+			try {
+				_socket.close();
+			} catch (IOException e) {
+				throw new CloseSocketException();
+			}
 			_socket = null;
 		}
 	}
 
-	private void processVersionMsg() throws Exception {
-		vlog.info("processVersionMsg() started.");
+	private void processVersionMsg() {
+		vlog.info("processVersionMsg() starting.");
 
 		byte[] b = new byte[12];
 		_is.readBytes(b, 0, 12);
@@ -98,7 +104,7 @@ public class Connector {
 				|| ('0' > b[6]) || ('9' < b[6]) || ('.' != b[7])
 				|| ('0' > b[8]) || ('9' < b[8]) || ('0' > b[9]) || ('9' < b[9])
 				|| ('0' > b[10]) || ('9' < b[10]) || ('\n' != b[11])) {
-			throw new Exception("nwServer version failed: not an RFB server.");
+			throw new ServerVersionException();
 		}
 
 		int major = 100 * (b[4] - '0') + 10 * (b[5] - '0') + (b[6] - '0');
@@ -106,11 +112,20 @@ public class Connector {
 
 		_server.setVersion(_server.new Version(major, minor));
 		_state = RFBSTATE_SECURITY_TYPES;
+		vlog.info("Using RFB Protocol version " + major + "." + minor + ".");
 	}
 
 	private void processSecurityTypesMsg() {
-		System.out.println(_server.getVersion().getMajor() + "."
-				+ _server.getVersion().getMinor());
-	}
+		vlog.info("processSecurityTypesMsg() starting.");
 
+		int secType = SecTypes.invalid;
+
+		Version ver = _server.getVersion();
+
+		if (3 == ver.getMajor() && 3 == ver.getMinor()) {
+			// TODO
+		} else {
+			// TODO
+		}
+	}
 }
