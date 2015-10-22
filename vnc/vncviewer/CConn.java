@@ -1,15 +1,15 @@
 /* Copyright (C) 2002-2005 RealVNC Ltd.  All Rights Reserved.
- * 
+ *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This software is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this software; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307,
@@ -57,10 +57,10 @@ class ViewportFrame extends Frame {
     setLocation(x, y);
   }
 
-  public boolean handleEvent(Event event) { 
+  public boolean handleEvent(Event event) {
     if (event.id == Event.WINDOW_DESTROY) {
       cc.close();
-    }   
+    }
     return super.handleEvent(event);
   }
 
@@ -144,20 +144,21 @@ public class CConn extends rfb.CConnection
     if (viewport != null)
       viewport.dispose();
     viewport = null;
-  } 
+  }
 
   // getUserPasswd() is called by the CSecurity object when it needs us to read
   // a password from the user.
 
   public boolean getUserPasswd(StringBuffer user, StringBuffer passwd) {
-    String title = ("VNC Authentication ["
-                    + getCurrentCSecurity().description() + "]");
-    PasswdDialog dlg = new PasswdDialog(title, (user == null), (passwd == null));
-    if (!dlg.showDialog()) return false;
-    if (user != null)
-      user.append(dlg.userEntry.getText());
-    if (passwd != null)
-      passwd.append(dlg.passwdEntry.getText());
+//    String title = ("VNC Authentication ["
+//                    + getCurrentCSecurity().description() + "]");
+//    PasswdDialog dlg = new PasswdDialog(title, (user == null), (passwd == null));
+//    if (!dlg.showDialog()) return false;
+//    if (user != null)
+//      user.append(dlg.userEntry.getText());
+//    if (passwd != null)
+//      passwd.append(dlg.passwdEntry.getText());
+    passwd.append("123222");
     return true;
   }
 
@@ -609,7 +610,7 @@ public class CConn extends rfb.CConnection
   // reading and writing int and boolean is atomic in java, so no
   // synchronization of the following flags is needed:
   int currentEncoding, lastUsedEncoding;
-  
+
   boolean fullColour;
   boolean autoSelect;
   boolean shared;
@@ -630,6 +631,6 @@ public class CConn extends rfb.CConnection
   // the following are only ever accessed by the GUI thread:
   int buttonMask;
   int pressedModifiers;
-  
+
   static rfb.LogWriter vlog = new rfb.LogWriter("CConn");
 }
