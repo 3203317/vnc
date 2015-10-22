@@ -7,6 +7,8 @@ import net.foreworld.nw.exception.CloseSocketException;
 import net.foreworld.nw.exception.ConnectServerException;
 import net.foreworld.nw.exception.ProcessMsgDefaultException;
 import net.foreworld.nw.exception.ServerVersionException;
+import net.foreworld.nw.rdr.InStream;
+import net.foreworld.nw.rdr.OutStream;
 import net.foreworld.nw.rdr.SmartInStream;
 import net.foreworld.nw.rdr.SmartOutStream;
 import net.foreworld.nw.rfb.RfbServer.Version;
@@ -17,7 +19,7 @@ import net.foreworld.nw.rfb.RfbServer.Version;
  *
  */
 public class Connector {
-	final static LogWriter vlog = new LogWriter("Connection");
+	final static LogWriter vlog = new LogWriter("Connector");
 
 	public final static int RFBSTATE_UNINITIALISED = 0;
 	public final static int RFBSTATE_PROTOCOL_VERSION = 1;
@@ -31,8 +33,8 @@ public class Connector {
 	private int _state;
 
 	private Socket _socket;
-	private SmartInStream _is;
-	private SmartOutStream _os;
+	private InStream _is;
+	private OutStream _os;
 
 	private RfbServer _server;
 	private boolean _isRun;
@@ -95,24 +97,12 @@ public class Connector {
 
 	private void processVersionMsg() {
 		vlog.info("processVersionMsg() starting.");
+		readVersion(_is);
 
-		byte[] b = new byte[12];
-		_is.readBytes(b, 0, 12);
-
-		if (('R' != b[0]) || ('F' != b[1]) || ('B' != b[2]) || (' ' != b[3])
-				|| ('0' > b[4]) || ('9' < b[4]) || ('0' > b[5]) || ('9' < b[5])
-				|| ('0' > b[6]) || ('9' < b[6]) || ('.' != b[7])
-				|| ('0' > b[8]) || ('9' < b[8]) || ('0' > b[9]) || ('9' < b[9])
-				|| ('0' > b[10]) || ('9' < b[10]) || ('\n' != b[11])) {
-			throw new ServerVersionException();
-		}
-
-		int major = 100 * (b[4] - '0') + 10 * (b[5] - '0') + (b[6] - '0');
-		int minor = 100 * (b[8] - '0') + 10 * (b[9] - '0') + (b[10] - '0');
-
-		_server.setVersion(_server.new Version(major, minor));
 		_state = RFBSTATE_SECURITY_TYPES;
-		vlog.info("Using RFB Protocol version " + major + "." + minor + ".");
+		vlog.info("Using RFB Protocol version "
+				+ _server.getVersion().getMajor() + "."
+				+ _server.getVersion().getMinor() + ".");
 	}
 
 	private void processSecurityTypesMsg() {
@@ -127,5 +117,23 @@ public class Connector {
 		} else {
 			// TODO
 		}
+	}
+
+	private void readVersion(InStream is) {
+		byte[] b = new byte[12];
+		is.readBytes(b, 0, 12);
+
+		if (('R' != b[0]) || ('F' != b[1]) || ('B' != b[2]) || (' ' != b[3])
+				|| ('0' > b[4]) || ('9' < b[4]) || ('0' > b[5]) || ('9' < b[5])
+				|| ('0' > b[6]) || ('9' < b[6]) || ('.' != b[7])
+				|| ('0' > b[8]) || ('9' < b[8]) || ('0' > b[9]) || ('9' < b[9])
+				|| ('0' > b[10]) || ('9' < b[10]) || ('\n' != b[11])) {
+			throw new ServerVersionException();
+		}
+
+		int major = 100 * (b[4] - '0') + 10 * (b[5] - '0') + (b[6] - '0');
+		int minor = 100 * (b[8] - '0') + 10 * (b[9] - '0') + (b[10] - '0');
+
+		_server.setVersion(_server.new Version(major, minor));
 	}
 }

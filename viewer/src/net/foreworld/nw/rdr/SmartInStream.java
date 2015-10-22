@@ -32,6 +32,10 @@ public class SmartInStream extends InStream {
 
 	public void readBytes(byte[] data, int offset, int len) {
 		// TODO
+		if (len < _minBulkSize) {
+			super.readBytes(data, offset, len);
+			return;
+		}
 		read(data, offset, len);
 	}
 
@@ -45,6 +49,7 @@ public class SmartInStream extends InStream {
 		return n;
 	}
 
+	@Override
 	public void close() {
 		if (null != _is) {
 			try {
