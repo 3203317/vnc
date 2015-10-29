@@ -10,6 +10,7 @@ import com.nwyun.birdegg.lib.rfb.CConnection;
 import com.nwyun.birdegg.lib.rfb.CSecurity;
 import com.nwyun.birdegg.lib.rfb.CSecurityNone;
 import com.nwyun.birdegg.lib.rfb.CSecurityVncAuth;
+import com.nwyun.birdegg.lib.rfb.Encodings;
 import com.nwyun.birdegg.lib.rfb.SecTypes;
 import com.nwyun.birdegg.lib.rfb.SecurityTypeException;
 import com.nwyun.birdegg.lib.rfb.UserPasswdGetter;
@@ -25,22 +26,41 @@ public class Connector extends CConnection implements UserPasswdGetter {
 	private RfbServer _server;
 	private Socket _socket;
 
+	private JavaInStream _jis;
+	private JavaOutStream _jos;
+
+	private int currentEncoding;
+	private int lastUsedEncoding;
+
 	public Connector(RfbServer server) {
 		_server = server;
+		// TODO
+		currentEncoding = Encodings.ZRLE;
+		lastUsedEncoding = Encodings.max;
+		addSecType(SecTypes.none);
+		addSecType(SecTypes.vncAuth);
 	}
 
 	public void connect() {
 		try {
 			_socket = new Socket(_server.getIp(), _server.getPort());
-			new JavaInStream(_socket.getInputStream());
-			new JavaOutStream(_socket.getOutputStream());
+			_jis = new JavaInStream(_socket.getInputStream());
+			_jos = new JavaOutStream(_socket.getOutputStream());
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		setStreams(_jis, _jos);
+		initialiseProtocol();
+		// TODO
+		processMsg();
+	}
 
-		System.out.println(_socket);
+	@Override
+	public void processMsg() {
+		while (true)
+			super.processMsg();
 	}
 
 	@Override
@@ -58,6 +78,6 @@ public class Connector extends CConnection implements UserPasswdGetter {
 	@Override
 	public boolean getUserPasswd(StringBuffer user, StringBuffer password) {
 		password.append(_server.getPassword());
-		return false;
+		return true;
 	}
 }
