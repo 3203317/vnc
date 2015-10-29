@@ -19,6 +19,7 @@ public class Test implements Runnable {
 	@Override
 	public void run() {
 		_server = new NwServer("192.168.6.128", 5901, "123222");
-		System.out.println(_server);
+		Connector ctor = new Connector(_server);
+		ctor.connect();
 	}
 }

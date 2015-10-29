@@ -1,0 +1,63 @@
+package com.nwyun.birdegg.client;
+
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+import com.nwyun.birdegg.lib.rdr.JavaInStream;
+import com.nwyun.birdegg.lib.rdr.JavaOutStream;
+import com.nwyun.birdegg.lib.rfb.CConnection;
+import com.nwyun.birdegg.lib.rfb.CSecurity;
+import com.nwyun.birdegg.lib.rfb.CSecurityNone;
+import com.nwyun.birdegg.lib.rfb.CSecurityVncAuth;
+import com.nwyun.birdegg.lib.rfb.SecTypes;
+import com.nwyun.birdegg.lib.rfb.SecurityTypeException;
+import com.nwyun.birdegg.lib.rfb.UserPasswdGetter;
+
+/**
+ * 
+ * @author huangxin (3203317@qq.com)
+ * 
+ */
+public class Connector extends CConnection implements UserPasswdGetter {
+	final static LogWriter vlog = new LogWriter("Connector");
+
+	private RfbServer _server;
+	private Socket _socket;
+
+	public Connector(RfbServer server) {
+		_server = server;
+	}
+
+	public void connect() {
+		try {
+			_socket = new Socket(_server.getIp(), _server.getPort());
+			new JavaInStream(_socket.getInputStream());
+			new JavaOutStream(_socket.getOutputStream());
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		System.out.println(_socket);
+	}
+
+	@Override
+	public CSecurity getCSecurity(int secType) {
+		switch (secType) {
+		case SecTypes.none:
+			return new CSecurityNone();
+		case SecTypes.vncAuth:
+			return new CSecurityVncAuth(this);
+		default:
+			throw new SecurityTypeException();
+		}
+	}
+
+	@Override
+	public boolean getUserPasswd(StringBuffer user, StringBuffer password) {
+		password.append(_server.getPassword());
+		return false;
+	}
+}
