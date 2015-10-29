@@ -112,4 +112,10 @@ public class Connector extends CConnection implements UserPasswdGetter {
 			encodingChange = false;
 		}
 	}
+
+	@Override
+	public void setColourMapEntries(int firstColour, int nColours, int[] rgbs) {
+		// TODO
+		System.out.println("setColourMapEntries");
+	}
 }
