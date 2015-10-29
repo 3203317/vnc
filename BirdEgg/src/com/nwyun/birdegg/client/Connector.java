@@ -32,6 +32,8 @@ public class Connector extends CConnection implements UserPasswdGetter {
 	private int currentEncoding;
 	private int lastUsedEncoding;
 
+	private boolean encodingChange;
+
 	public Connector(RfbServer server) {
 		_server = server;
 		// TODO
@@ -79,5 +81,24 @@ public class Connector extends CConnection implements UserPasswdGetter {
 	public boolean getUserPasswd(StringBuffer user, StringBuffer password) {
 		password.append(_server.getPassword());
 		return true;
+	}
+
+	@Override
+	public void serverInit() {
+		super.serverInit();
+		encodingChange = true;
+		requestNewUpdate();
+	}
+
+	private void requestNewUpdate() {
+		checkEncodings();
+	}
+
+	private synchronized void checkEncodings() {
+		if (encodingChange && state() == RFBSTATE_NORMAL) {
+			vlog.info("Using " + Encodings.name(currentEncoding) + " encoding");
+			writer().writeSetEncodings(currentEncoding, true);
+			encodingChange = false;
+		}
 	}
 }
