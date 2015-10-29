@@ -33,6 +33,7 @@ public class Connector extends CConnection implements UserPasswdGetter {
 	private int lastUsedEncoding;
 
 	private boolean encodingChange;
+	private boolean formatChange;
 
 	public Connector(RfbServer server) {
 		_server = server;
@@ -86,12 +87,22 @@ public class Connector extends CConnection implements UserPasswdGetter {
 	@Override
 	public void serverInit() {
 		super.serverInit();
-		encodingChange = true;
+		formatChange = encodingChange = true;
 		requestNewUpdate();
 	}
 
 	private void requestNewUpdate() {
+		if (formatChange) {
+			synchronized (this) {
+				writer().writeSetPixelFormat(cp.pf());
+			}
+		}
 		checkEncodings();
+		synchronized (this) {
+			writer().writeFramebufferUpdateRequest(0, 0, cp.width, cp.height,
+					!formatChange);
+		}
+		formatChange = false;
 	}
 
 	private synchronized void checkEncodings() {
