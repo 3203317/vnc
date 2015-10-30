@@ -93,8 +93,9 @@ public class Connector extends CConnection implements UserPasswdGetter {
 
 	private void requestNewUpdate() {
 		if (formatChange) {
+			PixelBufferImage im = new PixelBufferImage(150, 250);
 			synchronized (this) {
-				writer().writeSetPixelFormat(cp.pf());
+				writer().writeSetPixelFormat(im.getPF());
 			}
 		}
 		checkEncodings();
