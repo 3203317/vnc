@@ -40,13 +40,22 @@ public class Connector extends CConnection implements UserPasswdGetter {
 		// TODO
 		currentEncoding = Encodings.ZRLE;
 		lastUsedEncoding = Encodings.max;
+		// TODO
+		setShared(false);
+		// TODO
 		addSecType(SecTypes.none);
 		addSecType(SecTypes.vncAuth);
+		// TODO
+		cp.supportsDesktopResize = true;
+		cp.supportsLocalCursor = true;
 	}
 
 	public void connect() {
 		try {
 			_socket = new Socket(_server.getIp(), _server.getPort());
+			// TODO
+			setServerName(_socket.getInetAddress().getHostAddress() + "::"
+					+ _socket.getPort());
 			_jis = new JavaInStream(_socket.getInputStream());
 			_jos = new JavaOutStream(_socket.getOutputStream());
 		} catch (UnknownHostException e) {
