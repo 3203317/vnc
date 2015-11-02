@@ -19,22 +19,22 @@ package com.nwyun.birdegg.lib.rfb;
 
 public class Hostname {
 
-  public static String getHost(String vncServerName) {
-    int colonPos = vncServerName.indexOf(':');
-    if (colonPos == 0)
-      return "localhost";
-    if (colonPos == -1)
-      colonPos = vncServerName.length();
-    return vncServerName.substring(0, colonPos);
-  }
+	public static String getHost(String vncServerName) {
+		int colonPos = vncServerName.indexOf(':');
+		if (colonPos == 0)
+			return "localhost";
+		if (colonPos == -1)
+			colonPos = vncServerName.length();
+		return vncServerName.substring(0, colonPos);
+	}
 
-  public static int getPort(String vncServerName) {
-    int colonPos = vncServerName.indexOf(':');
-    if (colonPos == -1 || colonPos == vncServerName.length()-1)
-      return 5900;
-    if (vncServerName.charAt(colonPos+1) == ':') {
-      return Integer.parseInt(vncServerName.substring(colonPos+2));
-    }
-    return Integer.parseInt(vncServerName.substring(colonPos+1)) + 5900;
-  }
+	public static int getPort(String vncServerName) {
+		int colonPos = vncServerName.indexOf(':');
+		if (colonPos == -1 || colonPos == vncServerName.length() - 1)
+			return 5900;
+		if (vncServerName.charAt(colonPos + 1) == ':') {
+			return Integer.parseInt(vncServerName.substring(colonPos + 2));
+		}
+		return Integer.parseInt(vncServerName.substring(colonPos + 1)) + 5900;
+	}
 }

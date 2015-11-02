@@ -33,7 +33,9 @@
 package com.nwyun.birdegg.lib.rfb;
 
 abstract public class CSecurity {
-  abstract public int processMsg(CConnection cc);
-  abstract public int getType();
-  abstract public String description();
+	abstract public int processMsg(CConnection cc);
+
+	abstract public int getType();
+
+	abstract public String description();
 }

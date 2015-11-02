@@ -23,5 +23,5 @@
 package com.nwyun.birdegg.lib.rfb;
 
 public interface UserPasswdGetter {
-  public boolean getUserPasswd(StringBuffer user, StringBuffer password);
+	public boolean getUserPasswd(StringBuffer user, StringBuffer password);
 }

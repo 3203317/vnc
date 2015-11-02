@@ -18,20 +18,23 @@
 package com.nwyun.birdegg.lib.rfb;
 
 public class ManagedPixelBuffer extends PixelBuffer {
-  public void setSize(int w, int h) {
-    width_ = w;
-    height_ = h;
-    checkDataSize();
-  }
-  public void setPF(PixelFormat pf) {
-    super.setPF(pf);
-    checkDataSize();
-  }
+	public void setSize(int w, int h) {
+		width_ = w;
+		height_ = h;
+		checkDataSize();
+	}
 
-  public int dataLen() { return area() * (getPF().bpp/8); }
+	public void setPF(PixelFormat pf) {
+		super.setPF(pf);
+		checkDataSize();
+	}
 
-  final void checkDataSize() {
-    if (data == null || data.length < dataLen())
-      data = new byte[dataLen()];
-  }
+	public int dataLen() {
+		return area() * (getPF().bpp / 8);
+	}
+
+	final void checkDataSize() {
+		if (data == null || data.length < dataLen())
+			data = new byte[dataLen()];
+	}
 }

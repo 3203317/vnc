@@ -18,7 +18,7 @@
 package com.nwyun.birdegg.lib.rdr;
 
 public class EndOfStream extends Exception {
-  public EndOfStream() {
-    super("EndOfStream");
-  }
+	public EndOfStream() {
+		super("EndOfStream");
+	}
 }

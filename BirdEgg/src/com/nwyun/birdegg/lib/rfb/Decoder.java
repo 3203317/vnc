@@ -20,20 +20,25 @@ package com.nwyun.birdegg.lib.rfb;
 
 abstract public class Decoder {
 
-  abstract public void readRect(int x, int y, int w, int h,
-                                CMsgHandler handler);
+	abstract public void readRect(int x, int y, int w, int h,
+			CMsgHandler handler);
 
-  static public boolean supported(int encoding) {
-    return (encoding == Encodings.raw || encoding == Encodings.RRE ||
-            encoding == Encodings.hextile || encoding == Encodings.ZRLE);
-  }
-  static public Decoder createDecoder(int encoding, CMsgReader reader) {
-    switch(encoding) {
-    case Encodings.raw:     return new RawDecoder(reader);
-    case Encodings.RRE:     return new RREDecoder(reader);
-    case Encodings.hextile: return new HextileDecoder(reader);
-    case Encodings.ZRLE:    return new ZRLEDecoder(reader);
-    }
-    return null;
-  }
+	static public boolean supported(int encoding) {
+		return (encoding == Encodings.raw || encoding == Encodings.RRE
+				|| encoding == Encodings.hextile || encoding == Encodings.ZRLE);
+	}
+
+	static public Decoder createDecoder(int encoding, CMsgReader reader) {
+		switch (encoding) {
+		case Encodings.raw:
+			return new RawDecoder(reader);
+		case Encodings.RRE:
+			return new RREDecoder(reader);
+		case Encodings.hextile:
+			return new HextileDecoder(reader);
+		case Encodings.ZRLE:
+			return new ZRLEDecoder(reader);
+		}
+		return null;
+	}
 }

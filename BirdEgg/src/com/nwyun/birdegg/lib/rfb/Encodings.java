@@ -19,37 +19,50 @@ package com.nwyun.birdegg.lib.rfb;
 
 public class Encodings {
 
-  public static final int raw = 0;
-  public static final int copyRect = 1;
-  public static final int RRE = 2;
-  public static final int coRRE = 4;
-  public static final int hextile = 5;
-  public static final int ZRLE = 16;
+	public static final int raw = 0;
+	public static final int copyRect = 1;
+	public static final int RRE = 2;
+	public static final int coRRE = 4;
+	public static final int hextile = 5;
+	public static final int ZRLE = 16;
 
-  public static final int max = 255;
+	public static final int max = 255;
 
-  public static final int pseudoEncodingCursor = 0xffffff11;
-  public static final int pseudoEncodingDesktopSize = 0xffffff21;
+	public static final int pseudoEncodingCursor = 0xffffff11;
+	public static final int pseudoEncodingDesktopSize = 0xffffff21;
 
-  public static int num(String name) {
-    if (name.equalsIgnoreCase("raw"))      return raw;
-    if (name.equalsIgnoreCase("copyRect")) return copyRect;
-    if (name.equalsIgnoreCase("RRE"))      return RRE;
-    if (name.equalsIgnoreCase("coRRE"))    return coRRE;
-    if (name.equalsIgnoreCase("hextile"))  return hextile;
-    if (name.equalsIgnoreCase("ZRLE"))     return ZRLE;
-    return -1;
-  }
+	public static int num(String name) {
+		if (name.equalsIgnoreCase("raw"))
+			return raw;
+		if (name.equalsIgnoreCase("copyRect"))
+			return copyRect;
+		if (name.equalsIgnoreCase("RRE"))
+			return RRE;
+		if (name.equalsIgnoreCase("coRRE"))
+			return coRRE;
+		if (name.equalsIgnoreCase("hextile"))
+			return hextile;
+		if (name.equalsIgnoreCase("ZRLE"))
+			return ZRLE;
+		return -1;
+	}
 
-  public static String name(int num) {
-    switch (num) {
-    case raw:          return "raw";
-    case copyRect:     return "copyRect";
-    case RRE:          return "RRE";
-    case coRRE:        return "CoRRE";
-    case hextile:      return "hextile";
-    case ZRLE:         return "ZRLE";
-    default:           return "[unknown encoding]";
-    }
-  }
+	public static String name(int num) {
+		switch (num) {
+		case raw:
+			return "raw";
+		case copyRect:
+			return "copyRect";
+		case RRE:
+			return "RRE";
+		case coRRE:
+			return "CoRRE";
+		case hextile:
+			return "hextile";
+		case ZRLE:
+			return "ZRLE";
+		default:
+			return "[unknown encoding]";
+		}
+	}
 }

@@ -22,38 +22,48 @@
 package com.nwyun.birdegg.lib.rfb;
 
 public class SecTypes {
-  public static final int invalid = 0;
-  public static final int none    = 1;
-  public static final int vncAuth = 2;
+	public static final int invalid = 0;
+	public static final int none = 1;
+	public static final int vncAuth = 2;
 
-  public static final int RA2     = 5;
-  public static final int RA2ne   = 6;
+	public static final int RA2 = 5;
+	public static final int RA2ne = 6;
 
-  public static final int tight   = 16;
-  public static final int ultra   = 17;
-  public static final int TLS     = 18;
+	public static final int tight = 16;
+	public static final int ultra = 17;
+	public static final int TLS = 18;
 
-  // result types
+	// result types
 
-  public static final int resultOK = 0;
-  public static final int resultFailed = 1;
-  public static final int resultTooMany = 2; // deprecated
+	public static final int resultOK = 0;
+	public static final int resultFailed = 1;
+	public static final int resultTooMany = 2; // deprecated
 
-  public static String name(int num) {
-    switch (num) {
-    case none:       return "None";
-    case vncAuth:    return "VncAuth";
-    case RA2:        return "RA2";
-    case RA2ne:      return "RA2ne";
-    default:         return "[unknown secType]";
-    }
-  }
-  public static int num(String name) {
-    if (name.equalsIgnoreCase("None"))    return none;
-    if (name.equalsIgnoreCase("VncAuth")) return vncAuth;
-    if (name.equalsIgnoreCase("RA2"))     return RA2;
-    if (name.equalsIgnoreCase("RA2ne"))	  return RA2ne;
-    return invalid;
-  }
-  //std::list<int> parseSecTypes(const char* types);
+	public static String name(int num) {
+		switch (num) {
+		case none:
+			return "None";
+		case vncAuth:
+			return "VncAuth";
+		case RA2:
+			return "RA2";
+		case RA2ne:
+			return "RA2ne";
+		default:
+			return "[unknown secType]";
+		}
+	}
+
+	public static int num(String name) {
+		if (name.equalsIgnoreCase("None"))
+			return none;
+		if (name.equalsIgnoreCase("VncAuth"))
+			return vncAuth;
+		if (name.equalsIgnoreCase("RA2"))
+			return RA2;
+		if (name.equalsIgnoreCase("RA2ne"))
+			return RA2ne;
+		return invalid;
+	}
+	// std::list<int> parseSecTypes(const char* types);
 }

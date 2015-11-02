@@ -24,59 +24,63 @@ package com.nwyun.birdegg.lib.rdr;
 
 public class JavaOutStream extends OutStream {
 
-  static final int defaultBufSize = 16384;
-  static final int minBulkSize = 1024;
+	static final int defaultBufSize = 16384;
+	static final int minBulkSize = 1024;
 
-  public JavaOutStream(java.io.OutputStream jos_, int bufSize_) {
-    jos = jos_;
-    bufSize = bufSize_;
-    b = new byte[bufSize];
-    ptr = 0;
-    end = bufSize;
-  }
+	public JavaOutStream(java.io.OutputStream jos_, int bufSize_) {
+		jos = jos_;
+		bufSize = bufSize_;
+		b = new byte[bufSize];
+		ptr = 0;
+		end = bufSize;
+	}
 
-  public JavaOutStream(java.io.OutputStream jos) { this(jos, defaultBufSize); }
+	public JavaOutStream(java.io.OutputStream jos) {
+		this(jos, defaultBufSize);
+	}
 
-  public void writeBytes(byte[] data, int offset, int length) {
-    if (length < minBulkSize) {
-      super.writeBytes(data, offset, length);
-      return;
-    }
+	public void writeBytes(byte[] data, int offset, int length) {
+		if (length < minBulkSize) {
+			super.writeBytes(data, offset, length);
+			return;
+		}
 
-    flush();
-    try {
-      jos.write(data, offset, length);
-    } catch (java.io.IOException e) {
-      throw new IOException(e);
-    }
-    ptrOffset += length;
-  }
+		flush();
+		try {
+			jos.write(data, offset, length);
+		} catch (java.io.IOException e) {
+			throw new IOException(e);
+		}
+		ptrOffset += length;
+	}
 
-  public void flush() {
-    try {
-      jos.write(b, 0, ptr);
-    } catch (java.io.IOException e) {
-      throw new IOException(e);
-    }
-    ptrOffset += ptr;
-    ptr = 0;
-  }
+	public void flush() {
+		try {
+			jos.write(b, 0, ptr);
+		} catch (java.io.IOException e) {
+			throw new IOException(e);
+		}
+		ptrOffset += ptr;
+		ptr = 0;
+	}
 
-  public int length() { return ptrOffset + ptr; }
+	public int length() {
+		return ptrOffset + ptr;
+	}
 
-  protected int overrun(int itemSize, int nItems) {
-    if (itemSize > bufSize)
-      throw new Exception("JavaOutStream overrun: max itemSize exceeded");
+	protected int overrun(int itemSize, int nItems) {
+		if (itemSize > bufSize)
+			throw new Exception("JavaOutStream overrun: max itemSize exceeded");
 
-    flush();
+		flush();
 
-    if (itemSize * nItems > end)
-      nItems = end / itemSize;
+		if (itemSize * nItems > end)
+			nItems = end / itemSize;
 
-    return nItems;
-  }
+		return nItems;
+	}
 
-  private java.io.OutputStream jos;
-  private int ptrOffset;
-  private int bufSize;
+	private java.io.OutputStream jos;
+	private int ptrOffset;
+	private int bufSize;
 }

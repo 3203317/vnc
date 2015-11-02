@@ -20,21 +20,24 @@ package com.nwyun.birdegg.lib.rfb;
 
 public class RawDecoder extends Decoder {
 
-  public RawDecoder(CMsgReader reader_) { reader = reader_; }
+	public RawDecoder(CMsgReader reader_) {
+		reader = reader_;
+	}
 
-  public void readRect(int x, int y, int w, int h, CMsgHandler handler) {
-    byte[] imageBuf = reader.getImageBuf(w, w*h);
-    int nPixels = imageBuf.length / (reader.bpp() / 8);
-    int nRows = nPixels / w;
-    int bytesPerRow = w * (reader.bpp() / 8);
-    while (h > 0) {
-      if (nRows > h) nRows = h;
-      reader.getInStream().readBytes(imageBuf, 0, nRows * bytesPerRow);
-      handler.imageRect(x, y, w, nRows, imageBuf, 0);
-      h -= nRows;
-      y += nRows;
-    }
-  }
+	public void readRect(int x, int y, int w, int h, CMsgHandler handler) {
+		byte[] imageBuf = reader.getImageBuf(w, w * h);
+		int nPixels = imageBuf.length / (reader.bpp() / 8);
+		int nRows = nPixels / w;
+		int bytesPerRow = w * (reader.bpp() / 8);
+		while (h > 0) {
+			if (nRows > h)
+				nRows = h;
+			reader.getInStream().readBytes(imageBuf, 0, nRows * bytesPerRow);
+			handler.imageRect(x, y, w, nRows, imageBuf, 0);
+			h -= nRows;
+			y += nRows;
+		}
+	}
 
-  CMsgReader reader;
+	CMsgReader reader;
 }

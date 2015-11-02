@@ -19,13 +19,16 @@ package com.nwyun.birdegg.lib.rfb;
 
 public class Cursor extends ManagedPixelBuffer {
 
-  public void setSize(int w, int h) {
-    super.setSize(w, h);
-    if (mask == null || mask.length < maskLen())
-      mask = new byte[maskLen()];
-  }
-  public int maskLen() { return (width() + 7) / 8 * height(); }
+	public void setSize(int w, int h) {
+		super.setSize(w, h);
+		if (mask == null || mask.length < maskLen())
+			mask = new byte[maskLen()];
+	}
 
-  public int hotspotX, hotspotY;
-  public byte[] mask;
+	public int maskLen() {
+		return (width() + 7) / 8 * height();
+	}
+
+	public int hotspotX, hotspotY;
+	public byte[] mask;
 }

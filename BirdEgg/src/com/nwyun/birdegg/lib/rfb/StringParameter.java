@@ -19,22 +19,29 @@
 package com.nwyun.birdegg.lib.rfb;
 
 public class StringParameter extends VoidParameter {
-  public StringParameter(String name_, String desc_, String v) {
-    super(name_, desc_);
-    value = v;
-    defValue = v;
-  }
+	public StringParameter(String name_, String desc_, String v) {
+		super(name_, desc_);
+		value = v;
+		defValue = v;
+	}
 
-  public boolean setParam(String v) {
-    value = v;
-    return value != null;
-  }
+	public boolean setParam(String v) {
+		value = v;
+		return value != null;
+	}
 
-  public String getDefaultStr() { return defValue; }
-  public String getValueStr() { return value; }
+	public String getDefaultStr() {
+		return defValue;
+	}
 
-  public String getValue() { return value; }
+	public String getValueStr() {
+		return value;
+	}
 
-  protected String value;
-  protected String defValue;
+	public String getValue() {
+		return value;
+	}
+
+	protected String value;
+	protected String defValue;
 }

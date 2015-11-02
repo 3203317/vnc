@@ -19,9 +19,15 @@
 package com.nwyun.birdegg.lib.rfb;
 
 public class CSecurityNone extends CSecurity {
-  public int processMsg(CConnection cc) {
-    return 1;
-  }
-  public int getType() { return SecTypes.none; }
-  public String description() { return "No Encryption"; }
+	public int processMsg(CConnection cc) {
+		return 1;
+	}
+
+	public int getType() {
+		return SecTypes.none;
+	}
+
+	public String description() {
+		return "No Encryption";
+	}
 }
