@@ -30,3 +30,5 @@ GPSService/bin
 BirdEgg/bin
 viewer/bin
 vnc/**/*.class
+
+BirdEgg/gen/
