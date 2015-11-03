@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import com.glavsoft.rfb.IPasswordRetriever;
+import com.glavsoft.rfb.protocol.Protocol;
 import com.nwyun.birdegg.lib.rdr.JavaInStream;
 import com.nwyun.birdegg.lib.rdr.JavaOutStream;
 import com.nwyun.birdegg.lib.rfb.CConnection;
@@ -48,6 +50,17 @@ public class Connector extends CConnection implements UserPasswdGetter {
 		// TODO
 		cp.supportsDesktopResize = true;
 		cp.supportsLocalCursor = true;
+	}
+
+	protected Protocol workingProtocol;
+
+	public void conn() {
+		// workingProtocol = new Protocol(reader, writer, new PasswordChooser(
+		// connectionString), rfbSettings);
+		// String message = "Handshaking with remote host";
+		// logger.info(message);
+		// publish(message);
+		// workingProtocol.handshake();
 	}
 
 	public void connect() {
@@ -127,5 +140,19 @@ public class Connector extends CConnection implements UserPasswdGetter {
 	public void setColourMapEntries(int firstColour, int nColours, int[] rgbs) {
 		// TODO
 		System.out.println("setColourMapEntries");
+	}
+
+	private class PasswordChooser implements IPasswordRetriever {
+		private String connectionString;
+
+		private PasswordChooser(String connectionString) {
+			this.connectionString = connectionString;
+		}
+
+		@Override
+		public String getPassword() {
+			return "123222";
+		}
+
 	}
 }
