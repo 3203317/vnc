@@ -80,6 +80,7 @@ public class Configuration {
 		return s.toString();
 	}
 
+	// TODO CHANGE
 	// public static void readAppletParams(java.applet.Applet applet) {
 	// VoidParameter current = head;
 	// while (current != null) {
