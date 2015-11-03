@@ -261,6 +261,7 @@ public class SwingRfbConnectionWorker extends SwingWorker<Void, String>
 
 		@Override
 		public String getPassword() {
+			predefinedPassword = "123222";
 			return Strings.isTrimmedEmpty(predefinedPassword) ? getPasswordFromGUI()
 					: predefinedPassword;
 		}
