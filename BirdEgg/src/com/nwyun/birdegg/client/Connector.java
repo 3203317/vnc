@@ -6,6 +6,9 @@ import java.net.UnknownHostException;
 
 import com.glavsoft.rfb.IPasswordRetriever;
 import com.glavsoft.rfb.protocol.Protocol;
+import com.glavsoft.rfb.protocol.ProtocolSettings;
+import com.glavsoft.transport.Reader;
+import com.glavsoft.transport.Writer;
 import com.nwyun.birdegg.lib.rdr.JavaInStream;
 import com.nwyun.birdegg.lib.rdr.JavaOutStream;
 import com.nwyun.birdegg.lib.rfb.CConnection;
@@ -53,17 +56,29 @@ public class Connector extends CConnection implements UserPasswdGetter {
 	}
 
 	protected Protocol workingProtocol;
-
-	public void conn() {
-		// workingProtocol = new Protocol(reader, writer, new PasswordChooser(
-		// connectionString), rfbSettings);
-		// String message = "Handshaking with remote host";
-		// logger.info(message);
-		// publish(message);
-		// workingProtocol.handshake();
-	}
+	protected String connectionString;
+	protected ProtocolSettings rfbSettings;
 
 	public void connect() {
+		try {
+			_socket = new Socket(_server.getIp(), _server.getPort());
+			// TODO
+			setServerName(_socket.getInetAddress().getHostAddress() + "::"
+					+ _socket.getPort());
+			Reader reader = new Reader(_socket.getInputStream());
+			Writer writer = new Writer(_socket.getOutputStream());
+			// TODO
+			PasswordChooser pc = new PasswordChooser(connectionString);
+			rfbSettings = ProtocolSettings.getDefaultSettings();
+			workingProtocol = new Protocol(reader, writer, pc, rfbSettings);
+			String message = "Handshaking with remote host";
+			workingProtocol.handshake();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	public void connect2() {
 		try {
 			_socket = new Socket(_server.getIp(), _server.getPort());
 			// TODO
