@@ -166,7 +166,7 @@ public class Connector extends CConnection implements UserPasswdGetter {
 
 		@Override
 		public String getPassword() {
-			return "123222";
+			return _server.getPassword();
 		}
 
 	}
