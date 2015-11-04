@@ -30,5 +30,6 @@ GPSService/bin
 BirdEgg/bin
 viewer/bin
 vnc/**/*.class
+vnc/com/**/.gitignore
 
 BirdEgg/gen/
