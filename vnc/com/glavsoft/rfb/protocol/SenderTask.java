@@ -58,6 +58,7 @@ public class SenderTask implements Runnable {
 	public void run() {
 		isRunning = true;
 		while (isRunning) {
+			System.out.println("XH");
 			ClientToServerMessage message;
 			try {
 				message = queue.get();

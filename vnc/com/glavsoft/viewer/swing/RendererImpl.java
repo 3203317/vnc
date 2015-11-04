@@ -78,6 +78,7 @@ public class RendererImpl extends Renderer implements ImageObserver {
 			// nop
 		}
 		Graphics graphics = offscreanImage.getGraphics();
+		System.out.println("HX");
 		graphics.drawImage(jpegImage, rect.x, rect.y, rect.width, rect.height, this);
 	}
 
