@@ -1,13 +1,17 @@
 package com.nwyun.birdegg.client;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.WindowConstants;
 
 /**
  * 
@@ -34,7 +38,10 @@ public class Connector {
 		dim.width = 1024;
 		dim.height = 768;
 
-		_scroller = new JScrollPane();
+		JPanel outerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+		outerPanel.setBackground(Color.DARK_GRAY);
+
+		_scroller = new JScrollPane(outerPanel);
 
 		_frame = new JFrame();
 		_frame.setSize(dim);
@@ -46,11 +53,13 @@ public class Connector {
 		_frame.validate();
 		_frame.setTitle("vnc");
 
+		_frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
 		_frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent we) {
-				int ret = JOptionPane.showConfirmDialog(null, "确定关闭吗？",
-						"Attention", JOptionPane.OK_OPTION);
+				int ret = JOptionPane.showConfirmDialog(null, "确定关闭吗？", "关闭",
+						JOptionPane.OK_OPTION);
 				if (ret == JOptionPane.OK_OPTION)
 					System.exit(0);
 			}
