@@ -28,6 +28,7 @@ import com.nwyun.birdegg.util.DoWorkHandler;
 public class Test extends JApplet implements Runnable, WindowListener {
 	private static final long serialVersionUID = 5445528667317605631L;
 
+	private Connector _connector;
 	private JFrame _frame;
 
 	public static void main(String[] args) {
@@ -42,8 +43,17 @@ public class Test extends JApplet implements Runnable, WindowListener {
 	@Override
 	public void run() {
 		Server server = new NwServer("192.168.6.128", 5901);
-		Connector connector = new Connector(server);
-		connector.connect(new DoWorkHandler() {
+		_connector = new Connector(server);
+		_connector.connect(new DoWorkHandler() {
+			@Override
+			public void success() {
+				handshake();
+			}
+		});
+	}
+
+	private void handshake() {
+		_connector.handshake(new DoWorkHandler() {
 			@Override
 			public void success() {
 				createContainer();
