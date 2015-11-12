@@ -13,4 +13,9 @@ public class NwServer extends Server {
 	public NwServer(String ip, int port, String password) {
 		super(ip, port, password);
 	}
+
+	public NwServer(String ip, int port) {
+		this(ip, port, null);
+	}
+
 }
