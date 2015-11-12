@@ -22,7 +22,7 @@ public abstract class ProtocolStatus {
 	}
 
 	protected void changeStateTo(ProtocolStatus status) {
-		ctx.changeStateTo(status);
+		status.next();
 	}
 
 	public abstract void next();

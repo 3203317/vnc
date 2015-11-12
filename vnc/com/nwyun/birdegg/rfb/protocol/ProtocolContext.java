@@ -1,6 +1,5 @@
 package com.nwyun.birdegg.rfb.protocol;
 
-import com.nwyun.birdegg.rfb.protocol.status.ProtocolStatus;
 import com.nwyun.birdegg.transport.Reader;
 import com.nwyun.birdegg.transport.Writer;
 
@@ -10,8 +9,6 @@ import com.nwyun.birdegg.transport.Writer;
  * 
  */
 public interface ProtocolContext {
-
-	void changeStateTo(ProtocolStatus status);
 
 	Writer getWriter();
 

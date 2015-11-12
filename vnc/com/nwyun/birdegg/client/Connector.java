@@ -2,7 +2,6 @@ package com.nwyun.birdegg.client;
 
 import java.net.Socket;
 
-import com.nwyun.birdegg.rfb.protocol.VersionInterceptor;
 import com.nwyun.birdegg.server.Server;
 import com.nwyun.birdegg.util.DoWorkHandler;
 
@@ -32,7 +31,7 @@ public class Connector {
 	}
 
 	private void handshake() {
-		VersionInterceptor version = new VersionInterceptor();
+		// TODO
 	}
 
 	public void handshake(DoWorkHandler handler) {
