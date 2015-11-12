@@ -1,6 +1,8 @@
 package com.nwyun.birdegg.rfb.protocol.status;
 
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.nwyun.birdegg.exception.VersionStatusException;
 import com.nwyun.birdegg.rfb.protocol.ProtocolContext;
@@ -33,7 +35,29 @@ public class VersionStatus extends ProtocolStatus {
 	@Override
 	public void next() throws VersionStatusException {
 		String protocolString = reader.readString(PROTOCOL_STRING_LENGTH);
+		_logger.info("server sent protocol string: "
+				+ protocolString.substring(0, protocolString.length() - 1));
+
+		Pattern pattern = Pattern.compile(PROTOCOL_STRING_REGEXP);
+		final Matcher matcher = pattern.matcher(protocolString);
+
+		if (!matcher.matches())
+			throw new VersionStatusException("unsupported protocol version: "
+					+ protocolString);
+
+		int major = Integer.parseInt(matcher.group(1));
+		int minor = Integer.parseInt(matcher.group(2));
+
+		if (major < MAX_SUPPORTED_VERSION_MAJOR)
+			throw new VersionStatusException("unsupported protocol version: "
+					+ major + "." + minor);
+
+		if (minor < MAX_SUPPORTED_VERSION_MINOR)
+			throw new VersionStatusException("unsupported protocol version: "
+					+ major + "." + minor);
+
 		_logger.info("set protocol version to: " + protocolString);
+		writer.write(("RFB 00" + major + ".00" + minor + "\n").getBytes());
 		changeStateTo(new SecurityTypeStatus(ctx));
 	}
 }
