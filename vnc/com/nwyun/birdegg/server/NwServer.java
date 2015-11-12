@@ -1,6 +1,6 @@
 package com.nwyun.birdegg.server;
 
-import com.nwyun.birdegg.util.LogWriter;
+import java.util.logging.Logger;
 
 /**
  * 
@@ -8,10 +8,11 @@ import com.nwyun.birdegg.util.LogWriter;
  * 
  */
 public class NwServer extends Server {
-	final static LogWriter _log = new LogWriter("NwServer");
+	private final Logger _logger;
 
 	public NwServer(String ip, int port, String password) {
 		super(ip, port, password);
+		_logger = Logger.getLogger(getClass().getName());
 	}
 
 	public NwServer(String ip, int port) {

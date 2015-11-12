@@ -1,8 +1,13 @@
 package com.nwyun.birdegg.client;
 
 import java.net.Socket;
+import java.util.logging.Logger;
 
+import com.nwyun.birdegg.exception.ConnectSocketException;
+import com.nwyun.birdegg.rfb.protocol.Protocol;
 import com.nwyun.birdegg.server.Server;
+import com.nwyun.birdegg.transport.Reader;
+import com.nwyun.birdegg.transport.Writer;
 import com.nwyun.birdegg.util.DoWorkHandler;
 
 /**
@@ -11,31 +16,35 @@ import com.nwyun.birdegg.util.DoWorkHandler;
  * 
  */
 public class Connector {
+	private final Logger _logger;
 	private Server _server;
 	private Socket _socket;
+	private Reader _reader;
+	private Writer _writer;
 
 	public Connector(Server server) {
+		_logger = Logger.getLogger(getClass().getName());
 		_server = server;
 	}
 
 	public void connect(DoWorkHandler handler) {
+		_logger.info("connect remote socket " + _server.getIp() + ":"
+				+ _server.getPort() + ".");
 		try {
 			_socket = new Socket(_server.getIp(), _server.getPort());
+			_socket.setTcpNoDelay(true); // disable Nagle algorithm
+			_reader = new Reader(_socket.getInputStream());
+			_writer = new Writer(_socket.getOutputStream());
 		} catch (Exception e) {
-			e.printStackTrace();
-			handler.failure();
-			return;
+			throw new ConnectSocketException();
 		}
-		// TODO
 		handler.success();
 	}
 
-	private void handshake() {
-		// TODO
-	}
-
 	public void handshake(DoWorkHandler handler) {
-		handshake();
+		_logger.info("rfb server handshake.");
+		Protocol protocol = new Protocol(_reader, _writer);
+		protocol.handshake();
 		handler.success();
 	}
 }

@@ -1,5 +1,6 @@
 package com.nwyun.birdegg.rfb.protocol.status;
 
+import com.nwyun.birdegg.exception.VersionStatusException;
 import com.nwyun.birdegg.rfb.protocol.ProtocolContext;
 
 /**
@@ -9,12 +10,26 @@ import com.nwyun.birdegg.rfb.protocol.ProtocolContext;
  */
 public class VersionStatus extends ProtocolStatus {
 
+	public static final String PROTOCOL_VERSION_3_8 = "3.8";
+	public static final String PROTOCOL_VERSION_3_7 = "3.7";
+	public static final String PROTOCOL_VERSION_3_3 = "3.3";
+
+	private static final int PROTOCOL_STRING_LENGTH = 12;
+	private static final String PROTOCOL_STRING_REGEXP = "^RFB (\\d\\d\\d).(\\d\\d\\d)\n$";
+
+	private static final int MIN_SUPPORTED_VERSION_MAJOR = 3;
+	private static final int MIN_SUPPORTED_VERSION_MINOR = 3;
+
+	private static final int MAX_SUPPORTED_VERSION_MAJOR = 3;
+	private static final int MAX_SUPPORTED_VERSION_MINOR = 8;
+
 	public VersionStatus(ProtocolContext ctx) {
 		super(ctx);
 	}
 
 	@Override
-	public void next() {
+	public void next() throws VersionStatusException {
+		String protocolString = reader.readString(PROTOCOL_STRING_LENGTH);
 		changeStateTo(new SecurityTypeStatus(ctx));
 	}
 }

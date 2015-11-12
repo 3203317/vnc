@@ -16,4 +16,8 @@ public class Reader {
 	public Reader(InputStream is) {
 		_is = new DataInputStream(new BufferedInputStream(is));
 	}
+
+	public String readString(int len) {
+		return new String("");
+	}
 }

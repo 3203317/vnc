@@ -49,11 +49,6 @@ public class Test extends JApplet implements Runnable, WindowListener {
 			public void success() {
 				handshake();
 			}
-
-			@Override
-			public void failure() {
-				// TODO
-			}
 		});
 	}
 
