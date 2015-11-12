@@ -1,7 +1,7 @@
 package com.nwyun.birdegg.client;
 
 import com.nwyun.birdegg.server.Server;
-import com.nwyun.birdegg.util.WorkHandler;
+import com.nwyun.birdegg.util.DoWorkHandler;
 
 /**
  * 
@@ -15,7 +15,7 @@ public class Connector {
 		_server = server;
 	}
 
-	public void connect(WorkHandler handler) {
+	public void connect(DoWorkHandler handler) {
 		// TODO
 		handler.success();
 	}

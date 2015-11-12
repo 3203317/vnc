@@ -18,7 +18,7 @@ import javax.swing.WindowConstants;
 import com.nwyun.birdegg.client.Connector;
 import com.nwyun.birdegg.server.NwServer;
 import com.nwyun.birdegg.server.Server;
-import com.nwyun.birdegg.util.WorkHandler;
+import com.nwyun.birdegg.util.DoWorkHandler;
 
 /**
  * 
@@ -43,7 +43,7 @@ public class Test extends JApplet implements Runnable, WindowListener {
 	public void run() {
 		Server server = new NwServer("192.168.6.128", 5901);
 		Connector connector = new Connector(server);
-		connector.connect(new WorkHandler() {
+		connector.connect(new DoWorkHandler() {
 			@Override
 			public void success() {
 				createContainer();
