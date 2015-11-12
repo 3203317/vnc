@@ -1,5 +1,7 @@
 package com.nwyun.birdegg.rfb.protocol.status;
 
+import java.util.logging.Logger;
+
 import com.nwyun.birdegg.exception.VersionStatusException;
 import com.nwyun.birdegg.rfb.protocol.ProtocolContext;
 
@@ -9,7 +11,7 @@ import com.nwyun.birdegg.rfb.protocol.ProtocolContext;
  * 
  */
 public class VersionStatus extends ProtocolStatus {
-
+	private final Logger _logger;
 	public static final String PROTOCOL_VERSION_3_8 = "3.8";
 	public static final String PROTOCOL_VERSION_3_7 = "3.7";
 	public static final String PROTOCOL_VERSION_3_3 = "3.3";
@@ -25,11 +27,13 @@ public class VersionStatus extends ProtocolStatus {
 
 	public VersionStatus(ProtocolContext ctx) {
 		super(ctx);
+		_logger = Logger.getLogger(getClass().getName());
 	}
 
 	@Override
 	public void next() throws VersionStatusException {
 		String protocolString = reader.readString(PROTOCOL_STRING_LENGTH);
+		_logger.info("set protocol version to: " + protocolString);
 		changeStateTo(new SecurityTypeStatus(ctx));
 	}
 }

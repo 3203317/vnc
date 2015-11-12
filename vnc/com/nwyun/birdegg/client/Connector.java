@@ -29,7 +29,7 @@ public class Connector {
 
 	public void connect(DoWorkHandler handler) {
 		_logger.info("connect remote socket " + _server.getIp() + ":"
-				+ _server.getPort() + ".");
+				+ _server.getPort());
 		try {
 			_socket = new Socket(_server.getIp(), _server.getPort());
 			_socket.setTcpNoDelay(true); // disable Nagle algorithm
@@ -42,7 +42,7 @@ public class Connector {
 	}
 
 	public void handshake(DoWorkHandler handler) {
-		_logger.info("rfb server handshake.");
+		_logger.info("rfb server handshake");
 		Protocol protocol = new Protocol(_reader, _writer);
 		protocol.handshake();
 		handler.success();
