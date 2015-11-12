@@ -6,12 +6,20 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.Socket;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
+
+import com.glavsoft.rfb.IPasswordRetriever;
+import com.glavsoft.rfb.protocol.Protocol;
+import com.glavsoft.rfb.protocol.ProtocolSettings;
+import com.glavsoft.transport.Reader;
+import com.glavsoft.transport.Writer;
+import com.glavsoft.viewer.UiSettings;
 
 /**
  * 
@@ -23,14 +31,37 @@ public class Connector {
 
 	private JFrame _frame;
 	private JScrollPane _scroller;
+	protected Socket _workingSocket;
+	protected Protocol _workingProtocol;
+	protected ProtocolSettings _rfbSettings;
+	protected String _connectionString;
+	protected UiSettings _uiSettings;
 
-	public Connector(RfbServer server) {
+	public Connector(RfbServer server) throws Exception {
 		_server = server;
+		_workingSocket = new Socket(server.getIp(), server.getPort());
+		_workingSocket.setTcpNoDelay(true); // disable Nagle algorithm
+		Reader reader = new Reader(_workingSocket.getInputStream());
+		Writer writer = new Writer(_workingSocket.getOutputStream());
+		// TODO
+		PasswordChooser pc = new PasswordChooser(_connectionString);
+		_rfbSettings = ProtocolSettings.getDefaultSettings();
+		_uiSettings = new UiSettings();
+		// TODO
+		_workingProtocol = new Protocol(reader, writer, pc, _rfbSettings);
+		_workingProtocol.handshake();
 	}
 
 	public void connect() {
 		System.out.println("connect");
+		Surface surface = createSurface();
 		createContainer();
+	}
+
+	private Surface createSurface() {
+		Surface surface = new Surface(_workingProtocol,
+				_uiSettings.getScaleFactor());
+		return surface;
 	}
 
 	private void createContainer() {
@@ -64,5 +95,18 @@ public class Connector {
 					System.exit(0);
 			}
 		});
+	}
+
+	private class PasswordChooser implements IPasswordRetriever {
+		private String connectionString;
+
+		private PasswordChooser(String connectionString) {
+			this.connectionString = connectionString;
+		}
+
+		@Override
+		public String getPassword() {
+			return _server.getPassword();
+		}
 	}
 }

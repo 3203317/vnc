@@ -13,7 +13,7 @@ public class Test implements Runnable {
 
 	public static void main(String[] args) {
 		Test t = new Test();
-
+		// TODO
 		Thread thread = new Thread(t);
 		thread.run();
 	}
@@ -21,7 +21,13 @@ public class Test implements Runnable {
 	@Override
 	public void run() {
 		_server = new NwServer("192.168.6.128", 5901, "123222");
-		Connector ctor = new Connector(_server);
+		Connector ctor = null;
+		try {
+			ctor = new Connector(_server);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 		ctor.connect();
 	}
 }
