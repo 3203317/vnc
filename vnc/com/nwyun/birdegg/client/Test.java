@@ -2,6 +2,8 @@ package com.nwyun.birdegg.client;
 
 import rfb.LogWriter;
 
+import com.nwyun.birdegg.rfb.Server;
+
 /**
  * 
  * @author huangxin (3203317@qq.com)
@@ -9,7 +11,7 @@ import rfb.LogWriter;
  */
 public class Test implements Runnable {
 	static LogWriter vlog = new LogWriter("Test");
-	private RfbServer _server;
+	private Server _server;
 
 	public static void main(String[] args) {
 		Test t = new Test();

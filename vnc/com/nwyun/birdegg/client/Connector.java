@@ -17,9 +17,8 @@ import javax.swing.WindowConstants;
 import com.glavsoft.rfb.IPasswordRetriever;
 import com.glavsoft.rfb.protocol.Protocol;
 import com.glavsoft.rfb.protocol.ProtocolSettings;
-import com.glavsoft.transport.Reader;
-import com.glavsoft.transport.Writer;
 import com.glavsoft.viewer.UiSettings;
+import com.nwyun.birdegg.rfb.Server;
 
 /**
  * 
@@ -27,7 +26,7 @@ import com.glavsoft.viewer.UiSettings;
  * 
  */
 public class Connector {
-	private RfbServer _server;
+	private Server _server;
 
 	private JFrame _frame;
 	private JScrollPane _scroller;
@@ -37,31 +36,13 @@ public class Connector {
 	protected String _connectionString;
 	protected UiSettings _uiSettings;
 
-	public Connector(RfbServer server) throws Exception {
+	public Connector(Server server) throws Exception {
 		_server = server;
-		_workingSocket = new Socket(server.getIp(), server.getPort());
-		_workingSocket.setTcpNoDelay(true); // disable Nagle algorithm
-		Reader reader = new Reader(_workingSocket.getInputStream());
-		Writer writer = new Writer(_workingSocket.getOutputStream());
-		// TODO
-		PasswordChooser pc = new PasswordChooser(_connectionString);
-		_rfbSettings = ProtocolSettings.getDefaultSettings();
-		_uiSettings = new UiSettings();
-		// TODO
-		_workingProtocol = new Protocol(reader, writer, pc, _rfbSettings);
-		_workingProtocol.handshake();
 	}
 
 	public void connect() {
 		System.out.println("connect");
-		Surface surface = createSurface();
 		createContainer();
-	}
-
-	private Surface createSurface() {
-		Surface surface = new Surface(_workingProtocol,
-				_uiSettings.getScaleFactor());
-		return surface;
 	}
 
 	private void createContainer() {

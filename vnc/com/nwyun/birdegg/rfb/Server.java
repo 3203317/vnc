@@ -1,11 +1,11 @@
-package com.nwyun.birdegg.client;
+package com.nwyun.birdegg.rfb;
 
 /**
  * 
  * @author huangxin (3203317@qq.com)
  * 
  */
-public abstract class RfbServer {
+public abstract class Server {
 	private String ip;
 	private int port;
 	private String password;
@@ -34,7 +34,7 @@ public abstract class RfbServer {
 		this.password = password;
 	}
 
-	public RfbServer(String ip, int port, String password) {
+	public Server(String ip, int port, String password) {
 		this.ip = ip;
 		this.port = port;
 		this.password = password;
