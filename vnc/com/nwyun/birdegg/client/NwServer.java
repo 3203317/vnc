@@ -2,7 +2,7 @@ package com.nwyun.birdegg.client;
 
 import rfb.LogWriter;
 
-import com.nwyun.birdegg.rfb.Server;
+import com.nwyun.birdegg.server.Server;
 
 /**
  * 

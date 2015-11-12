@@ -1,4 +1,4 @@
-package com.nwyun.birdegg.rfb;
+package com.nwyun.birdegg.client;
 
 /**
  * 

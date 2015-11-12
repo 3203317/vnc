@@ -18,7 +18,7 @@ import com.glavsoft.rfb.IPasswordRetriever;
 import com.glavsoft.rfb.protocol.Protocol;
 import com.glavsoft.rfb.protocol.ProtocolSettings;
 import com.glavsoft.viewer.UiSettings;
-import com.nwyun.birdegg.rfb.Server;
+import com.nwyun.birdegg.server.Server;
 
 /**
  * 
