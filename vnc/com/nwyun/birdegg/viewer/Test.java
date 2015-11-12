@@ -48,11 +48,6 @@ public class Test extends JApplet implements Runnable, WindowListener {
 			public void success() {
 				createContainer();
 			}
-
-			@Override
-			public void failure() {
-				// TODO
-			}
 		});
 	}
 
