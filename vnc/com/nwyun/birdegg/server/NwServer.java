@@ -1,8 +1,6 @@
-package com.nwyun.birdegg.client;
+package com.nwyun.birdegg.server;
 
-import rfb.LogWriter;
-
-import com.nwyun.birdegg.server.Server;
+import com.nwyun.birdegg.util.LogWriter;
 
 /**
  * 
@@ -10,7 +8,7 @@ import com.nwyun.birdegg.server.Server;
  * 
  */
 public class NwServer extends Server {
-	final static LogWriter vlog = new LogWriter("NwServer");
+	final static LogWriter _log = new LogWriter("NwServer");
 
 	public NwServer(String ip, int port, String password) {
 		super(ip, port, password);

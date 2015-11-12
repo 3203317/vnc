@@ -6,18 +6,12 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.net.Socket;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
-import com.glavsoft.rfb.IPasswordRetriever;
-import com.glavsoft.rfb.protocol.Protocol;
-import com.glavsoft.rfb.protocol.ProtocolSettings;
-import com.glavsoft.viewer.UiSettings;
 import com.nwyun.birdegg.server.Server;
 
 /**
@@ -27,16 +21,9 @@ import com.nwyun.birdegg.server.Server;
  */
 public class Connector {
 	private Server _server;
-
 	private JFrame _frame;
-	private JScrollPane _scroller;
-	protected Socket _workingSocket;
-	protected Protocol _workingProtocol;
-	protected ProtocolSettings _rfbSettings;
-	protected String _connectionString;
-	protected UiSettings _uiSettings;
 
-	public Connector(Server server) throws Exception {
+	public Connector(Server server) {
 		_server = server;
 	}
 
@@ -53,13 +40,9 @@ public class Connector {
 		JPanel outerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		outerPanel.setBackground(Color.DARK_GRAY);
 
-		_scroller = new JScrollPane(outerPanel);
-
 		_frame = new JFrame();
 		_frame.setSize(dim);
 		_frame.setLayout(new BorderLayout(0, 0));
-
-		_frame.add(_scroller, BorderLayout.CENTER);
 
 		_frame.setVisible(true);
 		_frame.validate();
@@ -76,18 +59,5 @@ public class Connector {
 					System.exit(0);
 			}
 		});
-	}
-
-	private class PasswordChooser implements IPasswordRetriever {
-		private String connectionString;
-
-		private PasswordChooser(String connectionString) {
-			this.connectionString = connectionString;
-		}
-
-		@Override
-		public String getPassword() {
-			return _server.getPassword();
-		}
 	}
 }

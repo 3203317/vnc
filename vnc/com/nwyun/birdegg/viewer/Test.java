@@ -6,6 +6,10 @@ import java.awt.event.WindowListener;
 import javax.swing.JApplet;
 import javax.swing.SwingUtilities;
 
+import com.nwyun.birdegg.client.Connector;
+import com.nwyun.birdegg.server.NwServer;
+import com.nwyun.birdegg.server.Server;
+
 /**
  * 
  * @author huangxin (3203317@qq.com)
@@ -25,8 +29,9 @@ public class Test extends JApplet implements Runnable, WindowListener {
 
 	@Override
 	public void run() {
-		// TODO
-		System.out.println("run");
+		Server server = new NwServer("192.168.6.128", 5901, "123222");
+		Connector connector = new Connector(server);
+		connector.connect();
 	}
 
 	@Override
