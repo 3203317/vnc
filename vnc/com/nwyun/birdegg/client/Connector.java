@@ -54,19 +54,7 @@ public class Connector {
 				return _server.getPassword();
 			}
 		}, _settings);
-		_protocol.handshake();
+		_protocol.handshake(_server);
 		handler.success();
-	}
-
-	public int getFbHeight() {
-		return _protocol.getFbHeight();
-	}
-
-	public int getFbWidth() {
-		return _protocol.getFbWidth();
-	}
-
-	public String getRemoteDesktopName() {
-		return _protocol.getRemoteDesktopName();
 	}
 }

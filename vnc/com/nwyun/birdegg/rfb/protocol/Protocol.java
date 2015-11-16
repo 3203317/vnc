@@ -3,9 +3,9 @@ package com.nwyun.birdegg.rfb.protocol;
 import java.util.logging.Logger;
 
 import com.nwyun.birdegg.rfb.IPasswordNeed;
-import com.nwyun.birdegg.rfb.encoding.PixelFormat;
 import com.nwyun.birdegg.rfb.protocol.status.ProtocolStatus;
 import com.nwyun.birdegg.rfb.protocol.status.VersionStatus;
+import com.nwyun.birdegg.server.Server;
 import com.nwyun.birdegg.transport.Reader;
 import com.nwyun.birdegg.transport.Writer;
 
@@ -21,10 +21,7 @@ public class Protocol implements ProtocolContext {
 	private ProtocolStatus _status;
 	private final ProtocolSettings _settings;
 	private final IPasswordNeed _passwordNeed;
-	private int _fbWidth;
-	private int _fbHeight;
-	private String _remoteDesktopName;
-	private PixelFormat _pixelFormat;
+	private Server _server;
 
 	public Protocol(Reader reader, Writer writer, IPasswordNeed passwordNeed,
 			ProtocolSettings settings) {
@@ -36,7 +33,8 @@ public class Protocol implements ProtocolContext {
 		_status = new VersionStatus(this);
 	}
 
-	public void handshake() {
+	public void handshake(Server server) {
+		_server = server;
 		_status.next();
 	}
 
@@ -61,43 +59,7 @@ public class Protocol implements ProtocolContext {
 	}
 
 	@Override
-	public int getFbWidth() {
-		return _fbWidth;
-	}
-
-	@Override
-	public void setFbWidth(int frameBufferWidth) {
-		_fbWidth = frameBufferWidth;
-	}
-
-	@Override
-	public int getFbHeight() {
-		return _fbHeight;
-	}
-
-	@Override
-	public void setFbHeight(int frameBufferHeight) {
-		_fbHeight = frameBufferHeight;
-	}
-
-	@Override
-	public void setRemoteDesktopName(String name) {
-		_remoteDesktopName = name;
-
-	}
-
-	@Override
-	public String getRemoteDesktopName() {
-		return _remoteDesktopName;
-	}
-
-	@Override
-	public PixelFormat getPixelFormat() {
-		return _pixelFormat;
-	}
-
-	@Override
-	public void setPixelFormat(PixelFormat pixelFormat) {
-		_pixelFormat = pixelFormat;
+	public Server getServer() {
+		return _server;
 	}
 }

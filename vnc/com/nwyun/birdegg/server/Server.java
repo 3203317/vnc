@@ -1,5 +1,7 @@
 package com.nwyun.birdegg.server;
 
+import com.nwyun.birdegg.rfb.encoding.PixelFormat;
+
 /**
  * 
  * @author huangxin (3203317@qq.com)
@@ -12,6 +14,24 @@ public abstract class Server {
 	private int width;
 	private int height;
 	private String name;
+	private Version version;
+	private PixelFormat pixelFormat;
+
+	public PixelFormat getPixelFormat() {
+		return pixelFormat;
+	}
+
+	public void setPixelFormat(PixelFormat pixelFormat) {
+		this.pixelFormat = pixelFormat;
+	}
+
+	public Version getVersion() {
+		return version;
+	}
+
+	public void setVersion(Version version) {
+		this.version = version;
+	}
 
 	public String getName() {
 		return name;

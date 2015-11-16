@@ -56,8 +56,9 @@ public class VersionStatus extends ProtocolStatus {
 			throw new VersionStatusException("Unsupported protocol version: "
 					+ major + "." + minor);
 
-		_logger.info("set protocol version to: " + protocolString);
 		writer.write(("RFB 00" + major + ".00" + minor + "\n").getBytes());
+		_logger.info("Set protocol version to: " + protocolString);
+		server.setVersion(server.new Version(major, minor));
 		changeStateTo(new SecurityTypeStatus(ctx));
 	}
 }

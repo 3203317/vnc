@@ -24,16 +24,16 @@ public class InitStatus extends ProtocolStatus {
 	}
 
 	private void clientAndServerInit() {
-		ServerInitMessage serverInitMessage = getServerInitMessage();
-		completeContextData(serverInitMessage);
+		ServerInitMessage message = getServerInitMessage();
+		fillServerData(message);
 	}
 
-	protected void completeContextData(ServerInitMessage serverInitMessage) {
-		ctx.setFbHeight(serverInitMessage.getFrameBufferHeight());
-		ctx.setFbWidth(serverInitMessage.getFrameBufferWidth());
-		ctx.setRemoteDesktopName(serverInitMessage.getName());
-		ctx.setPixelFormat(serverInitMessage.getPixelFormat());
-		_logger.info(serverInitMessage.toString());
+	protected void fillServerData(ServerInitMessage message) {
+		server.setHeight(message.getFrameBufferHeight());
+		server.setWidth(message.getFrameBufferWidth());
+		server.setName(message.getName());
+		server.setPixelFormat(message.getPixelFormat());
+		_logger.info(message.toString());
 	}
 
 	private ServerInitMessage getServerInitMessage() {

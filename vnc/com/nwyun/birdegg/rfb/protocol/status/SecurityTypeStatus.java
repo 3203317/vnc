@@ -31,7 +31,7 @@ public class SecurityTypeStatus extends ProtocolStatus {
 		}
 
 		byte[] secTypes = reader.readBytes(secTypesNum);
-		_logger.info("security types received (" + secTypesNum + "): "
+		_logger.info("Security types received (" + secTypesNum + "): "
 				+ Strings.toString(secTypes));
 
 		AuthHandler typeSelected = selectAuthHandler(secTypes,
@@ -40,7 +40,7 @@ public class SecurityTypeStatus extends ProtocolStatus {
 		setUseSecurityResult(typeSelected);
 		// TODO
 		writer.writeByte(typeSelected.getId());
-		_logger.info("security Type accepted: " + typeSelected.getName());
+		_logger.info("Security Type accepted: " + typeSelected.getName());
 		changeStateTo(new AuthenticationStatus(ctx, typeSelected));
 	}
 

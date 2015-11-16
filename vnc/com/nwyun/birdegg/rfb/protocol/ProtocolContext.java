@@ -1,7 +1,7 @@
 package com.nwyun.birdegg.rfb.protocol;
 
 import com.nwyun.birdegg.rfb.IPasswordNeed;
-import com.nwyun.birdegg.rfb.encoding.PixelFormat;
+import com.nwyun.birdegg.server.Server;
 import com.nwyun.birdegg.transport.Reader;
 import com.nwyun.birdegg.transport.Writer;
 
@@ -12,6 +12,8 @@ import com.nwyun.birdegg.transport.Writer;
  */
 public interface ProtocolContext {
 
+	Server getServer();
+
 	Writer getWriter();
 
 	Reader getReader();
@@ -20,19 +22,4 @@ public interface ProtocolContext {
 
 	IPasswordNeed getPasswordNeed();
 
-	int getFbWidth();
-
-	void setFbWidth(int frameBufferWidth);
-
-	int getFbHeight();
-
-	void setFbHeight(int frameBufferHeight);
-
-	String getRemoteDesktopName();
-
-	void setRemoteDesktopName(String name);
-
-	PixelFormat getPixelFormat();
-
-	void setPixelFormat(PixelFormat pixelFormat);
 }

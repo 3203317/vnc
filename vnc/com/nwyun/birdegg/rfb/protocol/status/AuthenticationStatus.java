@@ -36,7 +36,7 @@ public class AuthenticationStatus extends ProtocolStatus {
 			checkSecurityResult();
 		}
 
-		_logger.info("server auth success");
+		_logger.info("Server auth success");
 		changeStateTo(new InitStatus(ctx));
 	}
 

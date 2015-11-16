@@ -1,6 +1,5 @@
 package com.nwyun.birdegg.rfb.encoding;
 
-import com.nwyun.birdegg.exception.TransportException;
 import com.nwyun.birdegg.transport.Reader;
 
 /**
@@ -9,40 +8,40 @@ import com.nwyun.birdegg.transport.Reader;
  * 
  */
 public class ServerInitMessage {
-	protected int frameBufferWidth;
-	protected int frameBufferHeight;
-	protected PixelFormat pixelFormat;
-	protected String name;
+	private int _frameBufferWidth;
+	private int _frameBufferHeight;
+	private PixelFormat _pixelFormat;
+	private String _name;
 
-	public ServerInitMessage(Reader reader) throws TransportException {
-		frameBufferWidth = reader.readUInt16();
-		frameBufferHeight = reader.readUInt16();
-		pixelFormat = new PixelFormat();
-		pixelFormat.fill(reader);
-		name = reader.readString();
+	public ServerInitMessage(Reader reader) {
+		_frameBufferWidth = reader.readUInt16();
+		_frameBufferHeight = reader.readUInt16();
+		_pixelFormat = new PixelFormat();
+		_pixelFormat.fill(reader);
+		_name = reader.readString();
 	}
 
 	public int getFrameBufferWidth() {
-		return frameBufferWidth;
+		return _frameBufferWidth;
 	}
 
 	public int getFrameBufferHeight() {
-		return frameBufferHeight;
+		return _frameBufferHeight;
 	}
 
 	public PixelFormat getPixelFormat() {
-		return pixelFormat;
+		return _pixelFormat;
 	}
 
 	public String getName() {
-		return name;
+		return _name;
 	}
 
 	@Override
 	public String toString() {
-		return "ServerInitMessage: [name: " + name + ", framebuffer-width: "
-				+ String.valueOf(frameBufferWidth) + ", framebuffer-height: "
-				+ String.valueOf(frameBufferHeight) + ", server-pixel-format: "
-				+ pixelFormat + "]";
+		return "ServerInitMessage: [name: " + _name + ", framebuffer-width: "
+				+ String.valueOf(_frameBufferWidth) + ", framebuffer-height: "
+				+ String.valueOf(_frameBufferHeight)
+				+ ", server-pixel-format: " + _pixelFormat + "]";
 	}
 }
