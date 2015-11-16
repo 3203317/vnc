@@ -14,6 +14,7 @@ public class ProtocolSettings implements Serializable {
 
 	public transient CapabilityContainer authCapabilities;
 	private boolean _sharedFlag;
+	private static ProtocolSettings _settings;
 
 	private ProtocolSettings() {
 		_sharedFlag = true;
@@ -21,8 +22,10 @@ public class ProtocolSettings implements Serializable {
 	}
 
 	public static ProtocolSettings getDefaultSettings() {
-		ProtocolSettings settings = new ProtocolSettings();
-		return settings;
+		if (null != _settings)
+			return _settings;
+		_settings = new ProtocolSettings();
+		return _settings;
 	}
 
 	public byte getSharedFlag() {

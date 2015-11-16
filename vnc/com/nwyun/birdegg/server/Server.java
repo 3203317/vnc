@@ -9,6 +9,33 @@ public abstract class Server {
 	private String ip;
 	private int port;
 	private String password;
+	private int width;
+	private int height;
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
 
 	public String getIp() {
 		return ip;

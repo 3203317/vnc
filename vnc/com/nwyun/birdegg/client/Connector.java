@@ -31,7 +31,7 @@ public class Connector {
 		_server = server;
 	}
 
-	public void connect(DoWorkHandler handler) {
+	public void test(DoWorkHandler handler) {
 		_logger.info("connect remote socket " + _server.getIp() + ":"
 				+ _server.getPort());
 		try {
@@ -45,7 +45,7 @@ public class Connector {
 		handler.success();
 	}
 
-	public void handshake(DoWorkHandler handler) {
+	public void connect(DoWorkHandler handler) {
 		_logger.info("rfb server handshake");
 		_settings = ProtocolSettings.getDefaultSettings();
 		_protocol = new Protocol(_reader, _writer, new IPasswordNeed() {

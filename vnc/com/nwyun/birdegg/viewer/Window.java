@@ -5,16 +5,16 @@ package com.nwyun.birdegg.viewer;
  * @author huangxin (3203317@qq.com)
  * 
  */
-public abstract class Window {
-	abstract void setTitle();
+public interface Window {
+	void setTitle();
 
-	abstract String getTitle();
+	String getTitle();
 
-	abstract void setHeight();
+	void setHeight();
 
-	abstract int getHeight();
+	int getHeight();
 
-	abstract void setWidth();
+	void setWidth();
 
-	abstract int getWidth();
+	int getWidth();
 }
