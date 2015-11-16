@@ -42,18 +42,18 @@ public class VersionStatus extends ProtocolStatus {
 		final Matcher matcher = pattern.matcher(protocolString);
 
 		if (!matcher.matches())
-			throw new VersionStatusException("unsupported protocol version: "
+			throw new VersionStatusException("Unsupported protocol version: "
 					+ protocolString);
 
 		int major = Integer.parseInt(matcher.group(1));
 		int minor = Integer.parseInt(matcher.group(2));
 
 		if (major < MAX_SUPPORTED_VERSION_MAJOR)
-			throw new VersionStatusException("unsupported protocol version: "
+			throw new VersionStatusException("Unsupported protocol version: "
 					+ major + "." + minor);
 
 		if (minor < MAX_SUPPORTED_VERSION_MINOR)
-			throw new VersionStatusException("unsupported protocol version: "
+			throw new VersionStatusException("Unsupported protocol version: "
 					+ major + "." + minor);
 
 		_logger.info("set protocol version to: " + protocolString);

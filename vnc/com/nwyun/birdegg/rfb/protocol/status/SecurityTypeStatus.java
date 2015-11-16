@@ -3,8 +3,11 @@ package com.nwyun.birdegg.rfb.protocol.status;
 import java.util.logging.Logger;
 
 import com.nwyun.birdegg.exception.SecurityTypeStatusException;
+import com.nwyun.birdegg.exception.UnsupportedSecurityTypeException;
 import com.nwyun.birdegg.rfb.CapabilityContainer;
 import com.nwyun.birdegg.rfb.protocol.ProtocolContext;
+import com.nwyun.birdegg.rfb.protocol.auth.AuthHandler;
+import com.nwyun.birdegg.rfb.protocol.auth.SecurityType;
 import com.nwyun.birdegg.util.Strings;
 
 /**
@@ -31,13 +34,37 @@ public class SecurityTypeStatus extends ProtocolStatus {
 		_logger.info("security types received (" + secTypesNum + "): "
 				+ Strings.toString(secTypes));
 
-		selectAuthHandler(secTypes, ctx.getSettings().authCapabilities);
+		AuthHandler typeSelected = selectAuthHandler(secTypes,
+				ctx.getSettings().authCapabilities);
+
+		setUseSecurityResult(typeSelected);
+		writer.writeByte(typeSelected.getId());
+		_logger.info("security Type accepted: " + typeSelected.getName());
 	}
 
-	private void selectAuthHandler(byte[] secTypes,
+	private AuthHandler selectAuthHandler(byte[] secTypes,
 			CapabilityContainer authCapabilities) {
+		AuthHandler typeSelected = null;
 		for (byte type : secTypes) {
-			System.out.println(type);
+			if (SecurityType.TIGHT_AUTHENTICATION.getId() == (0xff & type)) {
+				// TODO
+			}
 		}
+
+		for (byte type : secTypes) {
+			typeSelected = SecurityType.implementedSecurityTypes
+					.get(0xff & type);
+			if (null != typeSelected && authCapabilities.isSupported(0))
+				return typeSelected;
+		}
+
+		throw new UnsupportedSecurityTypeException(
+				"No security types supported. Server sent '"
+						+ Strings.toString(secTypes)
+						+ "' security types, but we do not support any of their.");
+	}
+
+	protected void setUseSecurityResult(AuthHandler typeSelected) {
+		// nop for Protocol version 3.8 and above
 	}
 }

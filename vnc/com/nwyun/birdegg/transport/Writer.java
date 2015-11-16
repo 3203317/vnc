@@ -27,7 +27,19 @@ public class Writer {
 		try {
 			_os.write(b, offset, length <= b.length ? length : b.length);
 		} catch (IOException e) {
-			throw new TransportException("cannot write " + length + " bytes", e);
+			throw new TransportException("Cannot write " + length + " bytes", e);
+		}
+	}
+
+	public void writeByte(int b) throws TransportException {
+		write((byte) (b & 0xff));
+	}
+
+	public void write(byte b) throws TransportException {
+		try {
+			_os.writeByte(b);
+		} catch (IOException e) {
+			throw new TransportException("Cannot write byte", e);
 		}
 	}
 }
