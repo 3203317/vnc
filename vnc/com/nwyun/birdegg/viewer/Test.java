@@ -68,8 +68,8 @@ public class Test extends JApplet implements Runnable, WindowListener {
 
 	private void createContainer() {
 		Dimension dim = new Dimension();
-		dim.width = 1024;
-		dim.height = 768;
+		dim.width = _connector.getFbWidth();
+		dim.height = _connector.getFbHeight();
 
 		JPanel outerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		outerPanel.setBackground(Color.DARK_GRAY);
@@ -80,7 +80,7 @@ public class Test extends JApplet implements Runnable, WindowListener {
 
 		_frame.setVisible(true);
 		_frame.validate();
-		_frame.setTitle("vnc");
+		_frame.setTitle(_connector.getRemoteDesktopName());
 
 		_frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 

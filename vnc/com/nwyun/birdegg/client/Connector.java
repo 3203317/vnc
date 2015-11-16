@@ -24,6 +24,7 @@ public class Connector {
 	private Reader _reader;
 	private Writer _writer;
 	private ProtocolSettings _settings;
+	private Protocol _protocol;
 
 	public Connector(Server server) {
 		_logger = Logger.getLogger(getClass().getName());
@@ -47,13 +48,25 @@ public class Connector {
 	public void handshake(DoWorkHandler handler) {
 		_logger.info("rfb server handshake");
 		_settings = ProtocolSettings.getDefaultSettings();
-		Protocol protocol = new Protocol(_reader, _writer, new IPasswordNeed() {
+		_protocol = new Protocol(_reader, _writer, new IPasswordNeed() {
 			@Override
 			public String getPassword() {
 				return _server.getPassword();
 			}
 		}, _settings);
-		protocol.handshake();
+		_protocol.handshake();
 		handler.success();
+	}
+
+	public int getFbHeight() {
+		return _protocol.getFbHeight();
+	}
+
+	public int getFbWidth() {
+		return _protocol.getFbWidth();
+	}
+
+	public String getRemoteDesktopName() {
+		return _protocol.getRemoteDesktopName();
 	}
 }
