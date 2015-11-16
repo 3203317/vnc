@@ -88,8 +88,8 @@ public class Test extends JApplet implements Runnable, WindowListener {
 			@Override
 			public void windowClosing(WindowEvent we) {
 				int ret = JOptionPane.showConfirmDialog(null, "确定关闭吗？", "关闭",
-						JOptionPane.OK_OPTION);
-				if (ret == JOptionPane.OK_OPTION)
+						JOptionPane.YES_NO_OPTION);
+				if (JOptionPane.YES_OPTION == ret)
 					System.exit(0);
 			}
 		});
