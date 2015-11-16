@@ -48,13 +48,17 @@ public class Connector {
 	public void connect(DoWorkHandler handler) {
 		_logger.info("rfb server handshake");
 		_settings = ProtocolSettings.getDefaultSettings();
-		_protocol = new Protocol(_reader, _writer, new IPasswordNeed() {
-			@Override
-			public String getPassword() {
-				return _server.getPassword();
-			}
-		}, _settings);
+		// TODO
+		_protocol = new Protocol(_reader, _writer, new PasswordChooser(),
+				_settings);
 		_protocol.handshake(_server);
 		handler.success();
+	}
+
+	private class PasswordChooser implements IPasswordNeed {
+		@Override
+		public String getPassword() {
+			return _server.getPassword();
+		}
 	}
 }

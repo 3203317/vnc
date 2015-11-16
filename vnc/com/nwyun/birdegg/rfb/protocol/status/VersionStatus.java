@@ -33,9 +33,9 @@ public class VersionStatus extends ProtocolStatus {
 	}
 
 	@Override
-	public void next() throws VersionStatusException {
+	public void next() {
 		String protocolString = reader.readString(PROTOCOL_STRING_LENGTH);
-		_logger.info("server sent protocol string: "
+		_logger.info("Server sent protocol string: "
 				+ protocolString.substring(0, protocolString.length() - 1));
 
 		Pattern pattern = Pattern.compile(PROTOCOL_STRING_REGEXP);

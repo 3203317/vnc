@@ -36,7 +36,7 @@ public class VncAuthentication extends AuthHandler {
 		byte[] challenge = reader.readBytes(16);
 		String password = passwordNeed.getPassword();
 		if (null == password)
-			return;
+			password = "";
 		byte[] key = new byte[8];
 		System.arraycopy(password.getBytes(), 0, key, 0,
 				Math.min(key.length, password.getBytes().length));
