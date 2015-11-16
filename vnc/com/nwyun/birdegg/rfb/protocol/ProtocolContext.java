@@ -1,5 +1,6 @@
 package com.nwyun.birdegg.rfb.protocol;
 
+import com.nwyun.birdegg.rfb.IPasswordNeed;
 import com.nwyun.birdegg.transport.Reader;
 import com.nwyun.birdegg.transport.Writer;
 
@@ -15,4 +16,6 @@ public interface ProtocolContext {
 	Reader getReader();
 
 	ProtocolSettings getSettings();
+
+	IPasswordNeed getPasswordNeed();
 }

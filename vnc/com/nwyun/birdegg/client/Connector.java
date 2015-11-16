@@ -4,6 +4,7 @@ import java.net.Socket;
 import java.util.logging.Logger;
 
 import com.nwyun.birdegg.exception.ConnectSocketException;
+import com.nwyun.birdegg.rfb.IPasswordNeed;
 import com.nwyun.birdegg.rfb.protocol.Protocol;
 import com.nwyun.birdegg.rfb.protocol.ProtocolSettings;
 import com.nwyun.birdegg.server.Server;
@@ -46,7 +47,12 @@ public class Connector {
 	public void handshake(DoWorkHandler handler) {
 		_logger.info("rfb server handshake");
 		_settings = ProtocolSettings.getDefaultSettings();
-		Protocol protocol = new Protocol(_reader, _writer, _settings);
+		Protocol protocol = new Protocol(_reader, _writer, new IPasswordNeed() {
+			@Override
+			public String getPassword() {
+				return _server.getPassword();
+			}
+		}, _settings);
 		protocol.handshake();
 		handler.success();
 	}

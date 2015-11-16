@@ -29,21 +29,19 @@ public class AuthenticationStatus extends ProtocolStatus {
 
 	@Override
 	public void next() {
-		boolean isTight = false;
+		_authHandler.authenticate(reader, writer,
+				ctx.getSettings().authCapabilities, ctx.getPasswordNeed());
 		// skip when protocol < 3.8 and NONE_AUTH
 		if (true) {
 			checkSecurityResult();
 		}
 
-		_logger.info("auth success");
-		changeStateTo(isTight ? null : new InitStatus(ctx));
+		_logger.info("server auth success");
+		changeStateTo(new InitStatus(ctx));
 	}
 
 	/**
-	 * Check Security Result received from server
-	 * May be:
-	 * * 0 - OK
-	 * * 1 - Failed
+	 * Check Security Result received from server May be: * 0 - OK * 1 - Failed
 	 * 
 	 * @throws TransportException
 	 * @throws AuthenticationFailedException

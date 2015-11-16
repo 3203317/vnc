@@ -42,7 +42,7 @@ public class Test extends JApplet implements Runnable, WindowListener {
 
 	@Override
 	public void run() {
-		Server server = new NwServer("192.168.6.128", 5901);
+		Server server = new NwServer("192.168.6.128", 5901, "123222");
 		_connector = new Connector(server);
 		_connector.connect(new DoWorkHandler() {
 			@Override

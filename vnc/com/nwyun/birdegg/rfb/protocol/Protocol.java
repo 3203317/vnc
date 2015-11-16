@@ -2,6 +2,7 @@ package com.nwyun.birdegg.rfb.protocol;
 
 import java.util.logging.Logger;
 
+import com.nwyun.birdegg.rfb.IPasswordNeed;
 import com.nwyun.birdegg.rfb.protocol.status.ProtocolStatus;
 import com.nwyun.birdegg.rfb.protocol.status.VersionStatus;
 import com.nwyun.birdegg.transport.Reader;
@@ -18,12 +19,15 @@ public class Protocol implements ProtocolContext {
 	private Writer _writer;
 	private ProtocolStatus _status;
 	private final ProtocolSettings _settings;
+	private final IPasswordNeed _passwordNeed;
 
-	public Protocol(Reader reader, Writer writer, ProtocolSettings settings) {
+	public Protocol(Reader reader, Writer writer, IPasswordNeed passwordNeed,
+			ProtocolSettings settings) {
 		_logger = Logger.getLogger(getClass().getName());
 		_reader = reader;
 		_writer = writer;
 		_settings = settings;
+		_passwordNeed = passwordNeed;
 		_status = new VersionStatus(this);
 	}
 
@@ -44,5 +48,10 @@ public class Protocol implements ProtocolContext {
 	@Override
 	public ProtocolSettings getSettings() {
 		return _settings;
+	}
+
+	@Override
+	public IPasswordNeed getPasswordNeed() {
+		return _passwordNeed;
 	}
 }
