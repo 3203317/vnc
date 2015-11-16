@@ -15,19 +15,14 @@ public class Writer {
 	private final DataOutputStream _os;
 
 	public Writer(OutputStream os) {
-		_os = new DataOutputStream(os);
+		this._os = new DataOutputStream(os);
 	}
 
-	public void write(byte[] b) {
-		write(b, 0, b.length);
-	}
-
-	public void write(byte[] b, int offset, int length)
-			throws TransportException {
+	public void flush() throws TransportException {
 		try {
-			_os.write(b, offset, length <= b.length ? length : b.length);
+			_os.flush();
 		} catch (IOException e) {
-			throw new TransportException("Cannot write " + length + " bytes", e);
+			throw new TransportException("Cannot flush output stream", e);
 		}
 	}
 
@@ -40,6 +35,55 @@ public class Writer {
 			_os.writeByte(b);
 		} catch (IOException e) {
 			throw new TransportException("Cannot write byte", e);
+		}
+	}
+
+	public void writeInt16(int sh) throws TransportException {
+		write((short) (sh & 0xffff));
+	}
+
+	public void write(short sh) throws TransportException {
+		try {
+			_os.writeShort(sh);
+		} catch (IOException e) {
+			throw new TransportException("Cannot write short", e);
+		}
+	}
+
+	public void writeInt32(int i) throws TransportException {
+		write(i);
+	}
+
+	public void writeInt64(long i) throws TransportException {
+		try {
+			_os.writeLong(i);
+		} catch (IOException e) {
+			throw new TransportException("Cannot write long", e);
+		}
+	}
+
+	public void write(int i) throws TransportException {
+		try {
+			_os.writeInt(i);
+		} catch (IOException e) {
+			throw new TransportException("Cannot write int", e);
+		}
+	}
+
+	public void write(byte[] b) throws TransportException {
+		write(b, 0, b.length);
+	}
+
+	public void write(byte[] b, int length) throws TransportException {
+		write(b, 0, length);
+	}
+
+	public void write(byte[] b, int offset, int length)
+			throws TransportException {
+		try {
+			_os.write(b, offset, length <= b.length ? length : b.length);
+		} catch (IOException e) {
+			throw new TransportException("Cannot write " + length + " bytes", e);
 		}
 	}
 }
