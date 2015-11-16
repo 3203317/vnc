@@ -32,7 +32,7 @@ public class Connector {
 	}
 
 	public void test(DoWorkHandler handler) {
-		_logger.info("connect remote socket " + _server.getIp() + ":"
+		_logger.info("Connect remote socket " + _server.getIp() + ":"
 				+ _server.getPort());
 		try {
 			_socket = new Socket(_server.getIp(), _server.getPort());
@@ -46,7 +46,7 @@ public class Connector {
 	}
 
 	public void connect(DoWorkHandler handler) {
-		_logger.info("rfb server handshake");
+		_logger.info("RFB Server handshake");
 		_settings = ProtocolSettings.getDefaultSettings();
 		// TODO
 		_protocol = new Protocol(_server, _reader, _writer,
