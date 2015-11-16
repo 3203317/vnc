@@ -1,9 +1,20 @@
 package com.nwyun.birdegg.viewer;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.logging.Logger;
 
-import javax.swing.JApplet;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
+
+import com.nwyun.birdegg.server.Server;
 
 /**
  * 
@@ -11,67 +22,50 @@ import javax.swing.JApplet;
  * 
  */
 @SuppressWarnings("serial")
-public class JWindow extends JApplet implements Runnable, WindowListener,
-		Window {
+public class JWindow extends JFrame implements WindowListener, Window {
+	private final Logger _logger;
+	private Server _server;
 
-	@Override
-	public void windowActivated(WindowEvent arg0) {
-		// TODO Auto-generated method stub
+	public JWindow(Server server) {
+		_logger = Logger.getLogger(getClass().getName());
+		_server = server;
+		bindEvent();
+		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+	}
 
+	private void bindEvent() {
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent event) {
+				int ret = JOptionPane.showConfirmDialog(null, "确定关闭吗？", "关闭",
+						JOptionPane.YES_NO_OPTION);
+				if (JOptionPane.YES_OPTION == ret)
+					System.exit(0);
+			}
+		});
 	}
 
 	@Override
-	public void windowClosed(WindowEvent arg0) {
-		// TODO Auto-generated method stub
+	public void open() {
+		Dimension dim = new Dimension();
+		dim.width = _server.getWidth();
+		dim.height = _server.getHeight();
 
-	}
+		JPanel outerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+		outerPanel.setBackground(Color.DARK_GRAY);
 
-	@Override
-	public void windowClosing(WindowEvent arg0) {
-		// TODO Auto-generated method stub
+		setSize(dim);
+		setLayout(new BorderLayout(0, 0));
 
-	}
-
-	@Override
-	public void windowDeactivated(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void windowDeiconified(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void windowIconified(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void windowOpened(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-
+		validate();
+		setVisible(true);
+		setTitle(_server.getName());
 	}
 
 	@Override
 	public void setTitle() {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -86,4 +80,45 @@ public class JWindow extends JApplet implements Runnable, WindowListener,
 
 	}
 
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+
+	}
 }

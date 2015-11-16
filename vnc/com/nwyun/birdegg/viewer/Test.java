@@ -12,6 +12,7 @@ import com.nwyun.birdegg.util.DoWorkHandler;
  */
 public class Test implements Runnable {
 	private Connector _connector;
+	private Server _server;
 
 	public static void main(String[] args) {
 		Test t = new Test();
@@ -24,8 +25,8 @@ public class Test implements Runnable {
 
 	@Override
 	public void run() {
-		Server server = new NwServer("192.168.6.128", 5901, "123222");
-		_connector = new Connector(server);
+		_server = new NwServer("192.168.6.128", 5901, "123222");
+		_connector = new Connector(_server);
 		_connector.test(new DoWorkHandler() {
 			@Override
 			public void success() {
@@ -38,8 +39,13 @@ public class Test implements Runnable {
 		_connector.connect(new DoWorkHandler() {
 			@Override
 			public void success() {
-				// TODO
+				createWindow();
 			}
 		});
+	}
+
+	private void createWindow() {
+		JWindow window = new JWindow(_server);
+		window.open();
 	}
 }

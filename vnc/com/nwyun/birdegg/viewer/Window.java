@@ -17,4 +17,6 @@ public interface Window {
 	void setWidth();
 
 	int getWidth();
+
+	void open();
 }

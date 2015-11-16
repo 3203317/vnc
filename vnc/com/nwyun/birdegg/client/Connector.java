@@ -49,9 +49,9 @@ public class Connector {
 		_logger.info("rfb server handshake");
 		_settings = ProtocolSettings.getDefaultSettings();
 		// TODO
-		_protocol = new Protocol(_reader, _writer, new PasswordChooser(),
-				_settings);
-		_protocol.handshake(_server);
+		_protocol = new Protocol(_server, _reader, _writer,
+				new PasswordChooser(), _settings);
+		_protocol.handshake();
 		handler.success();
 	}
 

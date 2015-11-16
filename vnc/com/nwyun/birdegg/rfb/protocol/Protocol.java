@@ -23,9 +23,10 @@ public class Protocol implements ProtocolContext {
 	private final IPasswordNeed _passwordNeed;
 	private Server _server;
 
-	public Protocol(Reader reader, Writer writer, IPasswordNeed passwordNeed,
-			ProtocolSettings settings) {
+	public Protocol(Server server, Reader reader, Writer writer,
+			IPasswordNeed passwordNeed, ProtocolSettings settings) {
 		_logger = Logger.getLogger(getClass().getName());
+		_server = server;
 		_reader = reader;
 		_writer = writer;
 		_settings = settings;
@@ -33,8 +34,7 @@ public class Protocol implements ProtocolContext {
 		_status = new VersionStatus(this);
 	}
 
-	public void handshake(Server server) {
-		_server = server;
+	public void handshake() {
 		_status.next();
 	}
 
