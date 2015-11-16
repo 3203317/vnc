@@ -13,4 +13,6 @@ public interface ProtocolContext {
 	Writer getWriter();
 
 	Reader getReader();
+
+	ProtocolSettings getSettings();
 }

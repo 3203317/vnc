@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import com.nwyun.birdegg.exception.ConnectSocketException;
 import com.nwyun.birdegg.rfb.protocol.Protocol;
+import com.nwyun.birdegg.rfb.protocol.ProtocolSettings;
 import com.nwyun.birdegg.server.Server;
 import com.nwyun.birdegg.transport.Reader;
 import com.nwyun.birdegg.transport.Writer;
@@ -21,6 +22,7 @@ public class Connector {
 	private Socket _socket;
 	private Reader _reader;
 	private Writer _writer;
+	private ProtocolSettings _settings;
 
 	public Connector(Server server) {
 		_logger = Logger.getLogger(getClass().getName());
@@ -43,7 +45,8 @@ public class Connector {
 
 	public void handshake(DoWorkHandler handler) {
 		_logger.info("rfb server handshake");
-		Protocol protocol = new Protocol(_reader, _writer);
+		_settings = ProtocolSettings.getDefaultSettings();
+		Protocol protocol = new Protocol(_reader, _writer, _settings);
 		protocol.handshake();
 		handler.success();
 	}

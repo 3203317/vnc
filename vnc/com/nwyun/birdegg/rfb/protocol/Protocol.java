@@ -17,11 +17,13 @@ public class Protocol implements ProtocolContext {
 	private Reader _reader;
 	private Writer _writer;
 	private ProtocolStatus _status;
+	private final ProtocolSettings _settings;
 
-	public Protocol(Reader reader, Writer writer) {
+	public Protocol(Reader reader, Writer writer, ProtocolSettings settings) {
 		_logger = Logger.getLogger(getClass().getName());
 		_reader = reader;
 		_writer = writer;
+		_settings = settings;
 		_status = new VersionStatus(this);
 	}
 
@@ -37,5 +39,10 @@ public class Protocol implements ProtocolContext {
 	@Override
 	public Reader getReader() {
 		return _reader;
+	}
+
+	@Override
+	public ProtocolSettings getSettings() {
+		return _settings;
 	}
 }
