@@ -38,8 +38,10 @@ public class SecurityTypeStatus extends ProtocolStatus {
 				ctx.getSettings().authCapabilities);
 
 		setUseSecurityResult(typeSelected);
+		// TODO
 		writer.writeByte(typeSelected.getId());
 		_logger.info("security Type accepted: " + typeSelected.getName());
+		changeStateTo(new AuthenticationStatus(ctx, typeSelected));
 	}
 
 	private AuthHandler selectAuthHandler(byte[] secTypes,
