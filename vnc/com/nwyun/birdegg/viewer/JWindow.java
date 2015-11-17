@@ -25,16 +25,17 @@ import com.nwyun.birdegg.server.Server;
 public class JWindow extends JFrame implements WindowListener, Window {
 	private final Logger _logger;
 	private Server _server;
+	private Dimension _dimension;
 
-	public JWindow(Server server) {
+	public JWindow() {
 		_logger = Logger.getLogger(getClass().getName());
-		_server = server;
+		_dimension = new Dimension();
 		bindEvent();
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 	}
 
 	private void bindEvent() {
-		this.addWindowListener(new WindowAdapter() {
+		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent event) {
 				int ret = JOptionPane.showConfirmDialog(null, "确定关闭吗？", "关闭",
@@ -46,38 +47,16 @@ public class JWindow extends JFrame implements WindowListener, Window {
 	}
 
 	@Override
-	public void open() {
-		Dimension dim = new Dimension();
-		dim.width = _server.getWidth();
-		dim.height = _server.getHeight();
-
+	public void open(String title) {
 		JPanel outerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		outerPanel.setBackground(Color.DARK_GRAY);
 
-		setSize(dim);
+		setSize(_dimension);
 		setLayout(new BorderLayout(0, 0));
 
-		validate();
 		setVisible(true);
-		setTitle(_server.getName());
-	}
-
-	@Override
-	public void setTitle() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setHeight() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setWidth() {
-		// TODO Auto-generated method stub
-
+		validate();
+		setTitle(title);
 	}
 
 	@Override
@@ -120,5 +99,20 @@ public class JWindow extends JFrame implements WindowListener, Window {
 	public void windowOpened(WindowEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void setServer(Server server) {
+		_server = server;
+	}
+
+	@Override
+	public void setHeight(int height) {
+		_dimension.height = height;
+	}
+
+	@Override
+	public void setWidth(int width) {
+		_dimension.width = width;
 	}
 }

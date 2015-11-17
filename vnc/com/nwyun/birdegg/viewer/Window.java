@@ -1,22 +1,22 @@
 package com.nwyun.birdegg.viewer;
 
+import com.nwyun.birdegg.server.Server;
+
 /**
  * 
  * @author huangxin (3203317@qq.com)
  * 
  */
 public interface Window {
-	void setTitle();
-
-	String getTitle();
-
-	void setHeight();
+	void setHeight(int height);
 
 	int getHeight();
 
-	void setWidth();
+	void setWidth(int width);
 
 	int getWidth();
 
-	void open();
+	void setServer(Server server);
+
+	void open(String title);
 }

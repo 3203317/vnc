@@ -46,8 +46,11 @@ public class Test implements Runnable {
 	}
 
 	private void createWindow() {
-		JWindow window = new JWindow(_server);
-		window.open();
+		JWindow window = new JWindow();
+		window.setServer(_server);
+		window.setHeight(_server.getHeight());
+		window.setWidth(_server.getWidth());
+		window.open(_server.getName());
 	}
 
 	private class PasswordChooser implements IPasswordNeed {
