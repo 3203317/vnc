@@ -3,7 +3,6 @@ package com.nwyun.birdegg.client;
 import java.net.Socket;
 import java.util.logging.Logger;
 
-import com.nwyun.birdegg.exception.ConnectSocketException;
 import com.nwyun.birdegg.rfb.IPasswordNeed;
 import com.nwyun.birdegg.rfb.protocol.Protocol;
 import com.nwyun.birdegg.rfb.protocol.ProtocolSettings;
@@ -40,7 +39,8 @@ public class Connector {
 			_reader = new Reader(_socket.getInputStream());
 			_writer = new Writer(_socket.getOutputStream());
 		} catch (Exception e) {
-			throw new ConnectSocketException();
+			handler.failure(e);
+			return;
 		}
 		handler.success();
 	}
@@ -51,7 +51,12 @@ public class Connector {
 		// TODO
 		_protocol = new Protocol(_server, _reader, _writer, passwordNeed,
 				_settings);
-		_protocol.handshake();
+		try {
+			_protocol.handshake();
+		} catch (Exception e) {
+			handler.failure(e);
+			return;
+		}
 		handler.success();
 	}
 }

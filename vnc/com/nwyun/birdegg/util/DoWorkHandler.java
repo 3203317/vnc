@@ -6,7 +6,7 @@ package com.nwyun.birdegg.util;
  * 
  */
 public abstract class DoWorkHandler {
-	public void failure() {
+	public void failure(Throwable e) {
 		// TODO
 	}
 

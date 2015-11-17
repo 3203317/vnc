@@ -1,5 +1,7 @@
 package com.nwyun.birdegg.viewer;
 
+import java.util.logging.Logger;
+
 import com.nwyun.birdegg.client.Connector;
 import com.nwyun.birdegg.rfb.IPasswordNeed;
 import com.nwyun.birdegg.server.NwServer;
@@ -12,6 +14,7 @@ import com.nwyun.birdegg.util.DoWorkHandler;
  * 
  */
 public class Test implements Runnable {
+	private final Logger _logger;
 	private Connector _connector;
 	private Server _server;
 
@@ -21,7 +24,7 @@ public class Test implements Runnable {
 	}
 
 	public Test() {
-		// TODO
+		_logger = Logger.getLogger(getClass().getName());
 	}
 
 	@Override
@@ -33,6 +36,12 @@ public class Test implements Runnable {
 			public void success() {
 				connect();
 			}
+
+			@Override
+			public void failure(Throwable e) {
+				e.printStackTrace();
+				_logger.warning(e.getMessage());
+			}
 		});
 	}
 
@@ -41,6 +50,12 @@ public class Test implements Runnable {
 			@Override
 			public void success() {
 				createWindow();
+			}
+
+			@Override
+			public void failure(Throwable e) {
+				e.printStackTrace();
+				_logger.warning(e.getMessage());
 			}
 		});
 	}
