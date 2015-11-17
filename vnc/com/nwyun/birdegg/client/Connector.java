@@ -31,7 +31,7 @@ public class Connector {
 		_server = server;
 	}
 
-	public void test(DoWorkHandler handler) {
+	public void connect(DoWorkHandler handler) {
 		_logger.info("Connect remote socket " + _server.getIp() + ":"
 				+ _server.getPort());
 		try {
@@ -45,20 +45,13 @@ public class Connector {
 		handler.success();
 	}
 
-	public void connect(DoWorkHandler handler) {
+	public void handshake(IPasswordNeed passwordNeed, DoWorkHandler handler) {
 		_logger.info("RFB Server handshake");
 		_settings = ProtocolSettings.getDefaultSettings();
 		// TODO
-		_protocol = new Protocol(_server, _reader, _writer,
-				new PasswordChooser(), _settings);
+		_protocol = new Protocol(_server, _reader, _writer, passwordNeed,
+				_settings);
 		_protocol.handshake();
 		handler.success();
-	}
-
-	private class PasswordChooser implements IPasswordNeed {
-		@Override
-		public String getPassword() {
-			return _server.getPassword();
-		}
 	}
 }

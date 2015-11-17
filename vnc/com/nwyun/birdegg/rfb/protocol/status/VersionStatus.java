@@ -57,7 +57,7 @@ public class VersionStatus extends ProtocolStatus {
 					+ major + "." + minor);
 
 		writer.write(("RFB 00" + major + ".00" + minor + "\n").getBytes());
-		_logger.info("Set protocol version to: " + protocolString);
+		_logger.info("Set protocol version to: " + protocolString.trim());
 		server.setVersion(server.new Version(major, minor));
 		changeStateTo(new SecurityTypeStatus(ctx));
 	}

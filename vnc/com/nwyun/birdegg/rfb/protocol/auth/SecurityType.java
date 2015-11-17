@@ -9,10 +9,9 @@ import java.util.Map;
  * 
  */
 public enum SecurityType {
-	NONE_AUTHENTICATION(1), VNC_AUTHENTICATION(2),
+	NONE_AUTHENTICATION(1), VNC_AUTHENTICATION(2);
 	// int RA2_AUTHENTICATION = 5;
 	// int RA2NE_AUTHENTICATION = 6;
-	TIGHT_AUTHENTICATION(16);
 	// int ULTRA_AUTHENTICATION = 17;
 	// int TLS_AUTHENTICATION = 18;
 	// int VENCRYPT_AUTHENTICATION = 19;
@@ -27,6 +26,7 @@ public enum SecurityType {
 		return id;
 	}
 
+	@SuppressWarnings("serial")
 	public static Map<Integer, AuthHandler> implementedSecurityTypes = new LinkedHashMap<Integer, AuthHandler>() {
 		{
 			put(VNC_AUTHENTICATION.getId(), new VncAuthentication());

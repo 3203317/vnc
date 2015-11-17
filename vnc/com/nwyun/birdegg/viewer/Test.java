@@ -1,6 +1,7 @@
 package com.nwyun.birdegg.viewer;
 
 import com.nwyun.birdegg.client.Connector;
+import com.nwyun.birdegg.rfb.IPasswordNeed;
 import com.nwyun.birdegg.server.NwServer;
 import com.nwyun.birdegg.server.Server;
 import com.nwyun.birdegg.util.DoWorkHandler;
@@ -25,9 +26,9 @@ public class Test implements Runnable {
 
 	@Override
 	public void run() {
-		_server = new NwServer("192.168.6.128", 5901, "123222");
+		_server = new NwServer("192.168.6.128", 5901);
 		_connector = new Connector(_server);
-		_connector.test(new DoWorkHandler() {
+		_connector.connect(new DoWorkHandler() {
 			@Override
 			public void success() {
 				connect();
@@ -36,7 +37,7 @@ public class Test implements Runnable {
 	}
 
 	private void connect() {
-		_connector.connect(new DoWorkHandler() {
+		_connector.handshake(new PasswordChooser(), new DoWorkHandler() {
 			@Override
 			public void success() {
 				createWindow();
@@ -47,5 +48,12 @@ public class Test implements Runnable {
 	private void createWindow() {
 		JWindow window = new JWindow(_server);
 		window.open();
+	}
+
+	private class PasswordChooser implements IPasswordNeed {
+		@Override
+		public String getPassword() {
+			return "123222";
+		}
 	}
 }

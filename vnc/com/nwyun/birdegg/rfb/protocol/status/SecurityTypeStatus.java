@@ -48,9 +48,7 @@ public class SecurityTypeStatus extends ProtocolStatus {
 			CapabilityContainer authCapabilities) {
 		AuthHandler typeSelected = null;
 		for (byte type : secTypes) {
-			if (SecurityType.TIGHT_AUTHENTICATION.getId() == (0xff & type)) {
-				// TODO
-			}
+			// TODO
 		}
 
 		for (byte type : secTypes) {
