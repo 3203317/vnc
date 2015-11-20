@@ -38,7 +38,7 @@ public class JWindow extends JFrame implements WindowListener, Window {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent event) {
-				int ret = JOptionPane.showConfirmDialog(null, "确定关闭吗？", "关闭",
+				int ret = JOptionPane.showConfirmDialog(null, "确定要关闭吗？", "关闭",
 						JOptionPane.YES_NO_OPTION);
 				if (JOptionPane.YES_OPTION == ret)
 					System.exit(0);
