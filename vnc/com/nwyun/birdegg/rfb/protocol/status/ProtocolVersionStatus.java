@@ -48,11 +48,8 @@ public class ProtocolVersionStatus extends ProtocolStatus {
 		int _major = Integer.parseInt(_matcher.group(1));
 		int _minor = Integer.parseInt(_matcher.group(2));
 
-		if (_major < MAX_SUPPORTED_VERSION_MAJOR)
-			throw new UnsupportedProtocolVersionException(
-					"Unsupported protocol version: " + _major + "." + _minor);
-
-		if (_minor < MAX_SUPPORTED_VERSION_MINOR)
+		if (_major < MAX_SUPPORTED_VERSION_MAJOR
+				|| _minor < MAX_SUPPORTED_VERSION_MINOR)
 			throw new UnsupportedProtocolVersionException(
 					"Unsupported protocol version: " + _major + "." + _minor);
 
