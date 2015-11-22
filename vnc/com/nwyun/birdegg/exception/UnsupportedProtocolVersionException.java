@@ -6,9 +6,9 @@ package com.nwyun.birdegg.exception;
  * 
  */
 @SuppressWarnings("serial")
-public class VersionStatusException extends RuntimeException {
+public class UnsupportedProtocolVersionException extends RuntimeException {
 
-	public VersionStatusException(String message) {
+	public UnsupportedProtocolVersionException(String message) {
 		super(message);
 	}
 }

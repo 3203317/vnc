@@ -11,11 +11,11 @@ import com.nwyun.birdegg.rfb.protocol.ProtocolContext;
  * 
  */
 public class InitStatus extends ProtocolStatus {
-	private final Logger _logger;
+	private final Logger logger;
 
 	public InitStatus(ProtocolContext ctx) {
 		super(ctx);
-		_logger = Logger.getLogger(getClass().getName());
+		logger = Logger.getLogger(getClass().getName());
 	}
 
 	@Override
@@ -28,12 +28,12 @@ public class InitStatus extends ProtocolStatus {
 		fillServerData(message);
 	}
 
-	protected void fillServerData(ServerInitMessage message) {
-		server.setHeight(message.getFrameBufferHeight());
-		server.setWidth(message.getFrameBufferWidth());
-		server.setName(message.getName());
-		server.setPixelFormat(message.getPixelFormat());
-		_logger.info(message.toString());
+	protected void fillServerData(ServerInitMessage _message) {
+		ctx.setFrameBufferHeight(_message.getFrameBufferHeight());
+		ctx.setFrameBufferWidth(_message.getFrameBufferWidth());
+		ctx.setRemoteDesktopName(_message.getName());
+		ctx.setPixelFormat(_message.getPixelFormat());
+		logger.info(_message.toString());
 	}
 
 	private ServerInitMessage getServerInitMessage() {

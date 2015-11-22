@@ -36,4 +36,8 @@ public interface ProtocolContext {
 
 	PixelFormat getPixelFormat();
 
+	void setProtocolVersion(String protocolVersion);
+
+	String getProtocolVersion();
+
 }

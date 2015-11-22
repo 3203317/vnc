@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.nwyun.birdegg.exception.VersionStatusException;
+import com.nwyun.birdegg.exception.UnsupportedProtocolVersionException;
 import com.nwyun.birdegg.rfb.protocol.ProtocolContext;
 
 /**
@@ -13,7 +13,7 @@ import com.nwyun.birdegg.rfb.protocol.ProtocolContext;
  * 
  */
 public class ProtocolVersionStatus extends ProtocolStatus {
-	private final Logger _logger;
+	private final Logger logger;
 	public static final String PROTOCOL_VERSION_3_8 = "3.8";
 	public static final String PROTOCOL_VERSION_3_7 = "3.7";
 	public static final String PROTOCOL_VERSION_3_3 = "3.3";
@@ -29,36 +29,36 @@ public class ProtocolVersionStatus extends ProtocolStatus {
 
 	public ProtocolVersionStatus(ProtocolContext ctx) {
 		super(ctx);
-		_logger = Logger.getLogger(getClass().getName());
+		logger = Logger.getLogger(getClass().getName());
 	}
 
 	@Override
 	public void execute() {
-		String protocolString = reader.readString(PROTOCOL_STRING_LENGTH);
-		_logger.info("Server sent protocol string: "
-				+ protocolString.substring(0, protocolString.length() - 1));
+		String _protocolString = reader.readString(PROTOCOL_STRING_LENGTH);
+		logger.info("Server sent protocol string: "
+				+ _protocolString.substring(0, _protocolString.length() - 1));
 
-		Pattern pattern = Pattern.compile(PROTOCOL_STRING_REGEXP);
-		final Matcher matcher = pattern.matcher(protocolString);
+		Pattern _pattern = Pattern.compile(PROTOCOL_STRING_REGEXP);
+		final Matcher _matcher = _pattern.matcher(_protocolString);
 
-		if (!matcher.matches())
-			throw new VersionStatusException("Unsupported protocol version: "
-					+ protocolString);
+		if (!_matcher.matches())
+			throw new UnsupportedProtocolVersionException(
+					"Unsupported protocol version: " + _protocolString);
 
-		int major = Integer.parseInt(matcher.group(1));
-		int minor = Integer.parseInt(matcher.group(2));
+		int _major = Integer.parseInt(_matcher.group(1));
+		int _minor = Integer.parseInt(_matcher.group(2));
 
-		if (major < MAX_SUPPORTED_VERSION_MAJOR)
-			throw new VersionStatusException("Unsupported protocol version: "
-					+ major + "." + minor);
+		if (_major < MAX_SUPPORTED_VERSION_MAJOR)
+			throw new UnsupportedProtocolVersionException(
+					"Unsupported protocol version: " + _major + "." + _minor);
 
-		if (minor < MAX_SUPPORTED_VERSION_MINOR)
-			throw new VersionStatusException("Unsupported protocol version: "
-					+ major + "." + minor);
+		if (_minor < MAX_SUPPORTED_VERSION_MINOR)
+			throw new UnsupportedProtocolVersionException(
+					"Unsupported protocol version: " + _major + "." + _minor);
 
-		writer.write(("RFB 00" + major + ".00" + minor + "\n").getBytes());
-		_logger.info("Set protocol version to: " + protocolString.trim());
-		server.setVersion(server.new Version(major, minor));
+		writer.write(("RFB 00" + _major + ".00" + _minor + "\n").getBytes());
+		logger.info("Set protocol version to: " + _protocolString.trim());
+		ctx.setProtocolVersion(_major + "." + _minor);
 		changeStatusTo(new SecurityTypeStatus(ctx));
 	}
 }

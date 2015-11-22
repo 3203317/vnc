@@ -15,50 +15,51 @@ import com.nwyun.birdegg.transport.Writer;
  * 
  */
 public class Protocol implements ProtocolContext {
-	private final Logger _logger;
-	private Reader _reader;
-	private Writer _writer;
-	private ProtocolStatus _status;
-	private final ProtocolSettings _settings;
-	private final IPasswordNeed _passwordNeed;
+	private final Logger logger;
+	private Reader reader;
+	private Writer writer;
+	private ProtocolStatus status;
+	private final ProtocolSettings settings;
+	private final IPasswordNeed passwordNeed;
 	// GET SET
 	private int frameBufferHeight;
 	private int frameBufferWidth;
 	private String remoteDesktopName;
 	private PixelFormat pixelFormat;
+	private String protocolVersion;
 
 	public Protocol(Reader reader, Writer writer, IPasswordNeed passwordNeed,
 			ProtocolSettings settings) {
-		_logger = Logger.getLogger(getClass().getName());
-		_reader = reader;
-		_writer = writer;
-		_settings = settings;
-		_passwordNeed = passwordNeed;
-		_status = new ProtocolVersionStatus(this);
+		logger = Logger.getLogger(getClass().getName());
+		this.reader = reader;
+		this.writer = writer;
+		this.settings = settings;
+		this.passwordNeed = passwordNeed;
+		status = new ProtocolVersionStatus(this);
 	}
 
 	public void handshake() {
-		_status.execute();
+		status.execute();
 	}
 
 	@Override
 	public Writer getWriter() {
-		return _writer;
+		return writer;
 	}
 
 	@Override
 	public Reader getReader() {
-		return _reader;
+		return reader;
 	}
 
 	@Override
 	public ProtocolSettings getSettings() {
-		return _settings;
+		return settings;
 	}
 
 	@Override
 	public IPasswordNeed getPasswordNeed() {
-		return _passwordNeed;
+		return passwordNeed;
 	}
 
 	@Override
@@ -99,6 +100,16 @@ public class Protocol implements ProtocolContext {
 	@Override
 	public PixelFormat getPixelFormat() {
 		return pixelFormat;
+	}
+
+	@Override
+	public void setProtocolVersion(String protocolVersion) {
+		this.protocolVersion = protocolVersion;
+	}
+
+	@Override
+	public String getProtocolVersion() {
+		return protocolVersion;
 	}
 
 }
