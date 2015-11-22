@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 
 import com.nwyun.birdegg.rfb.IPasswordNeed;
 import com.nwyun.birdegg.rfb.protocol.status.ProtocolStatus;
-import com.nwyun.birdegg.rfb.protocol.status.VersionStatus;
+import com.nwyun.birdegg.rfb.protocol.status.ProtocolVersionStatus;
 import com.nwyun.birdegg.server.Server;
 import com.nwyun.birdegg.transport.Reader;
 import com.nwyun.birdegg.transport.Writer;
@@ -31,7 +31,7 @@ public class Protocol implements ProtocolContext {
 		_writer = writer;
 		_settings = settings;
 		_passwordNeed = passwordNeed;
-		_status = new VersionStatus(this);
+		_status = new ProtocolVersionStatus(this);
 	}
 
 	public void handshake() {

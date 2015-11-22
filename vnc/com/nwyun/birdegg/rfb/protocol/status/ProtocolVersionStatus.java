@@ -12,7 +12,7 @@ import com.nwyun.birdegg.rfb.protocol.ProtocolContext;
  * @author huangxin (3203317@qq.com)
  * 
  */
-public class VersionStatus extends ProtocolStatus {
+public class ProtocolVersionStatus extends ProtocolStatus {
 	private final Logger _logger;
 	public static final String PROTOCOL_VERSION_3_8 = "3.8";
 	public static final String PROTOCOL_VERSION_3_7 = "3.7";
@@ -27,7 +27,7 @@ public class VersionStatus extends ProtocolStatus {
 	private static final int MAX_SUPPORTED_VERSION_MAJOR = 3;
 	private static final int MAX_SUPPORTED_VERSION_MINOR = 8;
 
-	public VersionStatus(ProtocolContext ctx) {
+	public ProtocolVersionStatus(ProtocolContext ctx) {
 		super(ctx);
 		_logger = Logger.getLogger(getClass().getName());
 	}
