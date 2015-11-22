@@ -33,7 +33,7 @@ public class VersionStatus extends ProtocolStatus {
 	}
 
 	@Override
-	public void next() {
+	public void execute() {
 		String protocolString = reader.readString(PROTOCOL_STRING_LENGTH);
 		_logger.info("Server sent protocol string: "
 				+ protocolString.substring(0, protocolString.length() - 1));
@@ -59,6 +59,6 @@ public class VersionStatus extends ProtocolStatus {
 		writer.write(("RFB 00" + major + ".00" + minor + "\n").getBytes());
 		_logger.info("Set protocol version to: " + protocolString.trim());
 		server.setVersion(server.new Version(major, minor));
-		changeStateTo(new SecurityTypeStatus(ctx));
+		changeStatusTo(new SecurityTypeStatus(ctx));
 	}
 }

@@ -24,9 +24,9 @@ public abstract class ProtocolStatus {
 		server = ctx.getServer();
 	}
 
-	protected void changeStateTo(ProtocolStatus status) {
-		status.next();
+	protected void changeStatusTo(ProtocolStatus status) {
+		status.execute();
 	}
 
-	public abstract void next();
+	public abstract void execute();
 }

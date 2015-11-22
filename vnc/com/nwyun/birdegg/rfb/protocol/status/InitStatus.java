@@ -19,7 +19,7 @@ public class InitStatus extends ProtocolStatus {
 	}
 
 	@Override
-	public void next() {
+	public void execute() {
 		clientAndServerInit();
 	}
 

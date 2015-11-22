@@ -24,7 +24,7 @@ public class SecurityTypeStatus extends ProtocolStatus {
 	}
 
 	@Override
-	public void next() {
+	public void execute() {
 		int secTypesNum = reader.readUInt8();
 		if (0 == secTypesNum) {
 			throw new SecurityTypeStatusException(reader.readString());
@@ -41,7 +41,7 @@ public class SecurityTypeStatus extends ProtocolStatus {
 		// TODO
 		writer.writeByte(typeSelected.getId());
 		_logger.info("Security Type accepted: " + typeSelected.getName());
-		changeStateTo(new AuthenticationStatus(ctx, typeSelected));
+		changeStatusTo(new AuthenticationStatus(ctx, typeSelected));
 	}
 
 	private AuthHandler selectAuthHandler(byte[] secTypes,

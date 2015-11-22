@@ -28,7 +28,7 @@ public class AuthenticationStatus extends ProtocolStatus {
 	private final AuthHandler _authHandler;
 
 	@Override
-	public void next() {
+	public void execute() {
 		_authHandler.authenticate(reader, writer,
 				ctx.getSettings().authCapabilities, ctx.getPasswordNeed());
 		// skip when protocol < 3.8 and NONE_AUTH
@@ -37,7 +37,7 @@ public class AuthenticationStatus extends ProtocolStatus {
 		}
 
 		_logger.info("Server authenticate success");
-		changeStateTo(new InitStatus(ctx));
+		changeStatusTo(new InitStatus(ctx));
 	}
 
 	/**

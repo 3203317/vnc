@@ -35,7 +35,7 @@ public class Protocol implements ProtocolContext {
 	}
 
 	public void handshake() {
-		_status.next();
+		_status.execute();
 	}
 
 	@Override
