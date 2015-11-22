@@ -3,9 +3,9 @@ package com.nwyun.birdegg.rfb.protocol;
 import java.util.logging.Logger;
 
 import com.nwyun.birdegg.rfb.IPasswordNeed;
+import com.nwyun.birdegg.rfb.encoding.PixelFormat;
 import com.nwyun.birdegg.rfb.protocol.status.ProtocolStatus;
 import com.nwyun.birdegg.rfb.protocol.status.ProtocolVersionStatus;
-import com.nwyun.birdegg.server.Server;
 import com.nwyun.birdegg.transport.Reader;
 import com.nwyun.birdegg.transport.Writer;
 
@@ -21,12 +21,15 @@ public class Protocol implements ProtocolContext {
 	private ProtocolStatus _status;
 	private final ProtocolSettings _settings;
 	private final IPasswordNeed _passwordNeed;
-	private Server _server;
+	// GET SET
+	private int frameBufferHeight;
+	private int frameBufferWidth;
+	private String remoteDesktopName;
+	private PixelFormat pixelFormat;
 
-	public Protocol(Server server, Reader reader, Writer writer,
-			IPasswordNeed passwordNeed, ProtocolSettings settings) {
+	public Protocol(Reader reader, Writer writer, IPasswordNeed passwordNeed,
+			ProtocolSettings settings) {
 		_logger = Logger.getLogger(getClass().getName());
-		_server = server;
 		_reader = reader;
 		_writer = writer;
 		_settings = settings;
@@ -59,7 +62,43 @@ public class Protocol implements ProtocolContext {
 	}
 
 	@Override
-	public Server getServer() {
-		return _server;
+	public void setFrameBufferHeight(int frameBufferHeight) {
+		this.frameBufferHeight = frameBufferHeight;
 	}
+
+	@Override
+	public int getFrameBufferHeight() {
+		return frameBufferHeight;
+	}
+
+	@Override
+	public void setFrameBufferWidth(int frameBufferWidth) {
+		this.frameBufferWidth = frameBufferWidth;
+	}
+
+	@Override
+	public int getFrameBufferWidth() {
+		return frameBufferWidth;
+	}
+
+	@Override
+	public void setRemoteDesktopName(String remoteDesktopName) {
+		this.remoteDesktopName = remoteDesktopName;
+	}
+
+	@Override
+	public String getRemoteDesktopName() {
+		return remoteDesktopName;
+	}
+
+	@Override
+	public void setPixelFormat(PixelFormat pixelFormat) {
+		this.pixelFormat = pixelFormat;
+	}
+
+	@Override
+	public PixelFormat getPixelFormat() {
+		return pixelFormat;
+	}
+
 }
