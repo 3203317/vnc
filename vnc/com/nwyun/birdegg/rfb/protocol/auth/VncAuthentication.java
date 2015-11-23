@@ -33,14 +33,14 @@ public class VncAuthentication extends AuthHandler {
 	@Override
 	public void authenticate(Reader reader, Writer writer,
 			CapabilityContainer authCaps, IPasswordNeed passwordNeed) {
-		String password = passwordNeed.getPassword();
-		if (null == password)
-			password = "";
-		byte[] key = new byte[8];
-		System.arraycopy(password.getBytes(), 0, key, 0,
-				Math.min(key.length, password.getBytes().length));
-		byte[] challenge = reader.readBytes(16);
-		writer.write(encrypt(challenge, key));
+		String _password = passwordNeed.getPassword();
+		if (null == _password)
+			_password = "";
+		byte[] _key = new byte[8];
+		System.arraycopy(_password.getBytes(), 0, _key, 0,
+				Math.min(_key.length, _password.getBytes().length));
+		byte[] _challenge = reader.readBytes(16);
+		writer.write(encrypt(_challenge, _key));
 	}
 
 	/**
@@ -50,14 +50,14 @@ public class VncAuthentication extends AuthHandler {
 	 * @throws CryptoException
 	 *             on problem with DES algorithm support or smth about
 	 */
-	public byte[] encrypt(byte[] challenge, byte[] key) {
+	public byte[] encrypt(byte[] $challenge, byte[] $key) {
 		try {
-			DESKeySpec desKeySpec = new DESKeySpec(mirrorBits(key));
-			SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
-			SecretKey secretKey = keyFactory.generateSecret(desKeySpec);
-			Cipher desCipher = Cipher.getInstance("DES/ECB/NoPadding");
-			desCipher.init(Cipher.ENCRYPT_MODE, secretKey);
-			return desCipher.doFinal(challenge);
+			DESKeySpec _desKeySpec = new DESKeySpec(mirrorBits($key));
+			SecretKeyFactory _keyFactory = SecretKeyFactory.getInstance("DES");
+			SecretKey _secretKey = _keyFactory.generateSecret(_desKeySpec);
+			Cipher _desCipher = Cipher.getInstance("DES/ECB/NoPadding");
+			_desCipher.init(Cipher.ENCRYPT_MODE, _secretKey);
+			return _desCipher.doFinal($challenge);
 		} catch (NoSuchAlgorithmException e) {
 			throw new CryptoException("Cannot encrypt challenge", e);
 		} catch (NoSuchPaddingException e) {
@@ -73,15 +73,15 @@ public class VncAuthentication extends AuthHandler {
 		}
 	}
 
-	private byte[] mirrorBits(byte[] k) {
-		byte[] key = new byte[8];
+	private byte[] mirrorBits(byte[] $k) {
+		byte[] _key = new byte[8];
 		for (int i = 0; i < 8; i++) {
-			byte s = k[i];
-			s = (byte) (((s >> 1) & 0x55) | ((s << 1) & 0xaa));
-			s = (byte) (((s >> 2) & 0x33) | ((s << 2) & 0xcc));
-			s = (byte) (((s >> 4) & 0x0f) | ((s << 4) & 0xf0));
-			key[i] = s;
+			byte _s = $k[i];
+			_s = (byte) (((_s >> 1) & 0x55) | ((_s << 1) & 0xaa));
+			_s = (byte) (((_s >> 2) & 0x33) | ((_s << 2) & 0xcc));
+			_s = (byte) (((_s >> 4) & 0x0f) | ((_s << 4) & 0xf0));
+			_key[i] = _s;
 		}
-		return key;
+		return _key;
 	}
 }

@@ -32,7 +32,7 @@ public class AuthenticationStatus extends ProtocolStatus {
 		authHandler.authenticate(reader, writer,
 				ctx.getSettings().authCapabilities, ctx.getPasswordNeed());
 		// skip when protocol < 3.8 and NONE_AUTH
-		if (true) {
+		if (authHandler.useSecurityResult()) {
 			checkSecurityResult();
 		}
 

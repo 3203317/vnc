@@ -23,4 +23,10 @@ public abstract class AuthHandler {
 
 	public abstract void authenticate(Reader reader, Writer writer,
 			CapabilityContainer authCaps, IPasswordNeed passwordNeed);
+
+	protected boolean useSecurityResult = true;
+
+	public boolean useSecurityResult() {
+		return useSecurityResult;
+	}
 }

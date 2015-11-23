@@ -46,13 +46,13 @@ public class SecurityTypeStatus extends ProtocolStatus {
 	private AuthHandler selectAuthHandler(byte[] $secTypes,
 			CapabilityContainer $authCapabilities) {
 		AuthHandler _typeSelected = null;
-		for (byte _type : $secTypes) {
+		for (byte type : $secTypes) {
 			// TODO
 		}
 
-		for (byte _type : $secTypes) {
+		for (byte type : $secTypes) {
 			_typeSelected = SecurityType.implementedSecurityTypes
-					.get(0xff & _type);
+					.get(0xff & type);
 			if (null != _typeSelected && $authCapabilities.isSupported(0))
 				return _typeSelected;
 		}
