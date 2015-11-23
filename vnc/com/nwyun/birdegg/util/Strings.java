@@ -6,21 +6,21 @@ package com.nwyun.birdegg.util;
  * 
  */
 public class Strings {
-	public static String toString(byte[] byteArray) {
-		StringBuilder sb = new StringBuilder("[");
-		boolean notFirst = false;
-		for (byte b : byteArray) {
-			if (notFirst) {
-				sb.append(", ");
+	public static String toString(byte[] $byteArray) {
+		StringBuilder _sb = new StringBuilder("[");
+		boolean _notFirst = false;
+		for (byte b : $byteArray) {
+			if (_notFirst) {
+				_sb.append(", ");
 			} else {
-				notFirst = true;
+				_notFirst = true;
 			}
-			sb.append(b);
+			_sb.append(b);
 		}
-		return sb.append("]").toString();
+		return _sb.append("]").toString();
 	}
 
-	public static boolean isTrimmedEmpty(String s) {
-		return null == s || (s.trim().length() == 0);
+	public static boolean isTrimmedEmpty(String $s) {
+		return null == $s || ($s.trim().length() == 0);
 	}
 }
