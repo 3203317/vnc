@@ -10,6 +10,7 @@ import com.nwyun.birdegg.server.Server;
 import com.nwyun.birdegg.transport.Reader;
 import com.nwyun.birdegg.transport.Writer;
 import com.nwyun.birdegg.util.DoWorkHandler;
+import com.nwyun.birdegg.viewer.Window;
 
 /**
  * 
@@ -56,6 +57,13 @@ public class Connector {
 			$handler.failure(e);
 			return;
 		}
+		$handler.success();
+	}
+
+	public void createWindow(Window $window, DoWorkHandler $handler) {
+		$window.setHeight(protocol.getFrameBufferHeight());
+		$window.setWidth(protocol.getFrameBufferWidth());
+		$window.open(protocol.getRemoteDesktopName());
 		$handler.success();
 	}
 }

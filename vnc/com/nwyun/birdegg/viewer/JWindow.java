@@ -14,8 +14,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import com.nwyun.birdegg.server.Server;
-
 /**
  * 
  * @author huangxin (3203317@qq.com)
@@ -23,13 +21,12 @@ import com.nwyun.birdegg.server.Server;
  */
 @SuppressWarnings("serial")
 public class JWindow extends JFrame implements WindowListener, Window {
-	private final Logger _logger;
-	private Server _server;
-	private Dimension _dimension;
+	private final Logger logger;
+	private Dimension dimension;
 
 	public JWindow() {
-		_logger = Logger.getLogger(getClass().getName());
-		_dimension = new Dimension();
+		logger = Logger.getLogger(getClass().getName());
+		dimension = new Dimension();
 		bindEvent();
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 	}
@@ -51,7 +48,7 @@ public class JWindow extends JFrame implements WindowListener, Window {
 		JPanel outerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		outerPanel.setBackground(Color.DARK_GRAY);
 
-		setSize(_dimension);
+		setSize(dimension);
 		setLayout(new BorderLayout(0, 0));
 
 		setVisible(true);
@@ -102,17 +99,12 @@ public class JWindow extends JFrame implements WindowListener, Window {
 	}
 
 	@Override
-	public void setServer(Server server) {
-		_server = server;
-	}
-
-	@Override
 	public void setHeight(int height) {
-		_dimension.height = height;
+		dimension.height = height;
 	}
 
 	@Override
 	public void setWidth(int width) {
-		_dimension.width = width;
+		dimension.width = width;
 	}
 }

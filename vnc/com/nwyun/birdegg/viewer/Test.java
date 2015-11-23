@@ -60,12 +60,17 @@ public class Test implements Runnable {
 		});
 	}
 
+	@SuppressWarnings("serial")
 	private void createWindow() {
-		JWindow _window = new JWindow();
-		_window.setServer(server);
-		_window.setHeight(768);
-		_window.setWidth(1024);
-		_window.open(server.getName());
+		connector.createWindow(new JWindow() {
+			// TODO
+		}, new DoWorkHandler() {
+			@Override
+			public void failure(Throwable e) {
+				e.printStackTrace();
+				logger.warning(e.getMessage());
+			}
+		});
 	}
 
 	private class PasswordChooser implements IPasswordNeed {
