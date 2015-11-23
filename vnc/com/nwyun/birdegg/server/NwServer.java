@@ -8,11 +8,11 @@ import java.util.logging.Logger;
  * 
  */
 public class NwServer extends Server {
-	private final Logger _logger;
+	private final Logger logger;
 
 	public NwServer(String ip, int port, String password) {
 		super(ip, port, password);
-		_logger = Logger.getLogger(getClass().getName());
+		logger = Logger.getLogger(getClass().getName());
 	}
 
 	public NwServer(String ip, int port) {

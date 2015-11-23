@@ -30,7 +30,7 @@ public class Connector {
 		this.server = server;
 	}
 
-	public void connect(DoWorkHandler _handler) {
+	public void connect(DoWorkHandler $handler) {
 		logger.info("Connect remote socket " + server.getIp() + ":"
 				+ server.getPort());
 		try {
@@ -39,23 +39,23 @@ public class Connector {
 			reader = new Reader(socket.getInputStream());
 			writer = new Writer(socket.getOutputStream());
 		} catch (Exception e) {
-			_handler.failure(e);
+			$handler.failure(e);
 			return;
 		}
-		_handler.success();
+		$handler.success();
 	}
 
-	public void handshake(IPasswordNeed _passwordNeed, DoWorkHandler _handler) {
+	public void handshake(IPasswordNeed $passwordNeed, DoWorkHandler $handler) {
 		logger.info("RFB Server handshake");
 		settings = ProtocolSettings.getDefaultSettings();
 		// TODO
-		protocol = new Protocol(reader, writer, _passwordNeed, settings);
+		protocol = new Protocol(reader, writer, $passwordNeed, settings);
 		try {
 			protocol.handshake();
 		} catch (Exception e) {
-			_handler.failure(e);
+			$handler.failure(e);
 			return;
 		}
-		_handler.success();
+		$handler.success();
 	}
 }

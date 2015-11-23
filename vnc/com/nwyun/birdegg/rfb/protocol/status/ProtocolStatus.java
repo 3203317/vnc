@@ -21,8 +21,8 @@ public abstract class ProtocolStatus {
 		writer = ctx.getWriter();
 	}
 
-	protected void changeStatusTo(ProtocolStatus $status) {
-		$status.execute();
+	protected void changeStatusTo(ProtocolStatus status) {
+		status.execute();
 	}
 
 	public abstract void execute();

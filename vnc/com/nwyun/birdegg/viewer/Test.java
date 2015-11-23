@@ -14,24 +14,24 @@ import com.nwyun.birdegg.util.DoWorkHandler;
  * 
  */
 public class Test implements Runnable {
-	private final Logger _logger;
-	private Connector _connector;
-	private Server _server;
+	private final Logger logger;
+	private Connector connector;
+	private Server server;
 
 	public static void main(String[] args) {
-		Test t = new Test();
-		t.run();
+		Test _t = new Test();
+		_t.run();
 	}
 
 	public Test() {
-		_logger = Logger.getLogger(getClass().getName());
+		logger = Logger.getLogger(getClass().getName());
 	}
 
 	@Override
 	public void run() {
-		_server = new NwServer("192.168.6.128", 5901);
-		_connector = new Connector(_server);
-		_connector.connect(new DoWorkHandler() {
+		server = new NwServer("192.168.6.128", 5901, "123222");
+		connector = new Connector(server);
+		connector.connect(new DoWorkHandler() {
 			@Override
 			public void success() {
 				connect();
@@ -40,13 +40,13 @@ public class Test implements Runnable {
 			@Override
 			public void failure(Throwable e) {
 				e.printStackTrace();
-				_logger.warning(e.getMessage());
+				logger.warning(e.getMessage());
 			}
 		});
 	}
 
 	private void connect() {
-		_connector.handshake(new PasswordChooser(), new DoWorkHandler() {
+		connector.handshake(new PasswordChooser(), new DoWorkHandler() {
 			@Override
 			public void success() {
 				createWindow();
@@ -55,23 +55,23 @@ public class Test implements Runnable {
 			@Override
 			public void failure(Throwable e) {
 				e.printStackTrace();
-				_logger.warning(e.getMessage());
+				logger.warning(e.getMessage());
 			}
 		});
 	}
 
 	private void createWindow() {
-		JWindow window = new JWindow();
-		window.setServer(_server);
-		window.setHeight(_server.getHeight());
-		window.setWidth(_server.getWidth());
-		window.open(_server.getName());
+		JWindow _window = new JWindow();
+		_window.setServer(server);
+		_window.setHeight(768);
+		_window.setWidth(1024);
+		_window.open(server.getName());
 	}
 
 	private class PasswordChooser implements IPasswordNeed {
 		@Override
 		public String getPassword() {
-			return "123222";
+			return server.getPassword();
 		}
 	}
 }

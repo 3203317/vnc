@@ -1,7 +1,5 @@
 package com.nwyun.birdegg.server;
 
-import com.nwyun.birdegg.rfb.encoding.PixelFormat;
-
 /**
  * 
  * @author huangxin (3203317@qq.com)
@@ -11,25 +9,14 @@ public abstract class Server {
 	private String ip;
 	private int port;
 	private String password;
-	private int width;
-	private int height;
 	private String name;
-	private Version version;
-	private PixelFormat pixelFormat;
+	private String version;
 
-	public PixelFormat getPixelFormat() {
-		return pixelFormat;
-	}
-
-	public void setPixelFormat(PixelFormat pixelFormat) {
-		this.pixelFormat = pixelFormat;
-	}
-
-	public Version getVersion() {
+	public String getVersion() {
 		return version;
 	}
 
-	public void setVersion(Version version) {
+	public void setVersion(String version) {
 		this.version = version;
 	}
 
@@ -39,22 +26,6 @@ public abstract class Server {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
 	}
 
 	public String getIp() {
@@ -111,29 +82,4 @@ public abstract class Server {
 		// TODO
 	}
 
-	public class Version {
-		private int major;
-		private int minor;
-
-		public Version(int major, int minor) {
-			this.major = major;
-			this.minor = minor;
-		}
-
-		public int getMajor() {
-			return major;
-		}
-
-		public void setMajor(int major) {
-			this.major = major;
-		}
-
-		public int getMinor() {
-			return minor;
-		}
-
-		public void setMinor(int minor) {
-			this.minor = minor;
-		}
-	}
 }
