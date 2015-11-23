@@ -62,7 +62,7 @@ public class Test implements Runnable {
 	}
 
 	private void createWindow(Protocol protocol) {
-		JWindow window = new JWindow();
+		Window window = new JWindow();
 		window.setHeight(protocol.getFrameBufferHeight());
 		window.setWidth(protocol.getFrameBufferWidth());
 		window.open(protocol.getRemoteDesktopName());
