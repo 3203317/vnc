@@ -10,10 +10,10 @@ import com.nwyun.birdegg.rfb.protocol.ProtocolContext;
  * @author huangxin (3203317@qq.com)
  * 
  */
-public class InitStatus extends ProtocolStatus {
+public class InitServerStatus extends ProtocolStatus {
 	private final Logger logger;
 
-	public InitStatus(ProtocolContext ctx) {
+	public InitServerStatus(ProtocolContext ctx) {
 		super(ctx);
 		logger = Logger.getLogger(getClass().getName());
 	}

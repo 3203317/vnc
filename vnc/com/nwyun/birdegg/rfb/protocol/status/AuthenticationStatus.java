@@ -37,7 +37,7 @@ public class AuthenticationStatus extends ProtocolStatus {
 		}
 
 		logger.info("Server authenticate success");
-		changeStatusTo(new InitStatus(ctx));
+		changeStatusTo(new InitServerStatus(ctx));
 	}
 
 	/**
