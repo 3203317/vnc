@@ -33,13 +33,13 @@ public class VncAuthentication extends AuthHandler {
 	@Override
 	public void authenticate(Reader reader, Writer writer,
 			CapabilityContainer authCaps, IPasswordNeed passwordNeed) {
-		byte[] challenge = reader.readBytes(16);
 		String password = passwordNeed.getPassword();
 		if (null == password)
 			password = "";
 		byte[] key = new byte[8];
 		System.arraycopy(password.getBytes(), 0, key, 0,
 				Math.min(key.length, password.getBytes().length));
+		byte[] challenge = reader.readBytes(16);
 		writer.write(encrypt(challenge, key));
 	}
 
