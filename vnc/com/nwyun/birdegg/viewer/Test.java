@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import com.nwyun.birdegg.client.Connector;
 import com.nwyun.birdegg.rfb.IPasswordNeed;
+import com.nwyun.birdegg.rfb.protocol.Protocol;
 import com.nwyun.birdegg.server.NwServer;
 import com.nwyun.birdegg.server.Server;
 import com.nwyun.birdegg.util.DoWorkHandler;
@@ -27,13 +28,12 @@ public class Test implements Runnable {
 		logger = Logger.getLogger(getClass().getName());
 	}
 
-	@Override
 	public void run() {
 		server = new NwServer("192.168.6.128", 5901, "123222");
 		connector = new Connector(server);
-		connector.connect(new DoWorkHandler() {
+		connector.connect(new DoWorkHandler<Void>() {
 			@Override
-			public void success() {
+			public void success(Void v) {
 				connect();
 			}
 
@@ -46,31 +46,26 @@ public class Test implements Runnable {
 	}
 
 	private void connect() {
-		connector.handshake(new PasswordChooser(), new DoWorkHandler() {
-			@Override
-			public void success() {
-				createWindow();
-			}
+		connector.handshake(new PasswordChooser(),
+				new DoWorkHandler<Protocol>() {
+					@Override
+					public void success(Protocol protocol) {
+						createWindow(protocol);
+					}
 
-			@Override
-			public void failure(Throwable e) {
-				e.printStackTrace();
-				logger.warning(e.getMessage());
-			}
-		});
+					@Override
+					public void failure(Throwable e) {
+						e.printStackTrace();
+						logger.warning(e.getMessage());
+					}
+				});
 	}
 
-	@SuppressWarnings("serial")
-	private void createWindow() {
-		connector.createWindow(new JWindow() {
-			// TODO
-		}, new DoWorkHandler() {
-			@Override
-			public void failure(Throwable e) {
-				e.printStackTrace();
-				logger.warning(e.getMessage());
-			}
-		});
+	private void createWindow(Protocol protocol) {
+		JWindow window = new JWindow();
+		window.setHeight(protocol.getFrameBufferHeight());
+		window.setWidth(protocol.getFrameBufferWidth());
+		window.open(protocol.getRemoteDesktopName());
 	}
 
 	private class PasswordChooser implements IPasswordNeed {

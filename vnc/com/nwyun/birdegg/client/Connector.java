@@ -10,7 +10,6 @@ import com.nwyun.birdegg.server.Server;
 import com.nwyun.birdegg.transport.Reader;
 import com.nwyun.birdegg.transport.Writer;
 import com.nwyun.birdegg.util.DoWorkHandler;
-import com.nwyun.birdegg.viewer.Window;
 
 /**
  * 
@@ -31,7 +30,7 @@ public class Connector {
 		this.server = server;
 	}
 
-	public void connect(DoWorkHandler $handler) {
+	public void connect(DoWorkHandler<Void> $handler) {
 		logger.info("Connect remote socket " + server.getIp() + ":"
 				+ server.getPort());
 		try {
@@ -43,10 +42,11 @@ public class Connector {
 			$handler.failure(e);
 			return;
 		}
-		$handler.success();
+		$handler.success(null);
 	}
 
-	public void handshake(IPasswordNeed $passwordNeed, DoWorkHandler $handler) {
+	public void handshake(IPasswordNeed $passwordNeed,
+			DoWorkHandler<Protocol> $handler) {
 		logger.info("RFB Server handshake");
 		settings = ProtocolSettings.getDefaultSettings();
 		// TODO
@@ -57,13 +57,6 @@ public class Connector {
 			$handler.failure(e);
 			return;
 		}
-		$handler.success();
-	}
-
-	public void createWindow(Window $window, DoWorkHandler $handler) {
-		$window.setHeight(protocol.getFrameBufferHeight());
-		$window.setWidth(protocol.getFrameBufferWidth());
-		$window.open(protocol.getRemoteDesktopName());
-		$handler.success();
+		$handler.success(protocol);
 	}
 }
