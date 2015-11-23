@@ -25,6 +25,7 @@ public class InitServerStatus extends ProtocolStatus {
 
 	private void clientAndServerInit() {
 		ServerInitMessage _message = getServerInitMessage();
+		ctx.getSettings().enableAllEncodingCaps();
 		fillServerData(_message);
 	}
 

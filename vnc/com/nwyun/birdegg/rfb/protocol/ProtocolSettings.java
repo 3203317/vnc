@@ -30,4 +30,8 @@ public class ProtocolSettings implements Serializable {
 	public byte getSharedFlag() {
 		return (byte) (sharedFlag ? 1 : 0);
 	}
+
+	public void enableAllEncodingCaps() {
+		// TODO
+	}
 }
