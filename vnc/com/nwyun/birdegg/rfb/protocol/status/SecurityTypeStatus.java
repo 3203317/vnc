@@ -2,7 +2,6 @@ package com.nwyun.birdegg.rfb.protocol.status;
 
 import java.util.logging.Logger;
 
-import com.nwyun.birdegg.exception.SecurityTypeStatusException;
 import com.nwyun.birdegg.exception.UnsupportedSecurityTypeException;
 import com.nwyun.birdegg.rfb.CapabilityContainer;
 import com.nwyun.birdegg.rfb.protocol.ProtocolContext;
@@ -16,51 +15,51 @@ import com.nwyun.birdegg.util.Strings;
  * 
  */
 public class SecurityTypeStatus extends ProtocolStatus {
-	private final Logger _logger;
+	private final Logger logger;
 
 	public SecurityTypeStatus(ProtocolContext ctx) {
 		super(ctx);
-		_logger = Logger.getLogger(getClass().getName());
+		logger = Logger.getLogger(getClass().getName());
 	}
 
 	@Override
 	public void execute() {
-		int secTypesNum = reader.readUInt8();
-		if (0 == secTypesNum) {
-			throw new SecurityTypeStatusException(reader.readString());
+		int _secTypesNum = reader.readUInt8();
+		if (0 == _secTypesNum) {
+			throw new UnsupportedSecurityTypeException(reader.readString());
 		}
 
-		byte[] secTypes = reader.readBytes(secTypesNum);
-		_logger.info("Security types received (" + secTypesNum + "): "
-				+ Strings.toString(secTypes));
+		byte[] _secTypes = reader.readBytes(_secTypesNum);
+		logger.info("Security types received (" + _secTypesNum + "): "
+				+ Strings.toString(_secTypes));
 
-		AuthHandler typeSelected = selectAuthHandler(secTypes,
+		AuthHandler _typeSelected = selectAuthHandler(_secTypes,
 				ctx.getSettings().authCapabilities);
 
-		setUseSecurityResult(typeSelected);
+		setUseSecurityResult(_typeSelected);
 		// TODO
-		writer.writeByte(typeSelected.getId());
-		_logger.info("Security Type accepted: " + typeSelected.getName());
-		changeStatusTo(new AuthenticationStatus(ctx, typeSelected));
+		writer.writeByte(_typeSelected.getId());
+		logger.info("Security Type accepted: " + _typeSelected.getName());
+		changeStatusTo(new AuthenticationStatus(ctx, _typeSelected));
 	}
 
-	private AuthHandler selectAuthHandler(byte[] secTypes,
-			CapabilityContainer authCapabilities) {
-		AuthHandler typeSelected = null;
-		for (byte type : secTypes) {
+	private AuthHandler selectAuthHandler(byte[] $secTypes,
+			CapabilityContainer $authCapabilities) {
+		AuthHandler _typeSelected = null;
+		for (byte _type : $secTypes) {
 			// TODO
 		}
 
-		for (byte type : secTypes) {
-			typeSelected = SecurityType.implementedSecurityTypes
-					.get(0xff & type);
-			if (null != typeSelected && authCapabilities.isSupported(0))
-				return typeSelected;
+		for (byte _type : $secTypes) {
+			_typeSelected = SecurityType.implementedSecurityTypes
+					.get(0xff & _type);
+			if (null != _typeSelected && $authCapabilities.isSupported(0))
+				return _typeSelected;
 		}
 
 		throw new UnsupportedSecurityTypeException(
 				"No security types supported. Server sent '"
-						+ Strings.toString(secTypes)
+						+ Strings.toString($secTypes)
 						+ "' security types, but we do not support any of their.");
 	}
 
