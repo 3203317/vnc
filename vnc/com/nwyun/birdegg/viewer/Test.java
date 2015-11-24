@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 import com.nwyun.birdegg.client.Connector;
 import com.nwyun.birdegg.rfb.IPasswordNeed;
-import com.nwyun.birdegg.rfb.protocol.Protocol;
+import com.nwyun.birdegg.rfb.protocol.ProtocolContext;
 import com.nwyun.birdegg.server.NwServer;
 import com.nwyun.birdegg.server.Server;
 import com.nwyun.birdegg.util.DoWorkHandler;
@@ -50,10 +50,10 @@ public class Test implements Runnable {
 
 	private void connect() {
 		connector.handshake(new PasswordChooser(),
-				new DoWorkHandler<Protocol>() {
+				new DoWorkHandler<ProtocolContext>() {
 					@Override
-					public void success(Protocol protocol) {
-						createWindow(protocol);
+					public void success(ProtocolContext ctx) {
+						createWindow(ctx);
 					}
 
 					@Override
@@ -64,20 +64,20 @@ public class Test implements Runnable {
 				});
 	}
 
-	private void createWindow(Protocol protocol) {
+	private void createWindow(ProtocolContext ctx) {
 		JWindow window = new JWindow();
 
-		Vitruvian v = new Vitruvian(protocol, 300, 300, 1);
+		Vitruvian v = new Vitruvian(ctx, 300, 300, 1);
 		v.setBackground(Color.YELLOW);
 
 		window.getContentPane().setBackground(Color.CYAN);
 		window.getContentPane().add(v, BorderLayout.CENTER);
 
 		window.setSize(new Dimension(400, 400));
-		// window.pack();
+		window.pack();
 		window.setVisible(true);
 		window.validate();
-		window.setTitle(protocol.getRemoteDesktopName());
+		window.setTitle(ctx.getRemoteDesktopName());
 	}
 
 	private class PasswordChooser implements IPasswordNeed {

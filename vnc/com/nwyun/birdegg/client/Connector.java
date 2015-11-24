@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import com.nwyun.birdegg.rfb.IPasswordNeed;
 import com.nwyun.birdegg.rfb.protocol.Protocol;
+import com.nwyun.birdegg.rfb.protocol.ProtocolContext;
 import com.nwyun.birdegg.rfb.protocol.ProtocolSettings;
 import com.nwyun.birdegg.server.Server;
 import com.nwyun.birdegg.transport.Reader;
@@ -46,7 +47,7 @@ public class Connector {
 	}
 
 	public void handshake(IPasswordNeed $passwordNeed,
-			DoWorkHandler<Protocol> $handler) {
+			DoWorkHandler<ProtocolContext> $handler) {
 		logger.info("RFB Server handshake");
 		settings = ProtocolSettings.getDefaultSettings();
 		// TODO
