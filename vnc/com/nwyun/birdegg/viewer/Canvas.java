@@ -5,7 +5,8 @@ package com.nwyun.birdegg.viewer;
  * @author huangxin (3203317@qq.com)
  * 
  */
-public interface Window {
+public interface Canvas {
+
 	void setHeight(int height);
 
 	int getHeight();
@@ -14,5 +15,8 @@ public interface Window {
 
 	int getWidth();
 
-	void open(String title);
+	void setTitle(String title);
+
+	String getTitle();
+
 }

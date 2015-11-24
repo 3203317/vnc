@@ -1,9 +1,5 @@
 package com.nwyun.birdegg.viewer;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -11,7 +7,6 @@ import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 /**
@@ -20,13 +15,11 @@ import javax.swing.WindowConstants;
  * 
  */
 @SuppressWarnings("serial")
-public class JWindow extends JFrame implements WindowListener, Window {
+public class JWindow extends JFrame implements WindowListener {
 	private final Logger logger;
-	private Dimension dimension;
 
 	public JWindow() {
 		logger = Logger.getLogger(getClass().getName());
-		dimension = new Dimension();
 		bindEvent();
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 	}
@@ -41,19 +34,6 @@ public class JWindow extends JFrame implements WindowListener, Window {
 					System.exit(0);
 			}
 		});
-	}
-
-	@Override
-	public void open(String title) {
-		JPanel outerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-		outerPanel.setBackground(Color.DARK_GRAY);
-
-		setSize(dimension);
-		setLayout(new BorderLayout(0, 0));
-
-		setVisible(true);
-		validate();
-		setTitle(title);
 	}
 
 	@Override
@@ -98,13 +78,4 @@ public class JWindow extends JFrame implements WindowListener, Window {
 
 	}
 
-	@Override
-	public void setHeight(int height) {
-		dimension.height = height;
-	}
-
-	@Override
-	public void setWidth(int width) {
-		dimension.width = width;
-	}
 }

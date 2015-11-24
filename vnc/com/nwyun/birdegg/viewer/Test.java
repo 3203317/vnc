@@ -1,5 +1,8 @@
 package com.nwyun.birdegg.viewer;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.util.logging.Logger;
 
 import com.nwyun.birdegg.client.Connector;
@@ -62,10 +65,19 @@ public class Test implements Runnable {
 	}
 
 	private void createWindow(Protocol protocol) {
-		Window window = new JWindow();
-		window.setHeight(protocol.getFrameBufferHeight());
-		window.setWidth(protocol.getFrameBufferWidth());
-		window.open(protocol.getRemoteDesktopName());
+		JWindow window = new JWindow();
+
+		Vitruvian v = new Vitruvian(protocol, 300, 300, 1);
+		v.setBackground(Color.YELLOW);
+
+		window.getContentPane().setBackground(Color.CYAN);
+		window.getContentPane().add(v, BorderLayout.CENTER);
+
+		window.setSize(new Dimension(400, 400));
+		// window.pack();
+		window.setVisible(true);
+		window.validate();
+		window.setTitle(protocol.getRemoteDesktopName());
 	}
 
 	private class PasswordChooser implements IPasswordNeed {
