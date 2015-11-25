@@ -4,6 +4,8 @@ import java.util.logging.Logger;
 
 import com.nwyun.birdegg.rfb.IPasswordNeed;
 import com.nwyun.birdegg.rfb.client.ClientToServerMessage;
+import com.nwyun.birdegg.rfb.client.FramebufferUpdateRequestMessage;
+import com.nwyun.birdegg.rfb.client.SetPixelFormatMessage;
 import com.nwyun.birdegg.rfb.encoding.PixelFormat;
 import com.nwyun.birdegg.rfb.protocol.status.ProtocolStatus;
 import com.nwyun.birdegg.rfb.protocol.status.ProtocolVersionStatus;
@@ -53,6 +55,10 @@ public class Protocol implements ProtocolContext {
 	public void startWorking() {
 		messageQueue = new MessageQueue();
 		// TODO
+		sendMessage(new SetPixelFormatMessage(pixelFormat));
+		logger.info("sent: " + pixelFormat);
+		sendRefreshMessage();
+		// TODO
 		senderTask = new SenderTask(messageQueue, writer, this);
 		senderThread = new Thread(senderTask, "RfbSenderTask");
 		senderThread.start();
@@ -65,6 +71,13 @@ public class Protocol implements ProtocolContext {
 	@Override
 	public void sendMessage(ClientToServerMessage message) {
 		messageQueue.put(message);
+	}
+
+	@Override
+	public void sendRefreshMessage() {
+		sendMessage(new FramebufferUpdateRequestMessage(0, 0, frameBufferWidth,
+				frameBufferHeight, false));
+		logger.info("sent: full frameBuffer refresh");
 	}
 
 	@Override

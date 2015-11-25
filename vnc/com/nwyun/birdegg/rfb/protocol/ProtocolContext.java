@@ -42,4 +42,6 @@ public interface ProtocolContext {
 	String getProtocolVersion();
 
 	void sendMessage(ClientToServerMessage message);
+
+	void sendRefreshMessage();
 }
