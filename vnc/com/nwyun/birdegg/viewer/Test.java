@@ -67,7 +67,8 @@ public class Test implements Runnable {
 	private void createWindow(ProtocolContext ctx) {
 		JWindow window = new JWindow();
 
-		Vitruvian v = new Vitruvian(ctx, 300, 300, 1);
+		Vitruvian v = new Vitruvian(ctx, ctx.getFrameBufferWidth(),
+				ctx.getFrameBufferHeight(), 1);
 		v.setBackground(Color.YELLOW);
 
 		window.getContentPane().setBackground(Color.CYAN);

@@ -21,6 +21,11 @@ public class Protocol implements ProtocolContext {
 	private ProtocolStatus status;
 	private final ProtocolSettings settings;
 	private final IPasswordNeed passwordNeed;
+	// Thread
+	private ReceiverTask receiverTask;
+	private SenderTask senderTask;
+	private Thread senderThread;
+	private Thread receiverThread;
 	// GET SET
 	private int frameBufferHeight;
 	private int frameBufferWidth;
@@ -40,6 +45,16 @@ public class Protocol implements ProtocolContext {
 
 	public void handshake() {
 		status.execute();
+	}
+
+	public void startWorking() {
+		senderTask = new SenderTask(writer, this);
+		senderThread = new Thread(senderTask, "RfbSenderTask");
+		senderThread.start();
+		// TODO
+		receiverTask = new ReceiverTask(reader, this);
+		receiverThread = new Thread(receiverTask, "RfbReceiverTask");
+		receiverThread.start();
 	}
 
 	@Override
