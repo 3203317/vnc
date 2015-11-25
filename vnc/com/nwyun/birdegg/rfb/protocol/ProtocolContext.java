@@ -1,6 +1,7 @@
 package com.nwyun.birdegg.rfb.protocol;
 
 import com.nwyun.birdegg.rfb.IPasswordNeed;
+import com.nwyun.birdegg.rfb.client.ClientToServerMessage;
 import com.nwyun.birdegg.rfb.encoding.PixelFormat;
 import com.nwyun.birdegg.transport.Reader;
 import com.nwyun.birdegg.transport.Writer;
@@ -40,4 +41,5 @@ public interface ProtocolContext {
 
 	String getProtocolVersion();
 
+	void sendMessage(ClientToServerMessage message);
 }

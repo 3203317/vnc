@@ -9,11 +9,14 @@ import com.nwyun.birdegg.transport.Writer;
  */
 public class SenderTask implements Runnable {
 
+	private MessageQueue messageQueue;
 	private final Writer writer;
 	private final ProtocolContext ctx;
 	private volatile boolean isRunning = false;
 
-	public SenderTask(Writer writer, ProtocolContext ctx) {
+	public SenderTask(MessageQueue messageQueue, Writer writer,
+			ProtocolContext ctx) {
+		this.messageQueue = messageQueue;
 		this.writer = writer;
 		this.ctx = ctx;
 	}

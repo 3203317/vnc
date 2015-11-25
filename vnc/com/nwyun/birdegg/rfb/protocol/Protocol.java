@@ -3,6 +3,7 @@ package com.nwyun.birdegg.rfb.protocol;
 import java.util.logging.Logger;
 
 import com.nwyun.birdegg.rfb.IPasswordNeed;
+import com.nwyun.birdegg.rfb.client.ClientToServerMessage;
 import com.nwyun.birdegg.rfb.encoding.PixelFormat;
 import com.nwyun.birdegg.rfb.protocol.status.ProtocolStatus;
 import com.nwyun.birdegg.rfb.protocol.status.ProtocolVersionStatus;
@@ -21,6 +22,8 @@ public class Protocol implements ProtocolContext {
 	private ProtocolStatus status;
 	private final ProtocolSettings settings;
 	private final IPasswordNeed passwordNeed;
+	// Queue
+	private MessageQueue messageQueue;
 	// Thread
 	private ReceiverTask receiverTask;
 	private SenderTask senderTask;
@@ -48,13 +51,20 @@ public class Protocol implements ProtocolContext {
 	}
 
 	public void startWorking() {
-		senderTask = new SenderTask(writer, this);
+		messageQueue = new MessageQueue();
+		// TODO
+		senderTask = new SenderTask(messageQueue, writer, this);
 		senderThread = new Thread(senderTask, "RfbSenderTask");
 		senderThread.start();
 		// TODO
 		receiverTask = new ReceiverTask(reader, this);
 		receiverThread = new Thread(receiverTask, "RfbReceiverTask");
 		receiverThread.start();
+	}
+
+	@Override
+	public void sendMessage(ClientToServerMessage message) {
+		messageQueue.put(message);
 	}
 
 	@Override
@@ -126,5 +136,4 @@ public class Protocol implements ProtocolContext {
 	public String getProtocolVersion() {
 		return protocolVersion;
 	}
-
 }
