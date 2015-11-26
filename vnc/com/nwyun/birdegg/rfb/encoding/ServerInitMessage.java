@@ -13,12 +13,12 @@ public class ServerInitMessage {
 	private PixelFormat pixelFormat;
 	private String name;
 
-	public ServerInitMessage(Reader _reader) {
-		frameBufferWidth = _reader.readUInt16();
-		frameBufferHeight = _reader.readUInt16();
+	public ServerInitMessage(Reader reader) {
+		frameBufferWidth = reader.readUInt16();
+		frameBufferHeight = reader.readUInt16();
 		pixelFormat = new PixelFormat();
-		pixelFormat.fill(_reader);
-		name = _reader.readString();
+		pixelFormat.fill(reader);
+		name = reader.readString();
 	}
 
 	public int getFrameBufferWidth() {
