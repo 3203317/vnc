@@ -22,6 +22,10 @@ public enum EncodingType {
 	/**
 	 * 
 	 */
+	ZLIB(6, "ZLib"),
+	/**
+	 * 
+	 */
 	ZRLE(16, "ZRLE"),
 	/**
 	 * 
