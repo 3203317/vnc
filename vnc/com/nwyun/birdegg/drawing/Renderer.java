@@ -103,24 +103,6 @@ public abstract class Renderer {
 	}
 
 	/**
-	 * Draw byte array bitmap data (for Tight)
-	 */
-	public int drawTightBytes(byte[] bytes, int offset, int x, int y,
-			int width, int height) {
-		synchronized (lock) {
-			int i = offset;
-			for (int ly = y; ly < y + height; ++ly) {
-				int end = ly * this.width + x + width;
-				for (int pixelsOffset = ly * this.width + x; pixelsOffset < end; ++pixelsOffset) {
-					pixels[pixelsOffset] = colorDecoder.getTightColor(bytes, i);
-					i += colorDecoder.bytesPerPixelTight;
-				}
-			}
-			return i - offset;
-		}
-	}
-
-	/**
 	 * Draw byte array bitmap data (from array with plain RGB color components.
 	 * Assumed: rrrrrrrr gggggggg bbbbbbbb)
 	 */
@@ -270,10 +252,6 @@ public abstract class Renderer {
 		return colorDecoder.readColor(reader);
 	}
 
-	public int readTightPixelColor(Reader reader) throws TransportException {
-		return colorDecoder.readTightColor(reader);
-	}
-
 	public ColorDecoder getColorDecoder() {
 		return colorDecoder;
 	}
@@ -292,10 +270,6 @@ public abstract class Renderer {
 
 	public int getBytesPerCPixel() {
 		return colorDecoder.bytesPerCPixel;
-	}
-
-	public int getBytesPerPixelTight() {
-		return colorDecoder.bytesPerPixelTight;
 	}
 
 	public void fillColorBitmapWithColor(int[] bitmapData, int decodedOffset,

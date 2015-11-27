@@ -18,13 +18,11 @@ public class ColorDecoder {
 	public short blueMax;
 	public final int bytesPerPixel;
 	public final int bytesPerCPixel;
-	public final int bytesPerPixelTight;
 	private final byte[] buff;
 
 	private int startShift;
 	private int startShiftCompact;
 	private int addShiftItem;
-	private final boolean isTightSpecific;
 
 	public ColorDecoder(PixelFormat pf) {
 		redShift = pf.redShift;
@@ -37,11 +35,8 @@ public class ColorDecoder {
 		final long significant = redMax << redShift | greenMax << greenShift
 				| blueMax << blueShift;
 		bytesPerCPixel = pf.depth <= 24 // as in RFB
-				// || 32 == pf.depth) // UltraVNC use this... :(
 				&& 32 == pf.bitsPerPixel
 				&& ((significant & 0x00ff000000L) == 0 || (significant & 0x000000ffL) == 0) ? 3
-				: bytesPerPixel;
-		bytesPerPixelTight = 24 == pf.depth && 32 == pf.bitsPerPixel ? 3
 				: bytesPerPixel;
 		buff = new byte[bytesPerPixel];
 		if (0 == pf.bigEndianFlag) {
@@ -53,8 +48,6 @@ public class ColorDecoder {
 			startShiftCompact = Math.max(0, pf.depth - 8);
 			addShiftItem = -8;
 		}
-		isTightSpecific = 4 == bytesPerPixel && 3 == bytesPerPixelTight
-				&& 255 == redMax && 255 == greenMax && 255 == blueMax;
 	}
 
 	protected int readColor(Reader reader) throws TransportException {
@@ -65,10 +58,6 @@ public class ColorDecoder {
 		return getCompactColor(reader.readBytes(buff, 0, bytesPerCPixel), 0);
 	}
 
-	protected int readTightColor(Reader reader) throws TransportException {
-		return getTightColor(reader.readBytes(buff, 0, bytesPerPixelTight), 0);
-	}
-
 	protected int convertColor(int rawColor) {
 		return 255 * (rawColor >> redShift & redMax) / redMax << 16
 				| 255 * (rawColor >> greenShift & greenMax) / greenMax << 8
@@ -76,22 +65,10 @@ public class ColorDecoder {
 	}
 
 	public void fillRawComponents(byte[] comp, byte[] bytes, int offset) {
-		int rawColor = getRawTightColor(bytes, offset);
+		int rawColor = getRawColor(bytes, offset);
 		comp[0] = (byte) (rawColor >> redShift & redMax);
 		comp[1] = (byte) (rawColor >> greenShift & greenMax);
 		comp[2] = (byte) (rawColor >> blueShift & blueMax);
-	}
-
-	public int getTightColor(byte[] bytes, int offset) {
-		return convertColor(getRawTightColor(bytes, offset));
-	}
-
-	private int getRawTightColor(byte[] bytes, int offset) {
-		if (isTightSpecific)
-			return (bytes[offset++] & 0xff) << 16
-					| (bytes[offset++] & 0xff) << 8 | bytes[offset] & 0xff;
-		else
-			return getRawColor(bytes, offset);
 	}
 
 	protected int getColor(byte[] bytes, int offset) {
@@ -117,5 +94,4 @@ public class ColorDecoder {
 		}
 		return convertColor(rawColor);
 	}
-
 }

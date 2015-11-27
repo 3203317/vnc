@@ -16,15 +16,14 @@ public class FramebufferUpdateRectangle {
 	public int height;
 	private EncodingType encodingType;
 
+	public FramebufferUpdateRectangle() { /* empty */
+	}
+
 	public FramebufferUpdateRectangle(int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-	}
-
-	public EncodingType getEncodingType() {
-		return encodingType;
 	}
 
 	public void fill(Reader reader) throws TransportException {
@@ -34,5 +33,16 @@ public class FramebufferUpdateRectangle {
 		height = reader.readUInt16();
 		int encoding = reader.readInt32();
 		encodingType = EncodingType.byId(encoding);
+	}
+
+	public EncodingType getEncodingType() {
+		return encodingType;
+	}
+
+	@Override
+	public String toString() {
+		return "FramebufferUpdateRect: [x: " + x + ", y: " + y + ", width: "
+				+ width + ", height: " + height + ", encodingType: "
+				+ encodingType + "]";
 	}
 }
